@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+<!-- ============ SEO CƠ BẢN (TIẾNG ANH) ============ -->
+<title>La Fiorentina | Fine Dining Italian Restaurant in West Lake, Hanoi</title>
+<meta name="description" content="La Fiorentina - Authentic Italian restaurant at 54 Quang An, Tay Ho, Hanoi. Enjoy authentic Pizza, Pasta, and Steak in a romantic setting overlooking West Lake. Book now: +84 936 302 868.">
+<meta name="keywords" content="Italian restaurant Hanoi, West Lake restaurant, La Fiorentina, pizza pasta Hanoi, fine dining Quang An">
+<meta name="author" content="La Fiorentina Italian Restaurant">
+<meta property="og:title" content="La Fiorentina | Fine Dining Italian Restaurant in West Lake">
+<meta property="og:description" content="Authentic Italian cuisine in a romantic setting by West Lake, Hanoi.">
+<meta property="og:type" content="restaurant">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="image_1.png">
+<link rel="canonical" href="https://www.lafiorentina.vn/en.html">
+ 
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍷</text></svg>">
+ 
+<!-- ============ FONTS ============ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Cormorant+Garamond:ital@1&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   1. DESIGN TOKENS
+   ========================================================= */
+:root{
+  --wine:        #5E1A24;   
+  --wine-deep:   #3E0F16;   
+  --olive:       #4B5A34;   
+  --olive-dim:   #38431F;
+  --cream:       #F6EFE2;   
+  --cream-soft:  #FBF7EE;
+  --gold:        #B8924F;   
+  --gold-bright: #D8B978;
+  --ink:         #2B211C;   
+  --ink-soft:    #5A4F47;
+ 
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-script:  'Cormorant Garamond', serif;
+  --font-body:    'Lato', 'Segoe UI', sans-serif;
+ 
+  --radius: 2px;
+  --container: 1500px;
+  --transition: 0.5s cubic-bezier(.25,.8,.25,1);
+}
+ 
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{ font-family: var(--font-body); color: var(--ink); background: var(--cream); line-height: 1.7; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+img{ max-width:100%; display:block; }
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+.container{ max-width:var(--container); margin:0 auto; padding:0 28px; }
+ 
+@media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
+ 
+h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-deep); }
+.eyebrow{ font-family:var(--font-script); font-style:italic; font-size:1.35rem; color:var(--gold); letter-spacing:.03em; display:block; margin-bottom:.4rem; }
+ 
+.olive-divider{ display:flex; align-items:center; justify-content:center; gap:14px; margin: 0 auto 2.2rem; width:fit-content; }
+.olive-divider .line{ width:56px; height:1px; background:var(--gold); opacity:.6; }
+.olive-divider svg{ width:26px; height:26px; color:var(--olive); }
+ 
+.btn{ display:inline-flex; align-items:center; gap:10px; font-family:var(--font-body); font-weight:700; font-size:1.1rem; letter-spacing:.14em; text-transform:uppercase; padding:16px 34px; border:1px solid transparent; cursor:pointer; transition: all var(--transition); border-radius: var(--radius); white-space: nowrap; }
+.btn-gold{ background:var(--gold); color:var(--wine-deep); }
+.btn-gold:hover{ background:var(--gold-bright); transform:translateY(-2px); box-shadow:0 12px 24px -8px rgba(184,146,79,.5); }
+.btn-outline{ background: transparent; border-color: var(--cream); color: var(--cream); }
+.btn-outline:hover{ background:rgba(246,239,226,.12); border-color:var(--gold); }
+.btn-wine{ background:var(--wine); color:var(--cream); }
+.btn-wine:hover{ background:var(--wine-deep); }
+ 
+/* =========================================================
+   2. HEADER
+   ========================================================= */
+.site-header{ position:fixed; top:0; left:0; right:0; z-index:100; padding: 26px 0; transition: background var(--transition), padding var(--transition), box-shadow var(--transition); }
+.site-header.scrolled{ background: rgba(43,33,28,.94); backdrop-filter: blur(6px); padding: 14px 0; box-shadow:0 6px 24px rgba(0,0,0,.25); }
+.site-header .container{ display:flex; align-items:center; justify-content:space-between; max-width: 100% !important; padding: 0 60px !important; }
+.logo{ font-family:var(--font-display); font-size:1.5rem; color:var(--cream); letter-spacing:.02em; display:flex; align-items:center; }
+.logo img{ height: 85px; width: auto; display: block; transition: all var(--transition); background-color: #ffffff; padding: 10px 28px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); filter: none; }
+.site-header.scrolled .logo img{ height: 65px; padding: 6px 20px; }
+.nav-links{ display:flex; gap:65px; }
+.nav-links a{ color:var(--cream); font-size:1.25rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; position:relative; padding-bottom:4px; white-space: nowrap; }
+.nav-links a::after{ content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--gold); transition: width var(--transition); }
+.nav-links a:hover::after, .nav-links a.active::after{ width:100%; }
+.header-actions{ display:flex; align-items:center; gap:40px; }
+.header-phone svg{ width:16px; height:16px; color:var(--gold); }
+.header-phone{ color:var(--cream); font-size:1.25rem; font-weight:600; display:flex; align-items:center; gap:8px; white-space: nowrap; }
+.hamburger{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; z-index:200; }
+.hamburger span{ width:26px; height:2px; background:var(--cream); transition:var(--transition); }
+ 
+/* Mobile nav */
+.mobile-nav{ position:fixed; inset:0; background:var(--wine-deep); z-index:150; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:34px; transform:translateX(100%); transition: transform .5s ease; }
+.mobile-nav.open{ transform:translateX(0); }
+.mobile-nav a{ color:var(--cream); font-family:var(--font-display); font-size:1.6rem; }
+.mobile-nav .btn{ margin-top:10px; }
+ 
+/* =========================================================
+   3. HERO
+   ========================================================= */
+.hero{ position:relative; min-height:100vh; display:flex; align-items:center; background: linear-gradient(100deg, rgba(20,7,10,.82) 0%, rgba(20,7,10,.55) 40%, rgba(20,7,10,.25) 65%, rgba(20,7,10,.6) 100%), linear-gradient(180deg, rgba(20,7,10,.25) 0%, rgba(20,7,10,.15) 40%, rgba(20,7,10,.88) 100%), url('image_1.png') center 30%/cover no-repeat; }
+.hero-content{ max-width:720px; padding-top:80px; }
+.hero-content .eyebrow{ color:var(--gold-bright); font-size:1.5rem; }
+.hero-content h1{ color:var(--cream); font-size:clamp(2.6rem, 5.6vw, 4.6rem); line-height:1.08; margin-bottom:22px; }
+.hero-content h1 em{ color:var(--gold-bright); font-style:italic; }
+.hero-content p{ color:rgba(246,239,226,.88); font-size:1.08rem; max-width:520px; margin-bottom:38px; }
+.hero-cta{ display:flex; gap:18px; flex-wrap:wrap; }
+.hero-meta{ margin-top:56px; display:flex; gap:38px; flex-wrap:wrap; color:var(--cream); }
+.hero-meta .item{ font-size:.8rem; letter-spacing:.06em; text-transform:uppercase; opacity:.85; border-left:2px solid var(--gold); padding-left:12px; }
+.hero-meta .item strong{ display:block; font-family:var(--font-display); font-size:1.3rem; text-transform:none; letter-spacing:0; color:var(--gold-bright); }
+.scroll-cue{ position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); color: var(--cream); font-size: .7rem; letter-spacing: .3em; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: opacity 0.6s ease, transform 0.6s ease; text-decoration: none; z-index: 10; }
+.scroll-cue svg { width: 22px; height: 22px; color: var(--gold-bright); animation: bounce-down 2s infinite; }
+.scroll-cue.hidden { opacity: 0; pointer-events: none; transform: translate(-50%, 20px); }
+@keyframes bounce-down { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(8px); } 60% { transform: translateY(4px); } }
+
+/* =========================================================
+   4. INTRO SECTION
+   ========================================================= */
+.section{ padding: 120px 0; }
+.section-header{ text-align:center; max-width:640px; margin:0 auto 60px; }
+.section-header h2{ font-size:clamp(2rem,4vw,2.9rem); margin-bottom:18px; }
+.section-header p{ color:var(--ink-soft); font-size:1.02rem; }
+.intro-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:70px; align-items:center; }
+.intro-images{ position:relative; }
+.intro-images img{ border-radius:var(--radius); }
+.intro-img-main{ width:88%; box-shadow:0 30px 60px -20px rgba(43,33,28,.35); object-fit: cover; aspect-ratio: 1/1; }
+.intro-img-accent{ position:absolute; bottom:-40px; right:0; width:52%; border:8px solid var(--cream-soft); box-shadow:0 20px 40px -16px rgba(43,33,28,.4); }
+.intro-text .eyebrow{ font-size:1.5rem; }
+.intro-text h2{ font-size:clamp(2rem,3.6vw,2.7rem); margin-bottom:22px; }
+.intro-text p{ color:var(--ink-soft); margin-bottom:18px; }
+.intro-stats{ display:flex; gap:40px; margin-top:34px; }
+.intro-stats .stat strong{ display:block; font-family:var(--font-display); font-size:2.1rem; color:var(--wine); }
+.intro-stats .stat span{ font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft); }
+ 
+/* =========================================================
+   5. SIGNATURE DISHES
+   ========================================================= */
+.section-dark{ background:var(--wine-deep); color:var(--cream); }
+.section-dark .section-header h2{ color:var(--cream); }
+.section-dark .section-header p{ color:rgba(246,239,226,.7); }
+.dish-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:32px; }
+.dish-card{ position:relative; overflow:hidden; border-radius:var(--radius); aspect-ratio: 4/5; cursor:pointer; }
+.dish-card img{ width:100%; height:100%; object-fit:cover; transition: transform .8s ease; }
+.dish-card:hover img{ transform:scale(1.08); }
+.dish-overlay{ position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:28px; background:linear-gradient(180deg, transparent 40%, rgba(24,8,11,.92) 100%); }
+.dish-overlay .tag{ font-family:var(--font-script); font-style:italic; color:var(--gold-bright); font-size:1.1rem; }
+.dish-overlay h3{ color:var(--cream); font-size:1.4rem; margin:6px 0 8px; }
+.dish-overlay p{ color:rgba(246,239,226,.75); font-size:.86rem; max-height:0; opacity:0; overflow:hidden; transition:all .5s ease; }
+.dish-card:hover .dish-overlay p{ max-height:80px; opacity:1; margin-bottom:6px; }
+.dish-cta{ text-align:center; margin-top:56px; }
+ 
+/* =========================================================
+   6. REVIEWS
+   ========================================================= */
+.rating-badge{ display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:14px; }
+.rating-badge .stars{ color:var(--gold); font-size:1.3rem; letter-spacing:2px; }
+.rating-badge .score{ font-family:var(--font-display); font-size:1.6rem; color:var(--wine); }
+.review-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:30px; max-width:920px; margin:0 auto; }
+.review-card{ background:var(--cream-soft); padding:38px 32px; border-radius:var(--radius); border-top:3px solid var(--gold); position:relative; }
+.review-card .quote-mark{ font-family:var(--font-display); font-size:3.2rem; color:var(--gold); line-height:1; opacity:.5; }
+.review-card p.text{ color:var(--ink-soft); margin:14px 0 22px; font-size:.96rem; }
+.review-author{ display:flex; align-items:center; gap:12px; }
+.review-author .avatar{ width:42px; height:42px; border-radius:50%; background:var(--olive); color:var(--cream); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:1rem; }
+.review-author .name{ font-weight:700; font-size:.9rem; }
+.review-author .stars{ color:var(--gold); font-size:.8rem; }
+ 
+/* =========================================================
+   7. INFO STRIP
+   ========================================================= */
+.info-strip{ background:var(--olive-dim); color:var(--cream); padding:70px 0; }
+.info-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:40px; }
+.info-item{ text-align:center; }
+.info-item svg{ width:34px; height:34px; color:var(--gold-bright); margin-bottom:16px; }
+.info-item h4{ color:var(--cream); font-size:1.05rem; margin-bottom:8px; }
+.info-item p{ color:rgba(246,239,226,.75); font-size:.88rem; }
+.info-item a{ color:var(--gold-bright); }
+
+/* =========================================================
+   7b. RESERVATION FORM (Online booking)
+   ========================================================= */
+.reservation-wrap{
+  max-width: 780px;
+  margin: 0 auto 64px;
+  background: var(--cream-soft);
+  border-radius: var(--radius);
+  padding: 48px 52px;
+  box-shadow: 0 30px 60px -24px rgba(0,0,0,.4);
+  border-top: 3px solid var(--gold);
+}
+.reservation-header{ text-align:center; margin-bottom:36px; }
+.reservation-header .eyebrow{ font-size:1.3rem; }
+.reservation-header h3{ font-size:clamp(1.5rem,2.6vw,1.9rem); margin-bottom:10px; }
+.reservation-header p{ color:var(--ink-soft); font-size:.94rem; }
+.reservation-header p a{ color:var(--wine); font-weight:700; }
+
+.reservation-form{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 24px;
+}
+.reservation-form .field{ display:flex; flex-direction:column; gap:8px; }
+.reservation-form .field.full{ grid-column: 1 / -1; }
+.reservation-form label{
+  font-size:.76rem; letter-spacing:.09em; text-transform:uppercase;
+  color: var(--ink-soft); font-weight:700;
+}
+.reservation-form label .req{ color: var(--wine); margin-left:2px; }
+.reservation-form input,
+.reservation-form select,
+.reservation-form textarea{
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 13px 16px;
+  border: 1px solid rgba(43,33,28,.16);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--ink);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.reservation-form input::placeholder,
+.reservation-form textarea::placeholder{ color: rgba(43,33,28,.4); }
+.reservation-form input:focus,
+.reservation-form select:focus,
+.reservation-form textarea:focus{
+  outline:none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184,146,79,.18);
+}
+.reservation-form textarea{ resize: vertical; min-height: 90px; font-family: var(--font-body); }
+
+/* Honeypot: hidden from real users but stays in the DOM for bots to fill */
+.hp-field{
+  position:absolute !important;
+  left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+
+.reservation-form .submit-row{
+  grid-column: 1 / -1;
+  display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:8px;
+}
+.reservation-form .btn:disabled{ opacity:.6; cursor:not-allowed; transform:none !important; box-shadow:none !important; }
+.form-status{
+  font-size:.92rem; font-weight:700; flex:1; min-width:220px;
+}
+.form-status.success{ color: var(--olive); }
+.form-status.error{ color: var(--wine); }
+
+@media (max-width: 680px){
+  .reservation-wrap{ padding: 34px 22px; }
+  .reservation-form{ grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   8. FOOTER
+   ========================================================= */
+.site-footer{ background:var(--wine-deep); color:rgba(246,239,226,.7); padding:70px 0 30px; }
+.footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:50px; margin-bottom:50px; }
+.footer-logo{ font-family:var(--font-display); color:var(--cream); font-size:1.4rem; margin-bottom:16px; }
+.footer-col h5{ color:var(--cream); font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:20px; }
+.footer-col a, .footer-col p{ display:block; font-size:.88rem; margin-bottom:12px; color:rgba(246,239,226,.7); }
+.footer-col a:hover{ color:var(--gold-bright); }
+.footer-bottom{ border-top:1px solid rgba(246,239,226,.15); padding-top:24px; text-align:center; font-size:.78rem; }
+ 
+/* =========================================================
+   9. SCROLL REVEAL & RESPONSIVE
+   ========================================================= */
+[data-reveal]{ opacity:0; transform:translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+[data-reveal].is-visible{ opacity:1; transform:translateY(0); }
+[data-reveal="fade-right"]{ transform:translateX(-32px); }
+[data-reveal="fade-right"].is-visible{ transform:translateX(0); }
+[data-reveal="fade-left"]{ transform:translateX(32px); }
+[data-reveal="fade-left"].is-visible{ transform:translateX(0); }
+.stagger > *:nth-child(1){ transition-delay:0s; }
+.stagger > *:nth-child(2){ transition-delay:.12s; }
+.stagger > *:nth-child(3){ transition-delay:.24s; }
+
+.hero-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 50px; align-items: center; width: 100%; padding-top: 50px; }
+.hero-art { position: relative; height: 720px; width: 100%; display: flex; justify-content: flex-end; }
+.art-backdrop { position: absolute; top: -20px; right: 8%; width: 60%; height: 95%; border: 1px solid var(--gold-bright); border-radius: 400px 400px 0 0; z-index: 1; }
+.art-img-1 { width: 65%; height: 100%; object-fit: cover; position: relative; z-index: 2; border-radius: 400px 400px 12px 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.6); right: 4%; }
+.art-img-2 { position: absolute; width: 52%; height: 440px; object-fit: cover; z-index: 3; left: 0; bottom: 60px; border-radius: 8px; border: 10px solid var(--cream); box-shadow: -20px 20px 50px rgba(0,0,0,0.7); }
+
+@media (max-width: 1440px) {
+  .site-header .container { padding: 0 30px !important; } .nav-links { gap: 20px; } .nav-links a { font-size: 0.95rem; }
+  .header-actions { gap: 20px; } .header-phone { font-size: 1rem; } .btn { padding: 12px 24px; font-size: 0.9rem; }
+  .logo img { height: 65px; padding: 8px 20px; } .site-header.scrolled .logo img { height: 50px; padding: 6px 16px; }
+  .hero-grid { padding-top: 100px; gap: 30px; } .hero-art { height: 500px; } .art-img-2 { height: 320px; bottom: 20px; border-width: 6px; }
+  .hero-content h1 { font-size: 3.2rem; }
+}
+@media (max-width: 1100px) { .site-header .container { padding: 0 15px !important; } .nav-links { gap: 15px; } .nav-links a { font-size: 0.85rem; } .hero-grid { grid-template-columns: 1fr 1fr; } .hero-art { height: 450px; } }
+@media (max-width: 980px) { .nav-links, .header-phone { display: none; } .hamburger { display: flex; } .intro-grid { grid-template-columns: 1fr; gap: 50px; } .intro-images { order: 2; } .dish-grid { grid-template-columns: repeat(2,1fr); } .review-grid { grid-template-columns: 1fr; } .info-grid { grid-template-columns: repeat(2,1fr); } .footer-grid { grid-template-columns: 1fr 1fr; } .hero-grid { grid-template-columns: 1fr; padding-top: 100px; } .hero-art { height: 600px; margin-top: 40px; justify-content: center; } .art-backdrop { right: 15%; } .art-img-1 { right: 0; width: 75%; } .art-img-2 { width: 65%; height: 360px; left: 5%; bottom: -20px; border-width: 6px; } }
+@media (max-width: 600px) { .section { padding: 80px 0; } .dish-grid { grid-template-columns: 1fr; } .info-grid { grid-template-columns: 1fr; } .footer-grid { grid-template-columns: 1fr; } .hero-meta { gap: 22px; } .intro-img-accent { width: 60%; } }
+
+/* ===== MÀN HÌNH CHỌN NGÔN NGỮ ===== */
+.lang-overlay { position: fixed; inset: 0; background: var(--wine-deep); z-index: 9999; display: flex; align-items: center; justify-content: center; text-align: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
+.lang-overlay.hidden { opacity: 0; visibility: hidden; }
+.lang-content { animation: fade-up 1s ease forwards; }
+.lang-overlay .lang-logo { height: 100px; background-color: #ffffff; padding: 12px 30px; border-radius: 50px; margin: 0 auto 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.lang-overlay h2 { color: var(--cream); font-size: 2.2rem; margin-bottom: 5px; }
+.lang-overlay p { color: var(--gold-bright); font-family: var(--font-script); font-style: italic; font-size: 1.4rem; margin-bottom: 35px; }
+.lang-overlay .lang-buttons { display: flex; gap: 20px; justify-content: center; }
+@keyframes fade-up { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+ <!-- ======================= LANGUAGE OVERLAY ======================= -->
+<div id="langOverlay" class="lang-overlay">
+  <div class="lang-content">
+    <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina" class="lang-logo">
+    <h2>Welcome / Chào mừng</h2>
+    <p>Please select your language / Vui lòng chọn ngôn ngữ</p>
+    <div class="lang-buttons">
+      <button class="btn btn-gold" id="btnVi">Tiếng Việt</button>
+      <button class="btn btn-gold" id="btnEn">English</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= HEADER ======================= -->
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="#home" class="logo">
+      <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina Ristorante & Caffè - Logo" loading="eager">
+    </a>
+ 
+    <nav class="nav-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#menu">Menu</a>
+      <a href="#about">About Us</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Contact</a>
+    </nav>
+ 
+    <div class="header-actions">
+      <a class="header-phone" href="tel:+84936302868">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 002.25-2.25v-1.5a1.5 1.5 0 00-1.05-1.43l-3.5-1.05a1.5 1.5 0 00-1.6.4l-.8.8a11.25 11.25 0 01-6.02-6.02l.8-.8a1.5 1.5 0 00.4-1.6l-1.05-3.5A1.5 1.5 0 006.75 2.25h-1.5A2.25 2.25 0 003 4.5v1.5z"/></svg>
+        +84 936 302 868
+      </a>
+      <a href="#contact" class="btn btn-gold">Book Now</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+ 
+<!-- Mobile nav overlay -->
+<div class="mobile-nav" id="mobileNav">
+  <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina" style="height:52px; margin-bottom:10px;">
+  <a href="#home">Home</a>
+  <a href="#menu">Menu</a>
+  <a href="#about">About Us</a>
+  <a href="#reviews">Reviews</a>
+  <a href="#contact">Contact</a>
+  <a href="#contact" class="btn btn-gold">Book Now</a>
+</div>
+ 
+<!-- ======================= HERO ======================= -->
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div class="hero-content" data-reveal>
+      <span class="eyebrow">The Essence of Italian Cuisine in the Heart of Hanoi</span>
+      <h1>Benvenuti a <em>La Fiorentina!</em></h1>
+      <p>Where time-honored traditional recipes blend with the poetic scenery of West Lake. Experience a romantic, refined, and cozy miniature Italy right in Quang An.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-gold">🍝 Book a Table</a>
+        <a href="#menu" class="btn btn-outline">📜 Explore Menu</a>
+      </div>
+      <div class="hero-meta">
+        <div class="item">Google Reviews<strong>4.6 / 5 ★</strong></div>
+        <div class="item">Lunch<strong>11:00 – 14:00</strong></div>
+        <div class="item">Dinner<strong>17:30 – 22:00</strong></div>
+      </div>
+    </div>
+
+    <div class="hero-art" data-reveal="fade-left">
+      <div class="art-backdrop"></div>
+      <img src="assets/img/bep-truong-1.jpg" class="art-img-1" alt="La Fiorentina Chef preparing dishes">
+      <img src="assets/img/bep-truong-2.jpg" class="art-img-2" alt="La Fiorentina Chef">
+    </div>
+  </div>
+  <a href="#about" class="scroll-cue" id="scrollCue">
+    <span>Scroll down</span>
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+  </a>
+</section>
+ 
+<!-- ======================= INTRO / ABOUT ======================= -->
+<section class="section" id="about">
+  <div class="container intro-grid">
+    <div class="intro-images" data-reveal="fade-right">
+      <img class="intro-img-main" src="assets/img/lo-nuong.jpg" alt="Traditional Neapolitan brick pizza oven at La Fiorentina" loading="lazy">
+      <img class="intro-img-accent" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800&auto=format&fit=crop" alt="Romantic outdoor dining at La Fiorentina West Lake" loading="lazy">
+    </div>
+    <div class="intro-text" data-reveal="fade-left">
+      <span class="eyebrow">Passion &amp; Flavor</span>
+      <h2>The Story of La Fiorentina</h2>
+      <p>At La Fiorentina, our mission is simple: to awaken and elevate your taste buds with the freshest ingredients and authentic Italian flavors. Every dish is not just a recipe, but a culinary masterpiece meticulously crafted by our chefs.</p>
+      <p>From soft handmade pasta strands and aromatic brick-oven pizzas to glasses of rich red wine. Set in an open, cozy space facing the breezy West Lake, La Fiorentina offers more than just a meal — we bring you a complete experience of romance, joy, and utmost care.</p>
+      <div class="intro-stats">
+        <div class="stat"><strong>4.6★</strong><span>Google Reviews</span></div>
+        <div class="stat"><strong>100%</strong><span>Imported Italian Ingredients</span></div>
+        <div class="stat"><strong>7</strong><span>Days open / week</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ======================= SIGNATURE DISHES ======================= -->
+<section class="section section-dark" id="menu">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="olive-divider">
+        <span class="line"></span>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8 6 6 10 6 14a6 6 0 0012 0c0-4-2-8-6-12zm0 4.2c2.4 3 3.6 5.6 3.6 7.8a3.6 3.6 0 01-7.2 0c0-2.2 1.2-4.8 3.6-7.8z"/></svg>
+        <span class="line"></span>
+      </div>
+      <span class="eyebrow">Signature Menu</span>
+      <h2>Discover a Symphony of Taste</h2>
+      <p>From delicate appetizers to rich main courses and curated wines — every dish is a note in our Italian culinary symphony.</p>
+    </div>
+ 
+    <div class="dish-grid stagger">
+      <div class="dish-card" data-reveal>
+        <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?q=80&w=900&auto=format&fit=crop" alt="Italian Journey Appetizer" loading="lazy">
+        <div class="dish-overlay">
+          <span class="tag">Antipasti</span>
+          <h3>Italian Journey</h3>
+          <p>A perfect combination of renowned Parma ham, creamy Burrata cheese, sun-dried tomatoes, and fresh arugula. The perfect start to any feast.</p>
+        </div>
+      </div>
+      <div class="dish-card" data-reveal>
+        <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=900&auto=format&fit=crop" alt="Fritto Misto" loading="lazy">
+        <div class="dish-overlay">
+          <span class="tag">Antipasti</span>
+          <h3>Fritto Misto</h3>
+          <p>Awaken your taste buds with crispy fried seafood (squid, shrimp, octopus) paired with a smooth garlic mayonnaise sauce.</p>
+        </div>
+      </div>
+      <div class="dish-card" data-reveal>
+        <img src="https://images.unsplash.com/photo-1595295333158-4742f28fbd85?q=80&w=900&auto=format&fit=crop" alt="Pizza, Pasta and Steak" loading="lazy">
+        <div class="dish-overlay">
+          <span class="tag">Main Course</span>
+          <h3>Pizza · Pasta · Steak</h3>
+          <p>The quintessence converges in every strand of chewy handmade pasta, authentic Neapolitan brick-oven pizzas, and juicy steaks that retain the original sweetness of premium beef.</p>
+        </div>
+      </div>
+      <div class="dish-card" data-reveal>
+        <img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=900&auto=format&fit=crop" alt="Tiramisu and Italian Wine" loading="lazy">
+        <div class="dish-overlay">
+          <span class="tag">Dolci &amp; Vino</span>
+          <h3>Tiramisu &amp; Wine</h3>
+          <p>A perfect ending with traditional sweet Tiramisu and a premium wine collection strictly selected from Italy's most famous vineyards.</p>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="dish-cta" data-reveal>
+      <a href="menu.html" class="btn btn-outline">View Full Menu</a>
+    </div>
+  </div>
+</section>
+ 
+<!-- ======================= REVIEWS ======================= -->
+<section class="section" id="reviews">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">What Do Our Guests Say?</span>
+      <h2>Guest Reviews</h2>
+      <div class="rating-badge">
+        <span class="stars">★★★★★</span>
+        <span class="score">4.6 / 5</span>
+      </div>
+      <p>Based on real customer reviews on Google Maps &amp; Facebook.</p>
+    </div>
+ 
+    <div class="review-grid stagger">
+      <div class="review-card" data-reveal>
+        <span class="quote-mark">"</span>
+        <p class="text">An absolutely wonderful space for a date. Authentic Italian food, especially the cheese and cold cuts are super delicious. The view overlooking West Lake is incredibly romantic!</p>
+        <div class="review-author">
+          <div class="avatar">G</div>
+          <div><div class="name">Google Review</div><div class="stars">★★★★★</div></div>
+        </div>
+      </div>
+      <div class="review-card" data-reveal>
+        <span class="quote-mark">"</span>
+        <p class="text">Extremely friendly and sophisticated staff. The Fritto Misto and Pizza here reminded me of my trip to Italy. Will definitely come back!</p>
+        <div class="review-author">
+          <div class="avatar">F</div>
+          <div><div class="name">Facebook Review</div><div class="stars">★★★★★</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ======================= INFO STRIP ======================= -->
+<section class="info-strip" id="contact">
+  <div class="container">
+    <div class="section-header" data-reveal style="max-width:640px; margin:0 auto 56px;">
+      <span class="eyebrow" style="color:var(--gold-bright);">Reservation</span>
+      <h2 style="color:var(--cream);">See You At La Fiorentina</h2>
+      <p style="color:rgba(246,239,226,.75);">Let us prepare the perfect table for you. Fill out the form below and we'll call to confirm shortly.</p>
+      <div style="margin-top:28px;">
+        <a href="tel:+84936302868" class="btn btn-outline">📞 Or Call +84 936 302 868</a>
+      </div>
+    </div>
+
+    <div class="reservation-wrap" data-reveal>
+      <div class="reservation-header">
+        <span class="eyebrow">Prenotazione</span>
+        <h3>Book A Table Online</h3>
+        <p>Need to book urgently for today? <a href="tel:+84936302868">Calling the hotline</a> will be faster.</p>
+      </div>
+
+      <form id="reservationForm" class="reservation-form">
+        <div class="field">
+          <label for="resName">Full Name<span class="req">*</span></label>
+          <input type="text" id="resName" name="name" placeholder="John Smith" required minlength="2" maxlength="100" autocomplete="name">
+        </div>
+
+        <div class="field">
+          <label for="resPhone">Phone Number<span class="req">*</span></label>
+          <input type="tel" id="resPhone" name="phone" placeholder="0912 345 678" required
+                 pattern="^(0|\+84)[0-9]{9,10}$" title="A valid Vietnamese phone number, e.g. 0912345678" autocomplete="tel">
+        </div>
+
+        <div class="field">
+          <label for="resEmail">Email (optional)</label>
+          <input type="email" id="resEmail" name="email" placeholder="you@email.com" autocomplete="email">
+        </div>
+
+        <div class="field">
+          <label for="resParty">Number of Guests<span class="req">*</span></label>
+          <input type="number" id="resParty" name="party_size" min="1" max="30" value="2" required>
+        </div>
+
+        <div class="field">
+          <label for="resDate">Reservation Date<span class="req">*</span></label>
+          <input type="date" id="resDate" name="reservation_date" required>
+        </div>
+
+        <div class="field">
+          <label for="resTime">Reservation Time<span class="req">*</span></label>
+          <select id="resTime" name="reservation_time" required>
+            <option value="" disabled selected>Select a time</option>
+            <optgroup label="Lunch · 11:00 – 14:00">
+              <option value="11:00">11:00</option>
+              <option value="11:30">11:30</option>
+              <option value="12:00">12:00</option>
+              <option value="12:30">12:30</option>
+              <option value="13:00">13:00</option>
+              <option value="13:30">13:30</option>
+              <option value="14:00">14:00</option>
+            </optgroup>
+            <optgroup label="Dinner · 17:30 – 22:00">
+              <option value="17:30">17:30</option>
+              <option value="18:00">18:00</option>
+              <option value="18:30">18:30</option>
+              <option value="19:00">19:00</option>
+              <option value="19:30">19:30</option>
+              <option value="20:00">20:00</option>
+              <option value="20:30">20:30</option>
+              <option value="21:00">21:00</option>
+              <option value="21:30">21:30</option>
+              <option value="22:00">22:00</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label for="resNote">Special Requests (optional)</label>
+          <textarea id="resNote" name="note" maxlength="500" placeholder="e.g. outdoor table, birthday, vegetarian..."></textarea>
+        </div>
+
+        <!-- Honeypot anti-bot field — real users never see this -->
+        <div class="field hp-field" aria-hidden="true">
+          <label for="resWebsite">Leave this field blank</label>
+          <input type="text" id="resWebsite" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="btn btn-gold" id="submitBtn">🍝 Send Reservation Request</button>
+          <span class="form-status" id="formStatus" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+    </div>
+
+  <div class="info-grid">
+    <div class="info-item" data-reveal>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+      <h4>Address</h4>
+      <p>54 Quang An St, Tay Ho,<br>Hanoi 10000, Vietnam</p>
+    </div>
+    <div class="info-item" data-reveal>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg>
+      <h4>Opening Hours</h4>
+      <p>Monday – Sunday<br>Lunch: 11:00–14:00 · Dinner: 17:30–22:00</p>
+    </div>
+    <div class="info-item" data-reveal>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 002.25-2.25v-1.5a1.5 1.5 0 00-1.05-1.43l-3.5-1.05a1.5 1.5 0 00-1.6.4l-.8.8a11.25 11.25 0 01-6.02-6.02l.8-.8a1.5 1.5 0 00.4-1.6l-1.05-3.5A1.5 1.5 0 006.75 2.25h-1.5A2.25 2.25 0 003 4.5v1.5z"/></svg>
+      <h4>Reservation Hotline</h4>
+      <p><a href="tel:+84936302868">+84 936 302 868</a></p>
+    </div>
+    <div class="info-item" data-reveal>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h7.5a2.25 2.25 0 012.25 2.25v6a2.25 2.25 0 01-2.25 2.25h-7.5A2.25 2.25 0 016 15v-6a2.25 2.25 0 012.25-2.25z"/></svg>
+      <h4>Connect</h4>
+      <p><a href="https://www.facebook.com/italiadrinkfood/" target="_blank" rel="noopener">Facebook Fanpage</a></p>
+    </div>
+  </div>
+  </div>
+</section>
+ 
+<!-- ======================= FOOTER ======================= -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina" style="height:38px; margin-bottom:18px;">
+        <p>Authentic Italian restaurant by West Lake — where every meal is a journey back to Italy.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navigation</h5>
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#about">About Us</a>
+        <a href="#reviews">Reviews</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact Us</h5>
+        <a href="tel:+84936302868">+84 936 302 868</a>
+        <a href="https://www.facebook.com/italiadrinkfood/" target="_blank" rel="noopener">Facebook</a>
+        <p>54 Quang An St, Tay Ho, Hanoi</p>
+      </div>
+      <div class="footer-col">
+        <h5>Opening Hours</h5>
+        <p>Monday – Sunday</p>
+        <p>Lunch: 11:00 – 14:00</p>
+        <p>Dinner: 17:30 – 22:00</p>
+      </div>
+    </div>
+    <div class="footer-bottom" style="font-size: 1.1rem;">
+      <p style="font-family:var(--font-script); font-style:italic; font-size:2.2rem; color:var(--gold-bright); margin-bottom:16px;">Grazie e Buon Appetito! <span style="opacity:.8; font-family:var(--font-body); font-style:normal; font-size:1.2rem;">— Thank you and Bon Appétit!</span></p>
+      © 2026 La Fiorentina Italian Restaurant. All rights reserved.
+    </div>
+  </div>
+</footer>
+ 
+<script>
+// ============ 1. Header đổi nền khi cuộn ============
+const header = document.getElementById('siteHeader');
+const scrollCue = document.getElementById('scrollCue');
+
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 60);
+  scrollCue.classList.toggle('hidden', window.scrollY > 100);
+}, { passive:true });
+ 
+// ============ 2. Mobile nav toggle ============
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileNav = document.getElementById('mobileNav');
+hamburgerBtn.addEventListener('click', () => {
+  mobileNav.classList.toggle('open');
+});
+mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileNav.classList.remove('open')));
+ 
+// ============ 3. Scroll reveal ============
+const revealEls = document.querySelectorAll('[data-reveal]');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      entry.target.classList.add('is-visible');
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(el => io.observe(el));
+
+// ============ 4. Màn hình chọn ngôn ngữ (Bản Tiếng Anh) ============
+const langOverlay = document.getElementById('langOverlay');
+const btnVi = document.getElementById('btnVi');
+const btnEn = document.getElementById('btnEn');
+
+// 1. Kiểm tra bộ nhớ: Nếu khách ĐÃ CHỌN ngôn ngữ rồi thì giấu màn hình đi luôn
+if (sessionStorage.getItem('langChosen')) {
+  langOverlay.style.display = 'none';
+}
+
+// 2. Nếu khách chọn Tiếng Việt
+btnVi.addEventListener('click', () => {
+  sessionStorage.setItem('langChosen', 'true'); // Lưu vào bộ nhớ tạm
+  window.location.href = 'index.html';
+});
+
+// 3. Nếu khách chọn Tiếng Anh
+btnEn.addEventListener('click', () => {
+  sessionStorage.setItem('langChosen', 'true'); // Lưu vào bộ nhớ tạm
+  langOverlay.classList.add('hidden');
+});
+
+// ============ 5. Online reservation (connects to the same backend as index.html) ============
+// ⚠️ Update this to your real backend domain after deploying (must match index.html)
+const RESERVATION_API_URL = 'https://api.lafiorentina.vn/api/reservations';
+
+// Backend validation/rate-limit messages are written in Vietnamese (single source
+// of truth used by both index.html and en.html). This map translates the known
+// set of messages so English visitors never see mixed-language errors.
+const ERROR_TRANSLATIONS = {
+  'Họ tên quá ngắn': 'Name is too short',
+  'Họ tên quá dài': 'Name is too long',
+  'Số điện thoại không hợp lệ': 'Invalid phone number',
+  'Email không hợp lệ': 'Invalid email address',
+  'Ngày không hợp lệ (YYYY-MM-DD)': 'Invalid date',
+  'Ngày đặt bàn phải từ hôm nay trở đi': 'Reservation date must be today or later',
+  'Giờ không hợp lệ (HH:MM)': 'Invalid time',
+  'Nhà hàng chỉ nhận đặt bàn trong khung 11:00–14:00 hoặc 17:30–22:00': 'We only accept reservations between 11:00–14:00 or 17:30–22:00',
+  'Số khách phải là số nguyên': 'Number of guests must be a whole number',
+  'Tối thiểu 1 khách': 'Minimum 1 guest',
+  'Đoàn trên 30 khách vui lòng gọi hotline để được tư vấn riêng': 'For parties over 30 guests, please call our hotline directly',
+  'Ghi chú quá dài': 'Note is too long',
+  'Dữ liệu không hợp lệ': 'Invalid data',
+  'Bạn gửi yêu cầu quá nhiều lần, vui lòng thử lại sau ít phút': 'You have submitted too many requests, please try again in a few minutes',
+  'Có lỗi xảy ra': 'Something went wrong'
+};
+function translateError(msg) {
+  return ERROR_TRANSLATIONS[msg] || msg;
+}
+
+const FIELD_LABELS = {
+  name: 'Name', phone: 'Phone number', email: 'Email',
+  reservation_date: 'Reservation date', reservation_time: 'Reservation time',
+  party_size: 'Number of guests', note: 'Note'
+};
+
+const reservationForm = document.getElementById('reservationForm');
+const resDateInput = document.getElementById('resDate');
+const submitBtn = document.getElementById('submitBtn');
+const formStatus = document.getElementById('formStatus');
+
+// Don't allow picking a date in the past
+const todayStr = new Date().toISOString().split('T')[0];
+if (resDateInput) resDateInput.min = todayStr;
+
+if (reservationForm) {
+  reservationForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    formStatus.textContent = '';
+    formStatus.className = 'form-status';
+
+    const formData = new FormData(reservationForm);
+    const payload = {
+      name: (formData.get('name') || '').trim(),
+      phone: (formData.get('phone') || '').trim(),
+      email: (formData.get('email') || '').trim(),
+      reservation_date: formData.get('reservation_date') || '',
+      reservation_time: formData.get('reservation_time') || '',
+      party_size: Number(formData.get('party_size')) || 0,
+      note: (formData.get('note') || '').trim(),
+      website: formData.get('website') || '' // honeypot — real users always leave this blank
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    try {
+      const res = await fetch(RESERVATION_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        let message = translateError(data.error) || 'Something went wrong, please try again.';
+        if (data.details) {
+          const firstField = Object.keys(data.details)[0];
+          const firstMsg = data.details[firstField]?.[0];
+          if (firstMsg) message = `${FIELD_LABELS[firstField] || firstField}: ${translateError(firstMsg)}`;
+        }
+        throw new Error(message);
+      }
+
+      formStatus.textContent = '✓ Reservation submitted successfully! We will call to confirm shortly.';
+      formStatus.classList.add('success');
+      reservationForm.reset();
+      if (resDateInput) resDateInput.min = todayStr;
+
+    } catch (err) {
+      formStatus.textContent = '✗ ' + (err.message || 'Could not connect, please call our hotline instead.');
+      formStatus.classList.add('error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '🍝 Send Reservation Request';
+    }
+  });
+}
+</script>
+</body>
+</html>
