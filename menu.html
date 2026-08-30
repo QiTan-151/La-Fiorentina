@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thực Đơn | La Fiorentina Restaurant</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍷</text></svg>">
+
+<!-- FONTS ĐỒNG BỘ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Cormorant+Garamond:ital@1&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   1. DESIGN TOKENS (Đồng bộ 100% với trang chủ)
+   ========================================================= */
+:root{
+  --wine:        #5E1A24;
+  --wine-deep:   #3E0F16;
+  --olive:       #4B5A34;
+  --olive-dim:   #38431F;
+  --cream:       #F6EFE2;
+  --cream-soft:  #FBF7EE;
+  --gold:        #B8924F;
+  --gold-bright: #D8B978;
+  --ink:         #2B211C;
+  --ink-soft:    #5A4F47;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-script:  'Cormorant Garamond', serif;
+  --font-body:    'Lato', 'Segoe UI', sans-serif;
+  --radius: 4px;
+  --container: 1200px;
+  --transition: 0.4s ease;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family: var(--font-body); color: var(--ink); background: var(--cream); line-height: 1.7; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+a { text-decoration:none; color:inherit; }
+ul { list-style:none; }
+.container { max-width:var(--container); margin:0 auto; padding:0 28px; }
+h1,h2,h3,h4 { font-family:var(--font-display); font-weight:600; color:var(--wine-deep); }
+
+.btn{ display:inline-flex; align-items:center; gap:10px; font-family:var(--font-body); font-weight:700; font-size:1.1rem; letter-spacing:.14em; text-transform:uppercase; padding:16px 34px; border:1px solid transparent; cursor:pointer; transition: all var(--transition); border-radius: 2px; white-space: nowrap; }
+.btn-gold{ background:var(--gold); color:var(--wine-deep); }
+.btn-gold:hover{ background:var(--gold-bright); transform:translateY(-2px); box-shadow:0 12px 24px -8px rgba(184,146,79,.5); }
+
+/* =========================================================
+   2. HEADER & FOOTER ĐỒNG BỘ
+   ========================================================= */
+.site-header { position:fixed; top:0; left:0; right:0; z-index:100; padding: 14px 0; background: rgba(43,33,28,.96); backdrop-filter: blur(8px); box-shadow:0 6px 24px rgba(0,0,0,.25); }
+.site-header .container { display:flex; align-items:center; justify-content:space-between; max-width: 100% !important; padding: 0 60px !important; }
+.logo img { height: 65px; background-color: #ffffff; padding: 6px 20px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+.nav-links { display:flex; gap:65px; }
+.nav-links a { color:var(--cream); font-size:1.25rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; position:relative; padding-bottom:4px; }
+.nav-links a::after { content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--gold); transition: width var(--transition); }
+.nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+.header-actions { display:flex; align-items:center; gap:40px; }
+.header-phone { color:var(--cream); font-size:1.25rem; font-weight:600; display:flex; align-items:center; gap:8px; }
+.header-phone svg { width:16px; height:16px; color:var(--gold); }
+.hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; }
+.hamburger span { width:26px; height:2px; background:var(--cream); }
+
+.site-footer{ background:var(--wine-deep); color:rgba(246,239,226,.7); padding:70px 0 30px; margin-top: 80px;}
+.footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:50px; margin-bottom:50px; }
+.footer-logo{ font-family:var(--font-display); color:var(--cream); font-size:1.4rem; margin-bottom:16px; }
+.footer-col h5{ color:var(--cream); font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:20px; }
+.footer-col a, .footer-col p{ display:block; font-size:.88rem; margin-bottom:12px; color:rgba(246,239,226,.7); }
+.footer-bottom{ border-top:1px solid rgba(246,239,226,.15); padding-top:24px; text-align:center; font-size:.78rem; }
+
+/* =========================================================
+   3. MENU HERO BANNER
+   ========================================================= */
+.menu-hero {
+  background: linear-gradient(rgba(43, 33, 28, 0.8), rgba(62, 15, 22, 0.9)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1600&auto=format&fit=crop') center/cover;
+  padding: 200px 20px 100px;
+  text-align: center;
+  color: var(--cream);
+}
+.menu-hero .eyebrow {
+  font-family: var(--font-script); font-style: italic; font-size: 1.8rem; color: var(--gold-bright);
+}
+.menu-hero h1 {
+  color: var(--cream); font-size: clamp(3rem, 5vw, 4.5rem); margin-bottom: 15px;
+}
+.menu-hero p {
+  color: rgba(246,239,226,.8); font-size: 1.1rem; max-width: 600px; margin: 0 auto;
+}
+
+/* =========================================================
+   4. MENU ACCORDION UI (THIẾT KẾ SANG TRỌNG)
+   ========================================================= */
+.menu-layout {
+  max-width: 850px;
+  margin: -50px auto 0;
+  position: relative;
+  z-index: 10;
+  padding: 0 20px;
+}
+.menu-category {
+  margin-bottom: 60px;
+}
+.category-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.category-title h2 {
+  font-size: 2.2rem;
+  color: var(--wine);
+  display: inline-block;
+  position: relative;
+  padding: 0 20px;
+}
+.category-title h2::before, .category-title h2::after {
+  content: ''; position: absolute; top: 50%; width: 50px; height: 1px; background: var(--gold); opacity: 0.5;
+}
+.category-title h2::before { right: 100%; }
+.category-title h2::after { left: 100%; }
+
+/* Khung Accordion */
+details {
+  background: #ffffff;
+  margin-bottom: 16px;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(43,33,28,0.06);
+  border: 1px solid rgba(184,146,79,0.15);
+  overflow: hidden;
+  transition: all var(--transition);
+}
+details[open] {
+  box-shadow: 0 15px 40px rgba(94,26,36,0.08);
+  border-color: var(--gold);
+}
+summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 30px;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--wine-deep);
+  cursor: pointer;
+  list-style: none; /* Xóa mũi tên gốc */
+  background: var(--cream-soft);
+  border-left: 4px solid var(--gold);
+  transition: background var(--transition);
+}
+summary::-webkit-details-marker { display: none; }
+summary:hover { background: #fff; }
+summary svg { width: 22px; height: 22px; color: var(--gold); transition: transform 0.4s ease; }
+
+/* Trạng thái mở */
+details[open] summary { border-bottom: 1px dashed rgba(184,146,79,0.3); background: #fff; color: var(--wine); }
+details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
+
+/* Danh sách món ăn */
+.dish-list {
+  padding: 10px 30px 25px;
+  background: #fff;
+}
+.dish-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(43,33,28,0.08);
+}
+.dish-item:last-child { border-bottom: none; padding-bottom: 0; }
+.dish-info { flex: 1; padding-right: 20px; }
+.dish-info h4 { font-family: var(--font-display); font-size: 1.25rem; color: var(--ink); margin-bottom: 4px; }
+.dish-info p { font-size: 0.95rem; color: var(--ink-soft); font-style: italic; }
+.dish-price { 
+  font-family: var(--font-body); 
+  font-weight: 700; 
+  font-size: 1.15rem; 
+  color: var(--wine); 
+  white-space: nowrap; 
+}
+
+/* =========================================================
+   5. RESPONSIVE
+   ========================================================= */
+@media (max-width: 1440px) {
+  .site-header .container { padding: 0 30px !important; }
+  .nav-links { gap: 25px; } .nav-links a { font-size: 1rem; }
+  .header-actions { gap: 20px; } .header-phone { font-size: 1rem; }
+}
+@media (max-width: 980px) {
+  .nav-links, .header-phone { display: none; }
+  .hamburger { display: flex; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .menu-hero { padding: 150px 15px 60px; }
+  .menu-hero h1 { font-size: 2.2rem; }
+  summary { padding: 18px 20px; font-size: 1.2rem; }
+  .dish-list { padding: 10px 20px 20px; }
+  .dish-item { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .category-title h2::before, .category-title h2::after { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER ĐỒNG BỘ (Link điều hướng về index.html) -->
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="index.html#home" class="logo">
+      <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina">
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#home">Trang Chủ</a>
+      <a href="menu.html" class="active">Thực Đơn</a>
+      <a href="index.html#about">Giới Thiệu</a>
+      <a href="index.html#reviews">Đánh Giá</a>
+      <a href="index.html#contact">Liên Hệ</a>
+    </nav>
+    <div class="header-actions">
+      <a class="header-phone" href="tel:+84936302868">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 002.25-2.25v-1.5a1.5 1.5 0 00-1.05-1.43l-3.5-1.05a1.5 1.5 0 00-1.6.4l-.8.8a11.25 11.25 0 01-6.02-6.02l.8-.8a1.5 1.5 0 00.4-1.6l-1.05-3.5A1.5 1.5 0 006.75 2.25h-1.5A2.25 2.25 0 003 4.5v1.5z"/></svg>
+        +84 936 302 868
+      </a>
+      <a href="index.html#contact" class="btn btn-gold">Đặt Bàn Ngay</a>
+    </div>
+  </div>
+</header>
+
+<!-- BANNER SANG TRỌNG -->
+<div class="menu-hero">
+  <span class="eyebrow">Signature Menu</span>
+  <h1>Khám Phá Thực Đơn</h1>
+  <p>Hành trình đánh thức vị giác qua từng nốt nhạc của bản giao hưởng ẩm thực nước Ý.</p>
+</div>
+
+<!-- KHU VỰC THỰC ĐƠN CHÍNH -->
+<div class="menu-layout">
+  
+  <!-- NHÓM 1: Khai vị & Món nhẹ -->
+  <div class="menu-category" id="khai-vi">
+    <div class="category-title"><h2>Khai vị & Món nhẹ</h2></div>
+    
+    <!-- Dùng thuộc tính "open" để mở sẵn danh sách cho khách xem luôn -->
+    <details open>
+      <summary>Starter <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></summary>
+      <div class="dish-list">
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Bruschetta al Pomodoro</h4>
+            <p>Bánh mì nướng giòn với cà chua tươi, tỏi và húng quế</p>
+          </div>
+          <div class="dish-price">120.000đ</div>
+        </div>
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Prosciutto e Melone</h4>
+            <p>Thịt heo muối Parma cuộn dưa lưới tươi mát</p>
+          </div>
+          <div class="dish-price">250.000đ</div>
+        </div>
+      </div>
+    </details>
+
+    <details open>
+      <summary>Soup of the day <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></summary>
+      <div class="dish-list">
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Minestrone Soup</h4>
+            <p>Súp rau củ truyền thống kiểu Ý thơm lừng</p>
+          </div>
+          <div class="dish-price">150.000đ</div>
+        </div>
+      </div>
+    </details>
+
+    <details open>
+      <summary>Salad & Carpaccio <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></summary>
+      <div class="dish-list">
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Caprese Salad</h4>
+            <p>Cà chua, phô mai Mozzarella tươi nguyên bản</p>
+          </div>
+          <div class="dish-price">180.000đ</div>
+        </div>
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Beef Carpaccio</h4>
+            <p>Bò Ý thái lát mỏng ngâm dầu olive, rắc phô mai Parmesan</p>
+          </div>
+          <div class="dish-price">320.000đ</div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- NHÓM 2: Tinh hoa nước Ý -->
+  <div class="menu-category" id="tinh-hoa">
+    <div class="category-title"><h2>Tinh Hoa Nước Ý</h2></div>
+    
+    <details open>
+      <summary>Pasta & Risotto <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></summary>
+      <div class="dish-list">
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Spaghetti Carbonara</h4>
+            <p>Sốt kem trứng béo ngậy cùng thịt xông khói Pancetta giòn</p>
+          </div>
+          <div class="dish-price">220.000đ</div>
+        </div>
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Seafood Risotto</h4>
+            <p>Cơm Ý hải sản nấu chậm với rượu vang trắng</p>
+          </div>
+          <div class="dish-price">280.000đ</div>
+        </div>
+      </div>
+    </details>
+
+    <details open>
+      <summary>Pizza (Oven-baked) <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></summary>
+      <div class="dish-list">
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Margherita Pizza</h4>
+            <p>Pizza truyền thống Napoli với sốt cà chua và Mozzarella</p>
+          </div>
+          <div class="dish-price">190.000đ</div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- NHÓM 3: Món chính & Đồ nướng -->
+  <div class="menu-category" id="mon-chinh">
+    <div class="category-title"><h2>Món Chính & Đồ Nướng</h2></div>
+    
+    <details open>
+      <summary>Main Course & Grill <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></summary>
+      <div class="dish-list">
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Bistecca alla Fiorentina</h4>
+            <p>Thăn lưng bò T-bone nướng lửa hồng kiểu Florence thượng hạng</p>
+          </div>
+          <div class="dish-price">1.250.000đ</div>
+        </div>
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Grilled Salmon</h4>
+            <p>Cá hồi áp chảo sốt chanh bơ, kèm măng tây</p>
+          </div>
+          <div class="dish-price">450.000đ</div>
+        </div>
+      </div>
+    </details>
+
+    <details open>
+      <summary>Side Dish <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></summary>
+      <div class="dish-list">
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Mashed Potatoes</h4>
+            <p>Khoai tây nghiền bơ Pháp</p>
+          </div>
+          <div class="dish-price">80.000đ</div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- NHÓM 4: Tráng miệng -->
+  <div class="menu-category" id="trang-mieng">
+    <div class="category-title"><h2>Tráng Miệng</h2></div>
+    
+    <details open>
+      <summary>Dessert & Drinks <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></summary>
+      <div class="dish-list">
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Classic Tiramisu</h4>
+            <p>Bánh xốp ngâm cà phê, phô mai Mascarpone và bột cacao</p>
+          </div>
+          <div class="dish-price">110.000đ</div>
+        </div>
+        <div class="dish-item">
+          <div class="dish-info">
+            <h4>Panna Cotta</h4>
+            <p>Kem sữa nấu thạch mềm tan với sốt dâu rừng</p>
+          </div>
+          <div class="dish-price">95.000đ</div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+</div>
+
+<!-- FOOTER ĐỒNG BỘ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina" style="height:38px; margin-bottom:18px;">
+        <p>Nhà hàng Ý đích thực bên bờ Hồ Tây — nơi mỗi bữa ăn là một hành trình trở về nước Ý.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Điều Hướng</h5>
+        <a href="index.html#home">Trang Chủ</a>
+        <a href="menu.html">Thực Đơn</a>
+        <a href="index.html#about">Giới Thiệu</a>
+        <a href="index.html#reviews">Đánh Giá</a>
+      </div>
+      <div class="footer-col">
+        <h5>Liên Hệ</h5>
+        <a href="tel:+84936302868">+84 936 302 868</a>
+        <a href="https://www.facebook.com/italiadrinkfood/" target="_blank">Facebook</a>
+        <p>54 P. Quảng An, Tây Hồ, Hà Nội</p>
+      </div>
+      <div class="footer-col">
+        <h5>Giờ Mở Cửa</h5>
+        <p>Thứ Hai – Chủ Nhật</p>
+        <p>Trưa: 11:00 – 14:00</p>
+        <p>Tối: 17:30 – 22:00</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p style="font-family:var(--font-script); font-style:italic; font-size:2.2rem; color:var(--gold-bright); margin-bottom:16px;">Grazie e Buon Appetito! <span style="opacity:.8; font-family:var(--font-body); font-style:normal; font-size:1.2rem;">— Cảm ơn và Chúc ngon miệng!</span></p>
+      © 2026 La Fiorentina Italian Restaurant. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
