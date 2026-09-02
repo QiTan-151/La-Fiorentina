@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Quản Lý Menu | La Fiorentina Admin</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --wine:        #5E1A24;
+  --wine-deep:   #3E0F16;
+  --olive:       #4B5A34;
+  --olive-dim:   #38431F;
+  --cream:       #F6EFE2;
+  --cream-soft:  #FBF7EE;
+  --gold:        #B8924F;
+  --gold-bright: #D8B978;
+  --ink:         #2B211C;
+  --ink-soft:    #5A4F47;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Lato', 'Segoe UI', sans-serif;
+
+  --radius: 3px;
+  --transition: 0.3s ease;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+a{ color:inherit; text-decoration:none; }
+h1,h2,h3{ font-family:var(--font-display); font-weight:600; color:var(--wine-deep); }
+.container{ max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--font-body); font-weight:700; font-size:.92rem;
+  letter-spacing:.06em; padding:11px 22px; border:1px solid transparent;
+  border-radius: var(--radius); cursor:pointer; transition: all var(--transition);
+}
+.btn-gold{ background:var(--gold); color:var(--wine-deep); }
+.btn-gold:hover{ background:var(--gold-bright); }
+.btn-outline{ background:transparent; border-color:var(--wine); color:var(--wine); }
+.btn-outline:hover{ background:rgba(94,26,36,.06); }
+.btn-ghost{ background:transparent; border-color: rgba(246,239,226,.4); color:var(--cream); }
+.btn-ghost:hover{ background:rgba(246,239,226,.12); }
+.btn-sm{ padding:7px 16px; font-size:.8rem; }
+.btn:disabled{ opacity:.5; cursor:not-allowed; }
+
+/* ===== LOGIN GATE ===== */
+#loginGate{
+  min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+  background: var(--wine-deep);
+}
+.login-card{
+  background: var(--cream-soft); border-radius: var(--radius); padding: 44px 40px;
+  width:100%; max-width: 400px; border-top: 3px solid var(--gold);
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,.5);
+}
+.login-card h1{ font-size:1.5rem; margin-bottom:6px; }
+.login-card p{ color:var(--ink-soft); font-size:.9rem; margin-bottom:26px; }
+.login-card label{ font-size:.76rem; text-transform:uppercase; letter-spacing:.08em; font-weight:700; color:var(--ink-soft); display:block; margin-bottom:8px; }
+.login-card input{
+  width:100%; padding:13px 16px; border:1px solid rgba(43,33,28,.18); border-radius:var(--radius);
+  font-size:1rem; margin-bottom:16px; font-family: var(--font-body);
+}
+.login-card input:focus{ outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(184,146,79,.18); }
+.login-card .btn{ width:100%; justify-content:center; }
+.login-error{ color:var(--wine); font-size:.86rem; font-weight:700; margin-bottom:14px; min-height:1.2em; }
+
+/* ===== DASHBOARD ===== */
+#dashboard{ display:none; }
+.admin-header{ background: var(--wine-deep); color: var(--cream); padding: 20px 0; }
+.admin-header .container{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+.admin-header h1{ color:var(--cream); font-size:1.3rem; }
+.admin-header .sub{ color: var(--gold-bright); font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; }
+
+.dash-body{ padding: 36px 0 80px; }
+
+.toolbar{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:24px;
+  background: var(--cream-soft); padding:18px 20px; border-radius: var(--radius);
+}
+.toolbar input, .toolbar select{
+  padding:9px 12px; border:1px solid rgba(43,33,28,.18); border-radius:var(--radius);
+  font-family:var(--font-body); font-size:.9rem;
+}
+.toolbar .spacer{ flex:1; }
+
+/* ===== FORM PANEL (thêm / sửa món) ===== */
+#formPanel{
+  display:none;
+  background:#fff; border-radius: var(--radius); padding: 26px 28px; margin-bottom: 26px;
+  border-top: 3px solid var(--gold); box-shadow: 0 12px 30px -12px rgba(0,0,0,.15);
+}
+#formPanel h3{ font-size:1.15rem; margin-bottom:18px; }
+.form-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:16px 20px; }
+.form-grid .field.full{ grid-column: 1 / -1; }
+.form-grid label{ font-size:.74rem; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-soft); font-weight:700; display:block; margin-bottom:6px; }
+.form-grid input, .form-grid textarea{
+  width:100%; padding:11px 14px; border:1px solid rgba(43,33,28,.18); border-radius:var(--radius);
+  font-family:var(--font-body); font-size:.95rem;
+}
+.form-grid textarea{ resize: vertical; min-height:70px; }
+.form-grid input:focus, .form-grid textarea:focus{ outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(184,146,79,.18); }
+.checkbox-field{ display:flex; align-items:center; gap:10px; }
+.checkbox-field input{ width:auto; }
+.form-actions{ grid-column: 1 / -1; display:flex; gap:12px; margin-top:6px; align-items:center; }
+.form-error{ color:var(--wine); font-size:.85rem; font-weight:600; }
+
+/* ===== DISH LIST ===== */
+.category-block{ margin-bottom: 30px; }
+.category-block h2{ font-size:1.3rem; border-bottom:2px solid var(--gold); padding-bottom:8px; margin-bottom:14px; }
+.subcategory-block{ margin-bottom: 18px; }
+.subcategory-block h4{ font-family:var(--font-body); font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); margin-bottom:10px; }
+
+.dish-row{
+  background:#fff; border-radius:var(--radius); padding:16px 20px; margin-bottom:10px;
+  display:grid; grid-template-columns: 2fr 1fr auto; gap:16px; align-items:center;
+  border-left:4px solid var(--olive);
+}
+.dish-row.unavailable{ border-left-color: rgba(43,33,28,.25); opacity:.6; }
+.dish-name{ font-family:var(--font-display); font-size:1.05rem; color:var(--wine-deep); }
+.dish-desc{ font-size:.85rem; color:var(--ink-soft); margin-top:3px; }
+.dish-price{ font-weight:700; color:var(--wine); font-size:1rem; }
+.dish-status{ font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; font-weight:700; }
+.dish-status.available{ color:var(--olive); }
+.dish-status.hidden{ color:rgba(43,33,28,.5); }
+.dish-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+
+.empty-state, .loading-state, .error-banner{ text-align:center; padding:50px 20px; color:var(--ink-soft); }
+.error-banner{ background:rgba(94,26,36,.08); color:var(--wine); border-radius:var(--radius); font-weight:600; }
+
+@media (max-width: 760px){
+  .form-grid{ grid-template-columns: 1fr; }
+  .dish-row{ grid-template-columns: 1fr; }
+  .toolbar{ flex-direction:column; align-items:stretch; }
+}
+</style>
+</head>
+<body>
+
+<!-- ======================= LOGIN GATE ======================= -->
+<div id="loginGate">
+  <div class="login-card">
+    <h1>Quản Lý Menu</h1>
+    <p>La Fiorentina — nhập mã truy cập nội bộ để chỉnh sửa thực đơn.</p>
+    <form id="loginForm">
+      <label for="apiKeyInput">Mã truy cập (Admin API Key)</label>
+      <input type="password" id="apiKeyInput" autocomplete="off" required>
+      <div class="login-error" id="loginError"></div>
+      <button type="submit" class="btn btn-gold" id="loginBtn">Đăng Nhập</button>
+    </form>
+  </div>
+</div>
+
+<!-- ======================= DASHBOARD ======================= -->
+<div id="dashboard">
+  <header class="admin-header">
+    <div class="container">
+      <div>
+        <span class="sub">La Fiorentina</span>
+        <h1>Quản Lý Thực Đơn</h1>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="logoutBtn">Đăng Xuất</button>
+    </div>
+  </header>
+
+  <div class="dash-body container">
+    <div class="toolbar">
+      <button class="btn btn-gold btn-sm" id="addNewBtn">+ Thêm Món Mới</button>
+      <input type="text" id="searchInput" placeholder="Tìm theo tên món...">
+      <select id="categoryFilter">
+        <option value="">Tất cả danh mục</option>
+      </select>
+      <div class="spacer"></div>
+      <button class="btn btn-outline btn-sm" id="refreshBtn">🔄 Làm mới</button>
+    </div>
+
+    <!-- Form thêm / sửa món -->
+    <div id="formPanel">
+      <h3 id="formTitle">Thêm Món Mới</h3>
+      <form id="dishForm">
+        <input type="hidden" id="dishId" value="">
+        <div class="form-grid">
+          <div class="field full">
+            <label for="fName">Tên món *</label>
+            <input type="text" id="fName" required maxlength="150">
+          </div>
+
+          <div class="field">
+            <label for="fCategory">Danh mục *</label>
+            <input type="text" id="fCategory" list="categoryList" required maxlength="100" placeholder="vd: Khai vị & Món nhẹ">
+            <datalist id="categoryList"></datalist>
+          </div>
+
+          <div class="field">
+            <label for="fSubcategory">Danh mục phụ *</label>
+            <input type="text" id="fSubcategory" list="subcategoryList" required maxlength="100" placeholder="vd: Starter">
+            <datalist id="subcategoryList"></datalist>
+          </div>
+
+          <div class="field">
+            <label for="fPrice">Giá (VNĐ) *</label>
+            <input type="number" id="fPrice" required min="0" max="100000000" step="1000">
+          </div>
+
+          <div class="field">
+            <label for="fSortOrder">Thứ tự hiển thị</label>
+            <input type="number" id="fSortOrder" value="0" step="1">
+          </div>
+
+          <div class="field full">
+            <label for="fDescription">Mô tả</label>
+            <textarea id="fDescription" maxlength="300" placeholder="Mô tả ngắn về món ăn..."></textarea>
+          </div>
+
+          <div class="field full checkbox-field">
+            <input type="checkbox" id="fAvailable" checked>
+            <label for="fAvailable" style="margin:0;">Đang bán (hiển thị trên menu công khai)</label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-gold btn-sm" id="saveBtn">Lưu Món Ăn</button>
+            <button type="button" class="btn btn-outline btn-sm" id="cancelBtn">Hủy</button>
+            <span class="form-error" id="formError"></span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="listWrap">
+      <div class="loading-state" id="loadingState">Đang tải thực đơn...</div>
+      <div id="menuList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ⚠️ Đổi URL này thành domain thật của backend sau khi deploy
+const API_BASE = 'https://api.lafiorentina.vn/api/menu';
+
+const loginGate   = document.getElementById('loginGate');
+const dashboard   = document.getElementById('dashboard');
+const loginForm   = document.getElementById('loginForm');
+const apiKeyInput = document.getElementById('apiKeyInput');
+const loginError  = document.getElementById('loginError');
+const loginBtn    = document.getElementById('loginBtn');
+const logoutBtn   = document.getElementById('logoutBtn');
+
+const addNewBtn      = document.getElementById('addNewBtn');
+const searchInput    = document.getElementById('searchInput');
+const categoryFilter = document.getElementById('categoryFilter');
+const refreshBtn     = document.getElementById('refreshBtn');
+
+const formPanel   = document.getElementById('formPanel');
+const formTitle   = document.getElementById('formTitle');
+const dishForm    = document.getElementById('dishForm');
+const dishIdInput = document.getElementById('dishId');
+const fName = document.getElementById('fName');
+const fCategory = document.getElementById('fCategory');
+const fSubcategory = document.getElementById('fSubcategory');
+const fPrice = document.getElementById('fPrice');
+const fSortOrder = document.getElementById('fSortOrder');
+const fDescription = document.getElementById('fDescription');
+const fAvailable = document.getElementById('fAvailable');
+const saveBtn   = document.getElementById('saveBtn');
+const cancelBtn = document.getElementById('cancelBtn');
+const formError = document.getElementById('formError');
+const categoryList    = document.getElementById('categoryList');
+const subcategoryList = document.getElementById('subcategoryList');
+
+const loadingState = document.getElementById('loadingState');
+const menuList      = document.getElementById('menuList');
+
+let allDishes = [];
+
+function getKey(){ return sessionStorage.getItem('admin_api_key') || ''; }
+
+function formatPrice(n){ return Number(n).toLocaleString('vi-VN') + 'đ'; }
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str ?? '';
+  return div.innerHTML;
+}
+
+async function apiFetch(path, options = {}) {
+  const res = await fetch(API_BASE + path, {
+    ...options,
+    headers: { 'x-admin-key': getKey(), 'Content-Type': 'application/json', ...(options.headers || {}) }
+  });
+  if (res.status === 401) {
+    sessionStorage.removeItem('admin_api_key');
+    showLogin('Mã truy cập không đúng hoặc đã hết hạn, vui lòng đăng nhập lại.');
+    throw new Error('unauthorized');
+  }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'Có lỗi xảy ra');
+  return data;
+}
+
+function showLogin(errorMsg) {
+  dashboard.style.display = 'none';
+  loginGate.style.display = 'flex';
+  loginError.textContent = errorMsg || '';
+}
+
+function showDashboard() {
+  loginGate.style.display = 'none';
+  dashboard.style.display = 'block';
+}
+
+function populateDatalists(dishes) {
+  const categories = [...new Set(dishes.map(d => d.category))];
+  const subcategories = [...new Set(dishes.map(d => d.subcategory))];
+
+  categoryList.innerHTML = categories.map(c => `<option value="${escapeHtml(c)}">`).join('');
+  subcategoryList.innerHTML = subcategories.map(s => `<option value="${escapeHtml(s)}">`).join('');
+
+  const currentFilter = categoryFilter.value;
+  categoryFilter.innerHTML = '<option value="">Tất cả danh mục</option>' +
+    categories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+  categoryFilter.value = currentFilter;
+}
+
+function renderList() {
+  const search = searchInput.value.trim().toLowerCase();
+  const catFilter = categoryFilter.value;
+
+  const filtered = allDishes.filter(d => {
+    const matchSearch = !search || d.name.toLowerCase().includes(search);
+    const matchCat = !catFilter || d.category === catFilter;
+    return matchSearch && matchCat;
+  });
+
+  if (filtered.length === 0) {
+    menuList.innerHTML = '<div class="empty-state">Không có món nào khớp bộ lọc hiện tại.</div>';
+    return;
+  }
+
+  // Nhóm theo category -> subcategory, giữ đúng thứ tự xuất hiện (đã ORDER BY sort_order từ backend)
+  const grouped = new Map();
+  for (const dish of filtered) {
+    if (!grouped.has(dish.category)) grouped.set(dish.category, new Map());
+    const subMap = grouped.get(dish.category);
+    if (!subMap.has(dish.subcategory)) subMap.set(dish.subcategory, []);
+    subMap.get(dish.subcategory).push(dish);
+  }
+
+  let html = '';
+  for (const [category, subMap] of grouped) {
+    html += `<div class="category-block"><h2>${escapeHtml(category)}</h2>`;
+    for (const [subcategory, dishes] of subMap) {
+      html += `<div class="subcategory-block"><h4>${escapeHtml(subcategory)}</h4>`;
+      for (const dish of dishes) {
+        const available = !!dish.is_available;
+        html += `
+          <div class="dish-row ${available ? '' : 'unavailable'}">
+            <div>
+              <div class="dish-status ${available ? 'available' : 'hidden'}">${available ? 'Đang bán' : 'Đã ẩn'}</div>
+              <div class="dish-name">${escapeHtml(dish.name)}</div>
+              ${dish.description ? `<div class="dish-desc">${escapeHtml(dish.description)}</div>` : ''}
+            </div>
+            <div class="dish-price">${formatPrice(dish.price)}</div>
+            <div class="dish-actions">
+              <button class="btn btn-outline btn-sm" data-action="edit" data-id="${dish.id}">Sửa</button>
+              <button class="btn btn-outline btn-sm" data-action="toggle" data-id="${dish.id}">${available ? 'Ẩn' : 'Hiện'}</button>
+              <button class="btn btn-outline btn-sm" data-action="delete" data-id="${dish.id}">Xóa</button>
+            </div>
+          </div>`;
+      }
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+  menuList.innerHTML = html;
+}
+
+async function loadDishes() {
+  loadingState.style.display = 'block';
+  menuList.innerHTML = '';
+  try {
+    allDishes = await apiFetch('/all');
+    populateDatalists(allDishes);
+    renderList();
+  } catch (err) {
+    if (err.message !== 'unauthorized') {
+      menuList.innerHTML = `<div class="error-banner">Không tải được thực đơn: ${escapeHtml(err.message)}</div>`;
+    }
+  } finally {
+    loadingState.style.display = 'none';
+  }
+}
+
+function openForm(dish) {
+  formError.textContent = '';
+  if (dish) {
+    formTitle.textContent = 'Sửa Món Ăn';
+    dishIdInput.value = dish.id;
+    fName.value = dish.name;
+    fCategory.value = dish.category;
+    fSubcategory.value = dish.subcategory;
+    fPrice.value = dish.price;
+    fSortOrder.value = dish.sort_order;
+    fDescription.value = dish.description || '';
+    fAvailable.checked = !!dish.is_available;
+  } else {
+    formTitle.textContent = 'Thêm Món Mới';
+    dishForm.reset();
+    dishIdInput.value = '';
+    fAvailable.checked = true;
+    fSortOrder.value = 0;
+  }
+  formPanel.style.display = 'block';
+  formPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closeForm() {
+  formPanel.style.display = 'none';
+  dishForm.reset();
+  formError.textContent = '';
+}
+
+// ===== Sự kiện =====
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const key = apiKeyInput.value.trim();
+  if (!key) return;
+
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'Đang kiểm tra...';
+  loginError.textContent = '';
+  sessionStorage.setItem('admin_api_key', key);
+
+  try {
+    await loadDishes();
+    showDashboard();
+  } catch (err) {
+    if (err.message === 'unauthorized') {
+      loginError.textContent = 'Mã truy cập không đúng, vui lòng thử lại.';
+    } else {
+      loginError.textContent = 'Không kết nối được server: ' + err.message;
+    }
+    sessionStorage.removeItem('admin_api_key');
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.textContent = 'Đăng Nhập';
+  }
+});
+
+logoutBtn.addEventListener('click', () => {
+  sessionStorage.removeItem('admin_api_key');
+  apiKeyInput.value = '';
+  showLogin();
+});
+
+refreshBtn.addEventListener('click', loadDishes);
+searchInput.addEventListener('input', renderList);
+categoryFilter.addEventListener('change', renderList);
+
+addNewBtn.addEventListener('click', () => openForm(null));
+cancelBtn.addEventListener('click', closeForm);
+
+dishForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  formError.textContent = '';
+  saveBtn.disabled = true;
+  saveBtn.textContent = 'Đang lưu...';
+
+  const payload = {
+    name: fName.value.trim(),
+    category: fCategory.value.trim(),
+    subcategory: fSubcategory.value.trim(),
+    price: Number(fPrice.value),
+    sort_order: Number(fSortOrder.value) || 0,
+    description: fDescription.value.trim(),
+    is_available: fAvailable.checked
+  };
+
+  const id = dishIdInput.value;
+
+  try {
+    if (id) {
+      await apiFetch(`/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+    } else {
+      await apiFetch('', { method: 'POST', body: JSON.stringify(payload) });
+    }
+    closeForm();
+    await loadDishes();
+  } catch (err) {
+    if (err.message !== 'unauthorized') formError.textContent = err.message;
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Lưu Món Ăn';
+  }
+});
+
+menuList.addEventListener('click', async (e) => {
+  const btn = e.target.closest('button[data-action]');
+  if (!btn) return;
+  const id = btn.dataset.id;
+  const action = btn.dataset.action;
+  const dish = allDishes.find(d => String(d.id) === String(id));
+
+  if (action === 'edit') {
+    openForm(dish);
+  } else if (action === 'toggle') {
+    try {
+      await apiFetch(`/${id}/toggle`, { method: 'PATCH' });
+      await loadDishes();
+    } catch (err) {
+      if (err.message !== 'unauthorized') alert('Không đổi được trạng thái: ' + err.message);
+    }
+  } else if (action === 'delete') {
+    if (!confirm(`Xóa hẳn món "${dish.name}"? Không thể hoàn tác.`)) return;
+    try {
+      await apiFetch(`/${id}`, { method: 'DELETE' });
+      await loadDishes();
+    } catch (err) {
+      if (err.message !== 'unauthorized') alert('Không xóa được: ' + err.message);
+    }
+  }
+});
+
+// ===== Khởi động =====
+if (getKey()) {
+  loadDishes().then(showDashboard).catch(() => {});
+} else {
+  showLogin();
+}
+</script>
+</body>
+</html>
