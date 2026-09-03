@@ -47,20 +47,29 @@ h1,h2,h3,h4 { font-family:var(--font-display); font-weight:600; color:var(--wine
 .btn-gold:hover{ background:var(--gold-bright); transform:translateY(-2px); box-shadow:0 12px 24px -8px rgba(184,146,79,.5); }
 
 /* =========================================================
-   2. HEADER & FOOTER ĐỒNG BỘ
+   2. HEADER (đầy đủ hamburger + mobile-nav, đồng bộ index.html)
    ========================================================= */
-.site-header { position:fixed; top:0; left:0; right:0; z-index:100; padding: 14px 0; background: rgba(43,33,28,.96); backdrop-filter: blur(8px); box-shadow:0 6px 24px rgba(0,0,0,.25); }
-.site-header .container { display:flex; align-items:center; justify-content:space-between; max-width: 100% !important; padding: 0 60px !important; }
-.logo img { height: 65px; background-color: #ffffff; padding: 6px 20px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
-.nav-links { display:flex; gap:65px; }
-.nav-links a { color:var(--cream); font-size:1.25rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; position:relative; padding-bottom:4px; }
-.nav-links a::after { content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--gold); transition: width var(--transition); }
-.nav-links a:hover::after, .nav-links a.active::after { width:100%; }
-.header-actions { display:flex; align-items:center; gap:40px; }
-.header-phone { color:var(--cream); font-size:1.25rem; font-weight:600; display:flex; align-items:center; gap:8px; }
-.header-phone svg { width:16px; height:16px; color:var(--gold); }
-.hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; }
-.hamburger span { width:26px; height:2px; background:var(--cream); }
+.site-header{ position:fixed; top:0; left:0; right:0; z-index:100; padding: 14px 0; background: rgba(43,33,28,.96); backdrop-filter: blur(8px); box-shadow:0 6px 24px rgba(0,0,0,.25); }
+.site-header .container{ display:flex; align-items:center; justify-content:space-between; max-width: 100% !important; padding: 0 60px !important; }
+.logo img{ height: 65px; background-color: #ffffff; padding: 6px 20px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display:block; }
+.nav-links{ display:flex; gap:65px; }
+.nav-links a{ color:var(--cream); font-size:1.25rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; position:relative; padding-bottom:4px; white-space:nowrap; }
+.nav-links a::after{ content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--gold); transition: width var(--transition); }
+.nav-links a:hover::after, .nav-links a.active::after{ width:100%; }
+.header-actions{ display:flex; align-items:center; gap:40px; }
+.header-phone{ color:var(--cream); font-size:1.25rem; font-weight:600; display:flex; align-items:center; gap:8px; white-space:nowrap; }
+.header-phone svg{ width:16px; height:16px; color:var(--gold); }
+.hamburger{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; z-index:200; }
+.hamburger span{ width:26px; height:2px; background:var(--cream); transition:var(--transition); }
+
+.mobile-nav{
+  position:fixed; inset:0; background:var(--wine-deep); z-index:150;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:34px;
+  transform:translateX(100%); transition: transform .5s ease;
+}
+.mobile-nav.open{ transform:translateX(0); }
+.mobile-nav a{ color:var(--cream); font-family:var(--font-display); font-size:1.6rem; }
+.mobile-nav .btn{ margin-top:10px; }
 
 .site-footer{ background:var(--wine-deep); color:rgba(246,239,226,.7); padding:70px 0 30px; margin-top: 80px;}
 .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:50px; margin-bottom:50px; }
@@ -89,17 +98,63 @@ h1,h2,h3,h4 { font-family:var(--font-display); font-weight:600; color:var(--wine
 }
 
 /* =========================================================
+   3b. QUICK FILTER — nút chuyển nhanh giữa các nhóm món
+   ========================================================= */
+.quick-filter-wrap{
+  max-width: 1100px;
+  margin: -30px auto 40px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 20;
+}
+.quick-filter-card{
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  box-shadow: 0 14px 34px rgba(43,33,28,0.12);
+  position: sticky;
+  top: 100px;
+}
+.quick-filter{
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(184,146,79,.5) transparent;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px;
+}
+.quick-filter::-webkit-scrollbar{ height: 4px; }
+.quick-filter::-webkit-scrollbar-thumb{ background: rgba(184,146,79,.4); border-radius: 4px; }
+.filter-chip{
+  flex-shrink: 0;
+  padding: 9px 20px;
+  border-radius: 30px;
+  border: 1px solid rgba(94,26,36,.18);
+  background: var(--cream-soft);
+  color: var(--wine-deep);
+  font-size: .86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.filter-chip:hover{ border-color: var(--gold); }
+.filter-chip.active{ background: var(--wine); border-color: var(--wine); color: var(--cream); }
+
+/* =========================================================
    4. MENU ACCORDION UI (THIẾT KẾ SANG TRỌNG)
    ========================================================= */
 .menu-layout {
-  max-width: 850px;
-  margin: -50px auto 0;
+  max-width: 1100px;
+  margin: 0 auto;
   position: relative;
   z-index: 10;
   padding: 0 20px;
 }
 .menu-category {
   margin-bottom: 60px;
+  scroll-margin-top: 190px;
 }
 .category-title {
   text-align: center;
@@ -127,6 +182,7 @@ details {
   border: 1px solid rgba(184,146,79,0.15);
   overflow: hidden;
   transition: all var(--transition);
+  scroll-margin-top: 190px;
 }
 details[open] {
   box-shadow: 0 15px 40px rgba(94,26,36,0.08);
@@ -154,32 +210,47 @@ summary svg { width: 22px; height: 22px; color: var(--gold); transition: transfo
 details[open] summary { border-bottom: 1px dashed rgba(184,146,79,0.3); background: #fff; color: var(--wine); }
 details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
 
-/* Danh sách món ăn */
+/* Danh sách món ăn — dạng lưới thẻ ảnh lớn */
 .dish-list {
-  padding: 10px 30px 25px;
+  padding: 26px 28px 30px;
   background: #fff;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 30px;
 }
 .dish-item {
   display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 20px 0;
-  border-bottom: 1px solid rgba(43,33,28,0.08);
+  flex-direction: column;
 }
-.dish-item:last-child { border-bottom: none; padding-bottom: 0; }
+.dish-thumb-wrap{
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+  background: var(--cream-soft);
+}
+.dish-thumb-wrap.placeholder{
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.4rem; color: rgba(94,26,36,.14);
+}
 .dish-thumb {
-  width: 76px; height: 76px; border-radius: var(--radius); object-fit: cover; flex-shrink: 0;
-  box-shadow: 0 4px 14px rgba(43,33,28,0.12);
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .6s ease;
 }
-.dish-info { flex: 1; padding-right: 20px; }
-.dish-info h4 { font-family: var(--font-display); font-size: 1.25rem; color: var(--ink); margin-bottom: 4px; }
-.dish-info p { font-size: 0.95rem; color: var(--ink-soft); font-style: italic; }
-.dish-price { 
-  font-family: var(--font-body); 
-  font-weight: 700; 
-  font-size: 1.15rem; 
-  color: var(--wine); 
-  white-space: nowrap; 
+.dish-item:hover .dish-thumb{ transform: scale(1.07); }
+.dish-info { flex: 1; }
+.dish-info h4 { font-family: var(--font-display); font-size: 1.2rem; color: var(--ink); margin-bottom: 6px; }
+.dish-info p { font-size: 0.92rem; color: var(--ink-soft); font-style: italic; line-height:1.5; }
+.dish-price {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.12rem;
+  color: var(--wine);
+  margin-top: 10px;
+  display: block;
 }
 
 /* =========================================================
@@ -212,28 +283,36 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
    ========================================================= */
 @media (max-width: 1440px) {
   .site-header .container { padding: 0 30px !important; }
-  .nav-links { gap: 25px; } .nav-links a { font-size: 1rem; }
+  .nav-links { gap: 22px; } .nav-links a { font-size: 0.95rem; }
   .header-actions { gap: 20px; } .header-phone { font-size: 1rem; }
+  .btn { padding: 12px 24px; font-size: 0.9rem; }
+  .logo img { height: 55px; padding: 6px 16px; }
+}
+@media (max-width: 1100px) {
+  .site-header .container { padding: 0 16px !important; }
+  .nav-links { gap: 14px; } .nav-links a { font-size: 0.82rem; }
 }
 @media (max-width: 980px) {
   .nav-links, .header-phone { display: none; }
   .hamburger { display: flex; }
+  .header-actions .btn-gold { display: none; } /* CTA chuyển vào mobile-nav overlay, tránh tràn header */
   .footer-grid { grid-template-columns: 1fr 1fr; }
+  .quick-filter-card { top: 90px; }
+  .menu-category, details { scroll-margin-top: 175px; }
 }
 @media (max-width: 600px) {
   .menu-hero { padding: 150px 15px 60px; }
   .menu-hero h1 { font-size: 2.2rem; }
   summary { padding: 18px 20px; font-size: 1.2rem; }
-  .dish-list { padding: 10px 20px 20px; }
-  .dish-item { flex-direction: column; align-items: flex-start; gap: 8px; }
-  .dish-thumb { width: 100%; height: 160px; }
+  .dish-list { grid-template-columns: 1fr; padding: 22px 20px 24px; gap: 22px; }
   .category-title h2::before, .category-title h2::after { display: none; }
+  .quick-filter-wrap { margin-top: -20px; }
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER ĐỒNG BỘ (Link điều hướng về index.html) -->
+<!-- HEADER ĐỒNG BỘ (Link điều hướng về index.html), có hamburger cho mobile -->
 <header class="site-header" id="siteHeader">
   <div class="container">
     <a href="index.html#home" class="logo">
@@ -252,15 +331,36 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
         +84 936 302 868
       </a>
       <a href="index.html#contact" class="btn btn-gold">Đặt Bàn Ngay</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Mở menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </header>
+
+<!-- Mobile nav overlay -->
+<div class="mobile-nav" id="mobileNav">
+  <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina" style="height:52px; margin-bottom:10px;">
+  <a href="index.html#home">Trang Chủ</a>
+  <a href="menu.html">Thực Đơn</a>
+  <a href="index.html#about">Giới Thiệu</a>
+  <a href="index.html#reviews">Đánh Giá</a>
+  <a href="index.html#contact">Liên Hệ</a>
+  <a href="index.html#contact" class="btn btn-gold">Đặt Bàn Ngay</a>
+</div>
 
 <!-- BANNER SANG TRỌNG -->
 <div class="menu-hero">
   <span class="eyebrow">Signature Menu</span>
   <h1>Khám Phá Thực Đơn</h1>
   <p>Hành trình đánh thức vị giác qua từng nốt nhạc của bản giao hưởng ẩm thực nước Ý.</p>
+</div>
+
+<!-- NÚT LỌC NHANH — tự sinh bằng JS theo dữ liệu thật -->
+<div class="quick-filter-wrap">
+  <div class="quick-filter-card">
+    <div class="quick-filter" id="quickFilter"></div>
+  </div>
 </div>
 
 <!-- KHU VỰC THỰC ĐƠN CHÍNH (render động bằng JS từ API) -->
@@ -308,12 +408,18 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
 
 <script>
 // ⚠️ Đổi URL này thành domain thật của backend sau khi deploy (khớp với admin.html)
-const API_BASE = 'https://la-fiorentina.onrender.com/api/menu';
-const MENU_API_URL = 'https://la-fiorentina.onrender.com/api/menu'; 
+const MENU_API_URL = 'https://api.lafiorentina.vn/api/menu';
 
 const menuLayout = document.getElementById('menuLayout');
+const quickFilter = document.getElementById('quickFilter');
 
 const CHEVRON_SVG = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>';
+
+// ============ Hamburger / mobile nav ============
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileNav = document.getElementById('mobileNav');
+hamburgerBtn.addEventListener('click', () => mobileNav.classList.toggle('open'));
+mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileNav.classList.remove('open')));
 
 function escapeHtml(str) {
   const div = document.createElement('div');
@@ -336,6 +442,8 @@ function slugify(str) {
 
 function renderMenu(dishes) {
   if (!dishes || dishes.length === 0) {
+    quickFilter.innerHTML = '';
+    document.querySelector('.quick-filter-wrap').style.display = 'none';
     menuLayout.innerHTML = `
       <div class="menu-state">
         <p>Thực đơn đang được cập nhật. Vui lòng gọi hotline để được tư vấn trực tiếp.</p>
@@ -354,29 +462,33 @@ function renderMenu(dishes) {
   }
 
   let html = '';
+  let chipsHtml = '';
 
   for (const [category, subMap] of grouped) {
     html += `<div class="menu-category" id="${escapeHtml(slugify(category))}">
       <div class="category-title"><h2>${escapeHtml(category)}</h2></div>`;
 
     for (const [subcategory, items] of subMap) {
+      const subId = slugify(category + '-' + subcategory);
+      chipsHtml += `<a href="#${escapeHtml(subId)}" class="filter-chip" data-target="${escapeHtml(subId)}">${escapeHtml(subcategory)}</a>`;
+
       // Mở sẵn mọi mục (khớp hành vi bản tĩnh gốc — khách xem được toàn bộ menu ngay, không cần bấm)
-      html += `<details open>
+      html += `<details open id="${escapeHtml(subId)}">
         <summary>${escapeHtml(subcategory)} ${CHEVRON_SVG}</summary>
         <div class="dish-list">`;
 
       for (const dish of items) {
         const thumb = dish.image_url
-          ? `<img class="dish-thumb" src="${escapeHtml(dish.image_url)}" alt="${escapeHtml(dish.name)}" loading="lazy">`
-          : '';
+          ? `<div class="dish-thumb-wrap"><img class="dish-thumb" src="${escapeHtml(dish.image_url)}" alt="${escapeHtml(dish.name)}" loading="lazy"></div>`
+          : `<div class="dish-thumb-wrap placeholder">🍽️</div>`;
         html += `
           <div class="dish-item">
             ${thumb}
             <div class="dish-info">
               <h4>${escapeHtml(dish.name)}</h4>
               ${dish.description ? `<p>${escapeHtml(dish.description)}</p>` : ''}
+              <span class="dish-price">${formatPrice(dish.price)}</span>
             </div>
-            <div class="dish-price">${formatPrice(dish.price)}</div>
           </div>`;
       }
 
@@ -387,6 +499,30 @@ function renderMenu(dishes) {
   }
 
   menuLayout.innerHTML = html;
+  quickFilter.innerHTML = chipsHtml;
+  document.querySelector('.quick-filter-wrap').style.display = '';
+
+  setupActiveChipTracking();
+}
+
+// Highlight chip tương ứng với mục đang hiện trong khung nhìn khi cuộn
+function setupActiveChipTracking() {
+  const chips = quickFilter.querySelectorAll('.filter-chip');
+  if (chips.length === 0) return;
+
+  const sections = Array.from(chips)
+    .map(chip => document.getElementById(chip.dataset.target))
+    .filter(Boolean);
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        chips.forEach(c => c.classList.toggle('active', c.dataset.target === entry.target.id));
+      }
+    });
+  }, { rootMargin: '-180px 0px -60% 0px', threshold: 0 });
+
+  sections.forEach(sec => io.observe(sec));
 }
 
 async function loadMenu() {
@@ -396,6 +532,7 @@ async function loadMenu() {
     const dishes = await res.json();
     renderMenu(dishes);
   } catch (err) {
+    document.querySelector('.quick-filter-wrap').style.display = 'none';
     menuLayout.innerHTML = `
       <div class="menu-state error">
         <p>Không tải được thực đơn lúc này. Vui lòng thử lại sau hoặc gọi hotline để được tư vấn.</p>
