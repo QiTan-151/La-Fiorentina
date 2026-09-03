@@ -107,27 +107,69 @@ h1,h2,h3,h4 { font-family:var(--font-display); font-weight:600; color:var(--wine
   position: relative;
   z-index: 20;
 }
-.quick-filter-card{
-  background: #fff;
-  border-radius: var(--radius);
-  padding: 16px 20px;
-  box-shadow: 0 14px 34px rgba(43,33,28,0.12);
+.filter-toggle-anchor{
   position: sticky;
   top: 100px;
+  display: flex;
+  justify-content: center;
+}
+.filter-toggle-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid rgba(94,26,36,.18);
+  color: var(--wine-deep);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: .92rem;
+  letter-spacing: .03em;
+  padding: 14px 26px;
+  border-radius: 40px;
+  box-shadow: 0 14px 34px rgba(43,33,28,0.14);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.filter-toggle-btn:hover{ border-color: var(--gold); }
+.filter-toggle-btn svg{ width: 18px; height: 18px; flex-shrink:0; }
+.filter-toggle-btn .icon-filter{ color: var(--gold); }
+.filter-toggle-btn .icon-chevron{ color: var(--ink-soft); transition: transform .3s ease; }
+.filter-toggle-btn.open .icon-chevron{ transform: rotate(180deg); }
+
+.filter-popup{
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  width: min(600px, 92vw);
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: 0 24px 60px rgba(43,33,28,0.24);
+  padding: 24px 26px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(-8px);
+  transition: opacity .25s ease, transform .25s ease, visibility .25s;
+  z-index: 60;
+}
+.filter-popup.show{
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.filter-popup-title{
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--wine-deep);
+  text-align: center;
+  margin-bottom: 16px;
 }
 .quick-filter{
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
-  overflow-x: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(184,146,79,.5) transparent;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 2px;
+  justify-content: center;
 }
-.quick-filter::-webkit-scrollbar{ height: 4px; }
-.quick-filter::-webkit-scrollbar-thumb{ background: rgba(184,146,79,.4); border-radius: 4px; }
 .filter-chip{
-  flex-shrink: 0;
   padding: 9px 20px;
   border-radius: 30px;
   border: 1px solid rgba(94,26,36,.18);
@@ -297,7 +339,7 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
   .hamburger { display: flex; }
   .header-actions .btn-gold { display: none; } /* CTA chuyển vào mobile-nav overlay, tránh tràn header */
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .quick-filter-card { top: 90px; }
+  .filter-toggle-anchor { top: 90px; }
   .menu-category, details { scroll-margin-top: 175px; }
 }
 @media (max-width: 600px) {
@@ -306,7 +348,7 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
   summary { padding: 18px 20px; font-size: 1.2rem; }
   .dish-list { grid-template-columns: 1fr; padding: 22px 20px 24px; gap: 22px; }
   .category-title h2::before, .category-title h2::after { display: none; }
-  .quick-filter-wrap { margin-top: -20px; }
+  .filter-popup { width: 90vw; padding: 20px; }
 }
 </style>
 </head>
@@ -320,8 +362,8 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
     </a>
     <nav class="nav-links">
       <a href="index.html#home">Trang Chủ</a>
-      <a href="index.html#about">Giới Thiệu</a>
       <a href="menu.html" class="active">Thực Đơn</a>
+      <a href="index.html#about">Giới Thiệu</a>
       <a href="index.html#reviews">Đánh Giá</a>
       <a href="index.html#contact">Liên Hệ</a>
     </nav>
@@ -342,8 +384,8 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
 <div class="mobile-nav" id="mobileNav">
   <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina" style="height:52px; margin-bottom:10px;">
   <a href="index.html#home">Trang Chủ</a>
-  <a href="index.html#about">Giới Thiệu</a>
   <a href="menu.html">Thực Đơn</a>
+  <a href="index.html#about">Giới Thiệu</a>
   <a href="index.html#reviews">Đánh Giá</a>
   <a href="index.html#contact">Liên Hệ</a>
   <a href="index.html#contact" class="btn btn-gold">Đặt Bàn Ngay</a>
@@ -356,10 +398,18 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
   <p>Hành trình đánh thức vị giác qua từng nốt nhạc của bản giao hưởng ẩm thực nước Ý.</p>
 </div>
 
-<!-- NÚT LỌC NHANH — tự sinh bằng JS theo dữ liệu thật -->
+<!-- NÚT LỌC NHANH DẠNG POPUP — bấm để mở, tự sinh nội dung bằng JS theo dữ liệu thật -->
 <div class="quick-filter-wrap">
-  <div class="quick-filter-card">
-    <div class="quick-filter" id="quickFilter"></div>
+  <div class="filter-toggle-anchor">
+    <button class="filter-toggle-btn" id="filterToggleBtn" aria-expanded="false">
+      <svg class="icon-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h18M6 12h12M10 19h4"/></svg>
+      <span>Chuyển Nhanh Tới Món</span>
+      <svg class="icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div class="filter-popup" id="filterPopup">
+      <div class="filter-popup-title">Chọn nhóm món muốn xem</div>
+      <div class="quick-filter" id="quickFilter"></div>
+    </div>
   </div>
 </div>
 
@@ -413,6 +463,8 @@ const MENU_API_URL = 'https://la-fiorentina.onrender.com/api/menu';
 
 const menuLayout = document.getElementById('menuLayout');
 const quickFilter = document.getElementById('quickFilter');
+const filterToggleBtn = document.getElementById('filterToggleBtn');
+const filterPopup = document.getElementById('filterPopup');
 
 const CHEVRON_SVG = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>';
 
@@ -421,6 +473,32 @@ const hamburgerBtn = document.getElementById('hamburgerBtn');
 const mobileNav = document.getElementById('mobileNav');
 hamburgerBtn.addEventListener('click', () => mobileNav.classList.toggle('open'));
 mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileNav.classList.remove('open')));
+
+// ============ Popup lọc nhanh ============
+function openFilterPopup() {
+  filterPopup.classList.add('show');
+  filterToggleBtn.classList.add('open');
+  filterToggleBtn.setAttribute('aria-expanded', 'true');
+}
+function closeFilterPopup() {
+  filterPopup.classList.remove('show');
+  filterToggleBtn.classList.remove('open');
+  filterToggleBtn.setAttribute('aria-expanded', 'false');
+}
+filterToggleBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  filterPopup.classList.contains('show') ? closeFilterPopup() : openFilterPopup();
+});
+document.addEventListener('click', (e) => {
+  if (!filterPopup.contains(e.target) && !filterToggleBtn.contains(e.target)) closeFilterPopup();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeFilterPopup();
+});
+// Đóng popup khi bấm 1 chip (sự kiện gắn trên container cha vì chip được sinh động bằng JS)
+quickFilter.addEventListener('click', (e) => {
+  if (e.target.closest('.filter-chip')) closeFilterPopup();
+});
 
 function escapeHtml(str) {
   const div = document.createElement('div');
