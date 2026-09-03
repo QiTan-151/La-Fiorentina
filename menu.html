@@ -101,17 +101,14 @@ h1,h2,h3,h4 { font-family:var(--font-display); font-weight:600; color:var(--wine
    3b. QUICK FILTER — nút chuyển nhanh giữa các nhóm món
    ========================================================= */
 .quick-filter-wrap{
-  max-width: 1100px;
-  margin: -30px auto 40px;
-  padding: 0 20px;
   position: relative;
   z-index: 20;
 }
 .filter-toggle-anchor{
-  position: sticky;
-  top: 100px;
-  display: flex;
-  justify-content: center;
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 70;
 }
 .filter-toggle-btn{
   display: inline-flex;
@@ -124,13 +121,13 @@ h1,h2,h3,h4 { font-family:var(--font-display); font-weight:600; color:var(--wine
   font-weight: 700;
   font-size: .92rem;
   letter-spacing: .03em;
-  padding: 14px 26px;
+  padding: 14px 24px;
   border-radius: 40px;
-  box-shadow: 0 14px 34px rgba(43,33,28,0.14);
+  box-shadow: 0 14px 34px rgba(43,33,28,0.24);
   cursor: pointer;
   transition: all var(--transition);
 }
-.filter-toggle-btn:hover{ border-color: var(--gold); }
+.filter-toggle-btn:hover{ border-color: var(--gold); transform: translateY(-2px); }
 .filter-toggle-btn svg{ width: 18px; height: 18px; flex-shrink:0; }
 .filter-toggle-btn .icon-filter{ color: var(--gold); }
 .filter-toggle-btn .icon-chevron{ color: var(--ink-soft); transition: transform .3s ease; }
@@ -138,23 +135,27 @@ h1,h2,h3,h4 { font-family:var(--font-display); font-weight:600; color:var(--wine
 
 .filter-popup{
   position: absolute;
-  top: calc(100% + 12px);
-  left: 50%;
-  width: min(600px, 92vw);
+  bottom: calc(100% + 14px);
+  top: auto;
+  right: 0;
+  left: auto;
+  width: min(380px, 86vw);
   background: #fff;
   border-radius: var(--radius);
-  box-shadow: 0 24px 60px rgba(43,33,28,0.24);
-  padding: 24px 26px;
+  box-shadow: 0 24px 60px rgba(43,33,28,0.28);
+  padding: 22px 24px;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(-50%) translateY(-8px);
+  transform: translateY(8px);
   transition: opacity .25s ease, transform .25s ease, visibility .25s;
   z-index: 60;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 .filter-popup.show{
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 .filter-popup-title{
   font-family: var(--font-display);
@@ -339,7 +340,7 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
   .hamburger { display: flex; }
   .header-actions .btn-gold { display: none; } /* CTA chuyển vào mobile-nav overlay, tránh tràn header */
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .filter-toggle-anchor { top: 90px; }
+  .filter-toggle-anchor { bottom: 20px; right: 16px; }
   .menu-category, details { scroll-margin-top: 175px; }
 }
 @media (max-width: 600px) {
@@ -348,7 +349,9 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
   summary { padding: 18px 20px; font-size: 1.2rem; }
   .dish-list { grid-template-columns: 1fr; padding: 22px 20px 24px; gap: 22px; }
   .category-title h2::before, .category-title h2::after { display: none; }
-  .filter-popup { width: 90vw; padding: 20px; }
+  .filter-popup { width: min(320px, 82vw); padding: 18px 20px; }
+  .filter-toggle-btn span { display: none; } /* mobile: chỉ hiện icon, gọn hơn */
+  .filter-toggle-btn { padding: 14px 16px; }
 }
 </style>
 </head>
