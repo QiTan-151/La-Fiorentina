@@ -221,14 +221,55 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 @media (max-width: 600px) { .section { padding: 80px 0; } .dish-grid { grid-template-columns: 1fr; } .info-grid { grid-template-columns: 1fr; } .footer-grid { grid-template-columns: 1fr; } .hero-meta { gap: 22px; } .intro-img-accent { width: 60%; } }
 
 /* ===== MÀN HÌNH CHỌN NGÔN NGỮ ===== */
-.lang-overlay { position: fixed; inset: 0; background: var(--wine-deep); z-index: 9999; display: flex; align-items: center; justify-content: center; text-align: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
-.lang-overlay.hidden { opacity: 0; visibility: hidden; }
-.lang-content { animation: fade-up 1s ease forwards; }
-.lang-overlay .lang-logo { height: 100px; background-color: #ffffff; padding: 12px 30px; border-radius: 50px; margin: 0 auto 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-.lang-overlay h2 { color: var(--cream); font-size: 2.2rem; margin-bottom: 5px; }
-.lang-overlay p { color: var(--gold-bright); font-family: var(--font-script); font-style: italic; font-size: 1.4rem; margin-bottom: 35px; }
+.lang-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(rgba(62, 15, 22, 0.85), rgba(43, 33, 28, 0.9)), url('assets/img/bg-welcome.jpg') 75% center / cover no-repeat;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease; 
+}
+/* Class này sẽ được thêm vào khi khách click để làm biến mất màn hình */
+.lang-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+.lang-content {
+  animation: fade-up 1s ease forwards;
+}
+.lang-overlay .lang-logo {
+  height: 100px;
+  background-color: #ffffff;
+  padding: 12px 30px;
+  border-radius: 50px;
+  margin: 0 auto 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.lang-overlay h2 {
+  color: var(--cream);
+  font-size: 2.2rem;
+  margin-bottom: 5px;
+}
+.lang-overlay p {
+  color: var(--gold-bright);
+  font-family: var(--font-script);
+  font-style: italic;
+  font-size: 1.4rem;
+  margin-bottom: 35px;
+}
 .lang-overlay .lang-buttons { display: flex; gap: 20px; justify-content: center; }
-@keyframes fade-up { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
+
+.lang-overlay .lang-buttons .btn {
+  width: 180px; /* Chiều rộng cố định cho cả 2 nút */
+  justify-content: center; /* Căn giữa chữ bên trong nút */
+}
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 <body>
