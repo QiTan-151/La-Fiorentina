@@ -180,6 +180,81 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .info-item a{ color:var(--gold-bright); }
 
 /* =========================================================
+   7b. RESERVATION FORM (Online booking)
+   ========================================================= */
+.reservation-wrap{
+  max-width: 780px;
+  margin: 0 auto 64px;
+  background: var(--cream-soft);
+  border-radius: var(--radius);
+  padding: 48px 52px;
+  box-shadow: 0 30px 60px -24px rgba(0,0,0,.4);
+  border-top: 3px solid var(--gold);
+}
+.reservation-header{ text-align:center; margin-bottom:36px; }
+.reservation-header .eyebrow{ font-size:1.3rem; }
+.reservation-header h3{ font-size:clamp(1.5rem,2.6vw,1.9rem); margin-bottom:10px; }
+.reservation-header p{ color:var(--ink-soft); font-size:.94rem; }
+.reservation-header p a{ color:var(--wine); font-weight:700; }
+
+.reservation-form{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 24px;
+}
+.reservation-form .field{ display:flex; flex-direction:column; gap:8px; }
+.reservation-form .field.full{ grid-column: 1 / -1; }
+.reservation-form label{
+  font-size:.76rem; letter-spacing:.09em; text-transform:uppercase;
+  color: var(--ink-soft); font-weight:700;
+}
+.reservation-form label .req{ color: var(--wine); margin-left:2px; }
+.reservation-form input,
+.reservation-form select,
+.reservation-form textarea{
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 13px 16px;
+  border: 1px solid rgba(43,33,28,.16);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--ink);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.reservation-form input::placeholder,
+.reservation-form textarea::placeholder{ color: rgba(43,33,28,.4); }
+.reservation-form input:focus,
+.reservation-form select:focus,
+.reservation-form textarea:focus{
+  outline:none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184,146,79,.18);
+}
+.reservation-form textarea{ resize: vertical; min-height: 90px; font-family: var(--font-body); }
+
+/* Honeypot: hidden from real users but stays in the DOM for bots to fill */
+.hp-field{
+  position:absolute !important;
+  left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+
+.reservation-form .submit-row{
+  grid-column: 1 / -1;
+  display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:8px;
+}
+.reservation-form .btn:disabled{ opacity:.6; cursor:not-allowed; transform:none !important; box-shadow:none !important; }
+.form-status{
+  font-size:.92rem; font-weight:700; flex:1; min-width:220px;
+}
+.form-status.success{ color: var(--olive); }
+.form-status.error{ color: var(--wine); }
+
+@media (max-width: 680px){
+  .reservation-wrap{ padding: 34px 22px; }
+  .reservation-form{ grid-template-columns: 1fr; }
+}
+
+/* =========================================================
    8. FOOTER
    ========================================================= */
 .site-footer{ background:var(--wine-deep); color:rgba(246,239,226,.7); padding:70px 0 30px; }
@@ -224,8 +299,12 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .lang-overlay {
   position: fixed;
   inset: 0;
-  /* Đã thay đổi 'center' thành '65% center' để dịch ảnh sang trái */
-  background: linear-gradient(rgba(62, 15, 22, 0.85), rgba(43, 33, 28, 0.9)), url('assets/img/bg-welcome.jpg') 65% center / cover no-repeat;
+  /* Đã thiết lập lại cấu trúc nền: Tách biệt linear-gradient và url() để tránh lỗi, giảm độ tối lớp kính mờ xuống mức 60% - 70% */
+  background-image: linear-gradient(rgba(62, 15, 22, 0.6), rgba(43, 33, 28, 0.7)), url('assets/img/bg-welcome.jpg');
+  background-position: 65% center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: var(--wine-deep); /* Màu nền đỏ rượu vang đề phòng ảnh lỗi */
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -235,14 +314,18 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 }
 .lang-overlay.hidden { opacity: 0; visibility: hidden; }
 .lang-content { animation: fade-up 1s ease forwards; }
-.lang-overlay .lang-logo { height: 100px; background-color: #ffffff; padding: 12px 30px; border-radius: 50px; margin: 0 auto 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-.lang-overlay h2 { color: var(--cream); font-size: 2.2rem; margin-bottom: 5px; }
-.lang-overlay p { color: var(--gold-bright); font-family: var(--font-script); font-style: italic; font-size: 1.4rem; margin-bottom: 35px; }
+
+/* Thu nhỏ chiều cao logo một chút để gọn gàng giống ảnh 2 */
+.lang-overlay .lang-logo { height: 75px; background-color: #ffffff; padding: 10px 24px; border-radius: 50px; margin: 0 auto 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+.lang-overlay h2 { color: var(--cream); font-size: 2rem; margin-bottom: 5px; }
+.lang-overlay p { color: var(--gold-bright); font-family: var(--font-script); font-style: italic; font-size: 1.3rem; margin-bottom: 30px; }
 .lang-overlay .lang-buttons { display: flex; gap: 20px; justify-content: center; }
 
+/* Ép kích thước 2 nút bằng nhau chính xác */
 .lang-overlay .lang-buttons .btn {
-  width: 180px; /* Chiều rộng cố định cho cả 2 nút */
-  justify-content: center; /* Căn giữa chữ bên trong nút */
+  width: 170px;
+  justify-content: center;
 }
 @keyframes fade-up { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
 </style>
@@ -255,8 +338,9 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
     <h2>Welcome / Chào mừng</h2>
     <p>Please select your language / Vui lòng chọn ngôn ngữ</p>
     <div class="lang-buttons">
-      <button class="btn btn-gold" id="btnVi">Tiếng Việt</button>
-      <button class="btn btn-gold" id="btnEn">English</button>
+      <!-- Đã đảo thứ tự: ENGLISH bên trái, TIẾNG VIỆT bên phải -->
+      <button class="btn btn-gold" id="btnEn">ENGLISH</button>
+      <button class="btn btn-gold" id="btnVi">TIẾNG VIỆT</button>
     </div>
   </div>
 </div>
@@ -446,11 +530,92 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
     <div class="section-header" data-reveal style="max-width:640px; margin:0 auto 56px;">
       <span class="eyebrow" style="color:var(--gold-bright);">Reservation</span>
       <h2 style="color:var(--cream);">See You At La Fiorentina</h2>
-      <p style="color:rgba(246,239,226,.75);">Let us prepare the perfect table for you. Please make a reservation in advance so La Fiorentina can serve you best.</p>
+      <p style="color:rgba(246,239,226,.75);">Let us prepare the perfect table for you. Fill out the form below and we'll call to confirm shortly.</p>
       <div style="margin-top:28px;">
-        <a href="tel:+84936302868" class="btn btn-gold">🍝 Book A Table</a>
+        <a href="tel:+84936302868" class="btn btn-outline">📞 Or Call +84 936 302 868</a>
       </div>
     </div>
+
+    <div class="reservation-wrap" data-reveal>
+      <div class="reservation-header">
+        <span class="eyebrow">Prenotazione</span>
+        <h3>Book A Table Online</h3>
+        <p>Need to book urgently for today? <a href="tel:+84936302868">Calling the hotline</a> will be faster.</p>
+      </div>
+
+      <form id="reservationForm" class="reservation-form">
+        <div class="field">
+          <label for="resName">Full Name<span class="req">*</span></label>
+          <input type="text" id="resName" name="name" placeholder="John Smith" required minlength="2" maxlength="100" autocomplete="name">
+        </div>
+
+        <div class="field">
+          <label for="resPhone">Phone Number<span class="req">*</span></label>
+          <input type="tel" id="resPhone" name="phone" placeholder="0912 345 678" required
+                 pattern="^(0|\+84)[0-9]{9,10}$" title="A valid Vietnamese phone number, e.g. 0912345678" autocomplete="tel">
+        </div>
+
+        <div class="field">
+          <label for="resEmail">Email (optional)</label>
+          <input type="email" id="resEmail" name="email" placeholder="you@email.com" autocomplete="email">
+        </div>
+
+        <div class="field">
+          <label for="resParty">Number of Guests<span class="req">*</span></label>
+          <input type="number" id="resParty" name="party_size" min="1" max="30" value="2" required>
+        </div>
+
+        <div class="field">
+          <label for="resDate">Reservation Date<span class="req">*</span></label>
+          <input type="date" id="resDate" name="reservation_date" required>
+        </div>
+
+        <div class="field">
+          <label for="resTime">Reservation Time<span class="req">*</span></label>
+          <select id="resTime" name="reservation_time" required>
+            <option value="" disabled selected>Select a time</option>
+            <optgroup label="Lunch · 11:00 – 14:00">
+              <option value="11:00">11:00</option>
+              <option value="11:30">11:30</option>
+              <option value="12:00">12:00</option>
+              <option value="12:30">12:30</option>
+              <option value="13:00">13:00</option>
+              <option value="13:30">13:30</option>
+              <option value="14:00">14:00</option>
+            </optgroup>
+            <optgroup label="Dinner · 17:30 – 22:00">
+              <option value="17:30">17:30</option>
+              <option value="18:00">18:00</option>
+              <option value="18:30">18:30</option>
+              <option value="19:00">19:00</option>
+              <option value="19:30">19:30</option>
+              <option value="20:00">20:00</option>
+              <option value="20:30">20:30</option>
+              <option value="21:00">21:00</option>
+              <option value="21:30">21:30</option>
+              <option value="22:00">22:00</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label for="resNote">Special Requests (optional)</label>
+          <textarea id="resNote" name="note" maxlength="500" placeholder="e.g. outdoor table, birthday, vegetarian..."></textarea>
+        </div>
+
+        <!-- Honeypot anti-bot field — real users never see this -->
+        <div class="field hp-field" aria-hidden="true">
+          <label for="resWebsite">Leave this field blank</label>
+          <input type="text" id="resWebsite" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="btn btn-gold" id="submitBtn">🍝 Send Reservation Request</button>
+          <span class="form-status" id="formStatus" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+    </div>
+
   <div class="info-grid">
     <div class="info-item" data-reveal>
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
@@ -563,6 +728,104 @@ btnEn.addEventListener('click', () => {
   langOverlay.classList.add('hidden');
 });
 
+// ============ 5. Online reservation (connects to the same backend as index.html) ============
+// ⚠️ Update this to your real backend domain after deploying (must match index.html)
+const RESERVATION_API_URL = 'https://api.lafiorentina.vn/api/reservations';
+
+// Backend validation/rate-limit messages are written in Vietnamese (single source
+// of truth used by both index.html and en.html). This map translates the known
+// set of messages so English visitors never see mixed-language errors.
+const ERROR_TRANSLATIONS = {
+  'Họ tên quá ngắn': 'Name is too short',
+  'Họ tên quá dài': 'Name is too long',
+  'Số điện thoại không hợp lệ': 'Invalid phone number',
+  'Email không hợp lệ': 'Invalid email address',
+  'Ngày không hợp lệ (YYYY-MM-DD)': 'Invalid date',
+  'Ngày đặt bàn phải từ hôm nay trở đi': 'Reservation date must be today or later',
+  'Giờ không hợp lệ (HH:MM)': 'Invalid time',
+  'Nhà hàng chỉ nhận đặt bàn trong khung 11:00–14:00 hoặc 17:30–22:00': 'We only accept reservations between 11:00–14:00 or 17:30–22:00',
+  'Số khách phải là số nguyên': 'Number of guests must be a whole number',
+  'Tối thiểu 1 khách': 'Minimum 1 guest',
+  'Đoàn trên 30 khách vui lòng gọi hotline để được tư vấn riêng': 'For parties over 30 guests, please call our hotline directly',
+  'Ghi chú quá dài': 'Note is too long',
+  'Dữ liệu không hợp lệ': 'Invalid data',
+  'Bạn gửi yêu cầu quá nhiều lần, vui lòng thử lại sau ít phút': 'You have submitted too many requests, please try again in a few minutes',
+  'Có lỗi xảy ra': 'Something went wrong'
+};
+function translateError(msg) {
+  return ERROR_TRANSLATIONS[msg] || msg;
+}
+
+const FIELD_LABELS = {
+  name: 'Name', phone: 'Phone number', email: 'Email',
+  reservation_date: 'Reservation date', reservation_time: 'Reservation time',
+  party_size: 'Number of guests', note: 'Note'
+};
+
+const reservationForm = document.getElementById('reservationForm');
+const resDateInput = document.getElementById('resDate');
+const submitBtn = document.getElementById('submitBtn');
+const formStatus = document.getElementById('formStatus');
+
+// Don't allow picking a date in the past
+const todayStr = new Date().toISOString().split('T')[0];
+if (resDateInput) resDateInput.min = todayStr;
+
+if (reservationForm) {
+  reservationForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    formStatus.textContent = '';
+    formStatus.className = 'form-status';
+
+    const formData = new FormData(reservationForm);
+    const payload = {
+      name: (formData.get('name') || '').trim(),
+      phone: (formData.get('phone') || '').trim(),
+      email: (formData.get('email') || '').trim(),
+      reservation_date: formData.get('reservation_date') || '',
+      reservation_time: formData.get('reservation_time') || '',
+      party_size: Number(formData.get('party_size')) || 0,
+      note: (formData.get('note') || '').trim(),
+      website: formData.get('website') || '' // honeypot — real users always leave this blank
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    try {
+      const res = await fetch(RESERVATION_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        let message = translateError(data.error) || 'Something went wrong, please try again.';
+        if (data.details) {
+          const firstField = Object.keys(data.details)[0];
+          const firstMsg = data.details[firstField]?.[0];
+          if (firstMsg) message = `${FIELD_LABELS[firstField] || firstField}: ${translateError(firstMsg)}`;
+        }
+        throw new Error(message);
+      }
+
+      formStatus.textContent = '✓ Reservation submitted successfully! We will call to confirm shortly.';
+      formStatus.classList.add('success');
+      reservationForm.reset();
+      if (resDateInput) resDateInput.min = todayStr;
+
+    } catch (err) {
+      formStatus.textContent = '✗ ' + (err.message || 'Could not connect, please call our hotline instead.');
+      formStatus.classList.add('error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '🍝 Send Reservation Request';
+    }
+  });
+}
 </script>
 </body>
 </html>
