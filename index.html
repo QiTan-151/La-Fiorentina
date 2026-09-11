@@ -456,13 +456,13 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .lang-overlay {
   position: fixed;
   inset: 0;
-  background: var(--wine-deep); /* Nền màu đỏ rượu vang tối */
-  z-index: 9999; /* Đảm bảo nó đè lên tất cả mọi thứ */
+  background: linear-gradient(rgba(62, 15, 22, 0.85), rgba(43, 33, 28, 0.9)), url('assets/img/bg-welcome.jpg') 75% center / cover no-repeat;
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  transition: opacity 0.8s ease, visibility 0.8s ease; /* Hiệu ứng mờ dần mượt mà */
+  transition: opacity 0.8s ease, visibility 0.8s ease; 
 }
 /* Class này sẽ được thêm vào khi khách click để làm biến mất màn hình */
 .lang-overlay.hidden {
@@ -492,10 +492,11 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
   font-size: 1.4rem;
   margin-bottom: 35px;
 }
-.lang-overlay .lang-buttons {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
+.lang-overlay .lang-buttons { display: flex; gap: 20px; justify-content: center; }
+
+.lang-overlay .lang-buttons .btn {
+  width: 180px; /* Chiều rộng cố định cho cả 2 nút */
+  justify-content: center; /* Căn giữa chữ bên trong nút */
 }
 @keyframes fade-up {
   0% { opacity: 0; transform: translateY(30px); }
