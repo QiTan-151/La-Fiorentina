@@ -299,12 +299,8 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .lang-overlay {
   position: fixed;
   inset: 0;
-  /* Đã thiết lập lại cấu trúc nền: Tách biệt linear-gradient và url() để tránh lỗi, giảm độ tối lớp kính mờ xuống mức 60% - 70% */
-  background-image: linear-gradient(rgba(62, 15, 22, 0.6), rgba(43, 33, 28, 0.7)), url('assets/img/bg-welcome.jpg');
-  background-position: 65% center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-color: var(--wine-deep); /* Màu nền đỏ rượu vang đề phòng ảnh lỗi */
+  /* Đã thay đổi 'center' thành '65% center' để dịch ảnh sang trái */
+  background: linear-gradient(rgba(62, 15, 22, 0.85), rgba(43, 33, 28, 0.9)), url('assets/img/bg-welcome.jpg') 65% center / cover no-repeat;
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -314,18 +310,14 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 }
 .lang-overlay.hidden { opacity: 0; visibility: hidden; }
 .lang-content { animation: fade-up 1s ease forwards; }
-
-/* Thu nhỏ chiều cao logo một chút để gọn gàng giống ảnh 2 */
-.lang-overlay .lang-logo { height: 75px; background-color: #ffffff; padding: 10px 24px; border-radius: 50px; margin: 0 auto 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-
-.lang-overlay h2 { color: var(--cream); font-size: 2rem; margin-bottom: 5px; }
-.lang-overlay p { color: var(--gold-bright); font-family: var(--font-script); font-style: italic; font-size: 1.3rem; margin-bottom: 30px; }
+.lang-overlay .lang-logo { height: 100px; background-color: #ffffff; padding: 12px 30px; border-radius: 50px; margin: 0 auto 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.lang-overlay h2 { color: var(--cream); font-size: 2.2rem; margin-bottom: 5px; }
+.lang-overlay p { color: var(--gold-bright); font-family: var(--font-script); font-style: italic; font-size: 1.4rem; margin-bottom: 35px; }
 .lang-overlay .lang-buttons { display: flex; gap: 20px; justify-content: center; }
 
-/* Ép kích thước 2 nút bằng nhau chính xác */
 .lang-overlay .lang-buttons .btn {
-  width: 170px;
-  justify-content: center;
+  width: 180px; /* Chiều rộng cố định cho cả 2 nút */
+  justify-content: center; /* Căn giữa chữ bên trong nút */
 }
 @keyframes fade-up { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
 </style>
@@ -338,9 +330,8 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
     <h2>Welcome / Chào mừng</h2>
     <p>Please select your language / Vui lòng chọn ngôn ngữ</p>
     <div class="lang-buttons">
-      <!-- Đã đảo thứ tự: ENGLISH bên trái, TIẾNG VIỆT bên phải -->
-      <button class="btn btn-gold" id="btnEn">ENGLISH</button>
-      <button class="btn btn-gold" id="btnVi">TIẾNG VIỆT</button>
+      <button class="btn btn-gold" id="btnVi">English</button>
+      <button class="btn btn-gold" id="btnEn">Tiếng Việt</button>
     </div>
   </div>
 </div>
@@ -354,7 +345,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
  
     <nav class="nav-links">
       <a href="#home" class="active">Home</a>
-      <a href="#about">About Us</a>
+      <a href="#about">About Us</a> 
       <a href="#menu">Menu</a>
       <a href="#reviews">Reviews</a>
       <a href="#contact">Contact</a>
@@ -377,8 +368,8 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 <div class="mobile-nav" id="mobileNav">
   <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina" style="height:52px; margin-bottom:10px;">
   <a href="#home">Home</a>
-  <a href="#about">About Us</a>
-  <a href="#menu">Menu</a>
+  <a href="#menu">About Us</a>
+  <a href="#about">Menu</a>
   <a href="#reviews">Reviews</a>
   <a href="#contact">Contact</a>
   <a href="#contact" class="btn btn-gold">Book Now</a>
@@ -652,8 +643,8 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
       <div class="footer-col">
         <h5>Navigation</h5>
         <a href="#home">Home</a>
+        <a href="#about">About Us</a> 
         <a href="#menu">Menu</a>
-        <a href="#about">About Us</a>
         <a href="#reviews">Reviews</a>
       </div>
       <div class="footer-col">
