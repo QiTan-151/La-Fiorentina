@@ -519,32 +519,35 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
   .art-img-1 { right: 0; width: 75%; }
   .art-img-2 { width: 65%; height: 360px; left: 5%; bottom: -20px; border-width: 6px; }
 }
-@media (max-width: 600px) {
-  /* ... (giữ nguyên các đoạn CSS bên trên của phần này) ... */
 
+@media (max-width: 600px) {
+  .section { padding: 80px 0; }
+  .dish-grid { grid-template-columns: 1fr; }
+  .info-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero-meta { gap: 22px; }
+  .intro-img-accent { width: 60%; }
+
+  /* TỐI ƯU LẠI HERO ART CHO ĐIỆN THOẠI */
   .hero-art { 
-    height: 380px; 
+    height: 380px; /* Hạ thấp chiều cao container để ảnh không bị dài thườn thượt */
     margin-top: 10px; 
-    justify-content: flex-end; /* Đổi từ center thành flex-end để ép toàn bộ cụm ảnh về bên phải */
   }
-  
   .art-backdrop { 
-    right: -5%; /* Sử dụng số âm để đẩy khung vàng tràn thêm ra lề phải */
-    border-radius: 200px 200px 0 0; 
+    right: 5%; 
+    border-radius: 200px 200px 0 0; /* Bo góc nhỏ hơn cho khung vàng */
   }
-  
   .art-img-1 { 
-    right: -5%; /* Cùng chỉ số âm với khung vàng để ảnh 1 dịch sang phải tương ứng */
-    width: 80%; 
-    border-radius: 200px 200px 12px 12px; 
+    right: 0; 
+    width: 80%; /* Mở rộng ảnh 1 để cân đối với khung */
+    border-radius: 200px 200px 12px 12px; /* Chỉnh lại vòm cắt để không bị móp */
   }
-  
   .art-img-2 { 
     width: 55%; 
-    height: 200px; 
+    height: 200px; /* Giảm chiều cao ảnh 2 cho tương xứng */
     left: 0; 
-    bottom: 20px; 
-    border-width: 4px; 
+    bottom: 20px; /* Đẩy ảnh 2 lên trên, tránh đâm vào phần cuộn trang bên dưới */
+    border-width: 4px; /* Thu nhỏ độ dày khung tranh */
   }
 }
 /* ===== MÀN HÌNH CHỌN NGÔN NGỮ ===== */
@@ -848,7 +851,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
         <h5>Liên Hệ</h5>
         <a href="tel:+84936302868">+84 936 302 868</a>
         <a href="https://www.facebook.com/italiadrinkfood/" target="_blank" rel="noopener">Facebook</a>
-        <p>54 P. Quảng An, Tây Hồ, Hà Nội</p>
+        <a href="https://maps.app.goo.gl/v1Hb8SYCHa7eGtPP6?g_st=ic" target="_blank" rel="noopener">54 P. Quảng An, Tây Hồ, Hà Nội</a>
       </div>
       <div class="footer-col">
         <h5>Giờ Mở Cửa</h5>
