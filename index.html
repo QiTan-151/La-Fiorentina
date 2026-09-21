@@ -506,6 +506,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
   /* Giao diện cho máy tính bảng dọc và điện thoại */
   .nav-links, .header-phone { display: none; }
   .hamburger { display: flex; }
+  .header-actions .btn-gold { display: none; }
   .intro-grid { grid-template-columns: 1fr; gap: 50px; }
   .intro-images { order: 2; }
   .dish-grid { grid-template-columns: repeat(2,1fr); }
@@ -596,42 +597,40 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 <!-- ======================= HEADER ======================= -->
 <header class="site-header" id="siteHeader">
   <div class="container">
-    <a href="#home" class="logo">
-      <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina Ristorante & Caffè - Logo nhà hàng Ý tại 54 Quảng An, Tây Hồ" loading="eager">
+    <a href="index.html#home" class="logo">
+      <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina">
     </a>
- 
     <nav class="nav-links">
-      <a href="#home" class="active">Trang Chủ</a>
-      <a href="#about">Giới Thiệu</a> 
-      <a href="#menu">Thực Đơn</a>
-      <a href="#reviews">Đánh Giá</a>
-      <a href="#contact">Liên Hệ</a>
+      <a href="index.html#home">Trang Chủ</a>
+      <a href="menu.html" class="active">Thực Đơn</a>
+      <a href="index.html#about">Giới Thiệu</a>
+      <a href="index.html#reviews">Đánh Giá</a>
+      <a href="index.html#contact">Liên Hệ</a>
     </nav>
- 
     <div class="header-actions">
       <a class="header-phone" href="tel:+84936302868">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 002.25-2.25v-1.5a1.5 1.5 0 00-1.05-1.43l-3.5-1.05a1.5 1.5 0 00-1.6.4l-.8.8a11.25 11.25 0 01-6.02-6.02l.8-.8a1.5 1.5 0 00.4-1.6l-1.05-3.5A1.5 1.5 0 006.75 2.25h-1.5A2.25 2.25 0 003 4.5v1.5z"/></svg>
         +84 936 302 868
       </a>
-      <a href="#contact" class="btn btn-gold">Đặt Bàn Ngay</a>
+      <a href="index.html#contact" class="btn btn-gold">Đặt Bàn Ngay</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="Mở menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
 </header>
- 
+
 <!-- Mobile nav overlay -->
 <div class="mobile-nav" id="mobileNav">
   <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina" style="height:52px; margin-bottom:10px;">
-  <a href="#home">Trang Chủ</a>
-  <a href="#about">Giới Thiệu</a> 
-  <a href="#menu">Thực Đơn</a>
-  <a href="#reviews">Đánh Giá</a>
-  <a href="#contact">Liên Hệ</a>
-  <a href="#contact" class="btn btn-gold">Đặt Bàn Ngay</a>
+  <a href="index.html#home">Trang Chủ</a>
+  <a href="menu.html">Thực Đơn</a>
+  <a href="index.html#about">Giới Thiệu</a>
+  <a href="index.html#reviews">Đánh Giá</a>
+  <a href="index.html#contact">Liên Hệ</a>
+  <a href="index.html#contact" class="btn btn-gold">Đặt Bàn Ngay</a>
 </div>
- 
+
 <!-- ======================= HERO ======================= -->
 <section class="hero" id="home">
   <div class="container hero-grid">
@@ -783,7 +782,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
       <h2 style="color:var(--cream);">Hẹn Gặp Bạn Tại La Fiorentina</h2>
       <p style="color:rgba(246,239,226,.75);">Hãy để chúng tôi chuẩn bị cho bạn một bàn tiệc hoàn hảo nhất. Vui lòng đặt bàn trước để La Fiorentina có thể phục vụ bạn chu đáo.</p>
       <div style="margin-top:28px;">
-        <a href="tel:+84936302868" class="btn btn-gold">🍝 Đặt Bàn Ngay</a>
+        <a href="https://www.google.com/maps/reserve/v/dine/c/kQvzys-iSqA?source=pa&amp;opi=89978449&amp;hl=vi-VN&amp;gei=Ax-wao_JE9Hb2roP5NOJmQg&amp;sourceurl=https://www.google.com/search?q%3Dla%2Bfiorentina%26oq%3Dla%2B%26pf%3Dop%26sourceid%3Dchrome%26source%3Dchrome.ob%26ie%3DUTF-8" target="_blank" rel="noopener" class="btn btn-gold">🍝 Đặt Bàn Ngay</a>
       </div>
     </div>
   <div class="info-grid">
