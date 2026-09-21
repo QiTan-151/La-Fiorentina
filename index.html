@@ -519,35 +519,32 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
   .art-img-1 { right: 0; width: 75%; }
   .art-img-2 { width: 65%; height: 360px; left: 5%; bottom: -20px; border-width: 6px; }
 }
-
 @media (max-width: 600px) {
-  .section { padding: 80px 0; }
-  .dish-grid { grid-template-columns: 1fr; }
-  .info-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
-  .hero-meta { gap: 22px; }
-  .intro-img-accent { width: 60%; }
+  /* ... (giữ nguyên các đoạn CSS bên trên của phần này) ... */
 
-  /* TỐI ƯU LẠI HERO ART CHO ĐIỆN THOẠI */
   .hero-art { 
-    height: 380px; /* Hạ thấp chiều cao container để ảnh không bị dài thườn thượt */
+    height: 380px; 
     margin-top: 10px; 
+    justify-content: flex-end; /* Đổi từ center thành flex-end để ép toàn bộ cụm ảnh về bên phải */
   }
+  
   .art-backdrop { 
-    right: 5%; 
-    border-radius: 200px 200px 0 0; /* Bo góc nhỏ hơn cho khung vàng */
+    right: -5%; /* Sử dụng số âm để đẩy khung vàng tràn thêm ra lề phải */
+    border-radius: 200px 200px 0 0; 
   }
+  
   .art-img-1 { 
-    right: 0; 
-    width: 80%; /* Mở rộng ảnh 1 để cân đối với khung */
-    border-radius: 200px 200px 12px 12px; /* Chỉnh lại vòm cắt để không bị móp */
+    right: -5%; /* Cùng chỉ số âm với khung vàng để ảnh 1 dịch sang phải tương ứng */
+    width: 80%; 
+    border-radius: 200px 200px 12px 12px; 
   }
+  
   .art-img-2 { 
     width: 55%; 
-    height: 200px; /* Giảm chiều cao ảnh 2 cho tương xứng */
+    height: 200px; 
     left: 0; 
-    bottom: 20px; /* Đẩy ảnh 2 lên trên, tránh đâm vào phần cuộn trang bên dưới */
-    border-width: 4px; /* Thu nhỏ độ dày khung tranh */
+    bottom: 20px; 
+    border-width: 4px; 
   }
 }
 /* ===== MÀN HÌNH CHỌN NGÔN NGỮ ===== */
