@@ -527,6 +527,28 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
   .footer-grid { grid-template-columns: 1fr; }
   .hero-meta { gap: 22px; }
   .intro-img-accent { width: 60%; }
+
+  /* TỐI ƯU LẠI HERO ART CHO ĐIỆN THOẠI */
+  .hero-art { 
+    height: 380px; /* Hạ thấp chiều cao container để ảnh không bị dài thườn thượt */
+    margin-top: 10px; 
+  }
+  .art-backdrop { 
+    right: 5%; 
+    border-radius: 200px 200px 0 0; /* Bo góc nhỏ hơn cho khung vàng */
+  }
+  .art-img-1 { 
+    right: 0; 
+    width: 80%; /* Mở rộng ảnh 1 để cân đối với khung */
+    border-radius: 200px 200px 12px 12px; /* Chỉnh lại vòm cắt để không bị móp */
+  }
+  .art-img-2 { 
+    width: 55%; 
+    height: 200px; /* Giảm chiều cao ảnh 2 cho tương xứng */
+    left: 0; 
+    bottom: 20px; /* Đẩy ảnh 2 lên trên, tránh đâm vào phần cuộn trang bên dưới */
+    border-width: 4px; /* Thu nhỏ độ dày khung tranh */
+  }
 }
 /* ===== MÀN HÌNH CHỌN NGÔN NGỮ ===== */
 .lang-overlay {
@@ -782,7 +804,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
       <h2 style="color:var(--cream);">Hẹn Gặp Bạn Tại La Fiorentina</h2>
       <p style="color:rgba(246,239,226,.75);">Hãy để chúng tôi chuẩn bị cho bạn một bàn tiệc hoàn hảo nhất. Vui lòng đặt bàn trước để La Fiorentina có thể phục vụ bạn chu đáo.</p>
       <div style="margin-top:28px;">
-        <a href="https://www.google.com/maps/reserve/v/dine/c/kQvzys-iSqA?source=pa&amp;opi=89978449&amp;hl=vi-VN&amp;gei=Ax-wao_JE9Hb2roP5NOJmQg&amp;sourceurl=https://www.google.com/search?q%3Dla%2Bfiorentina%26oq%3Dla%2B%26pf%3Dop%26sourceid%3Dchrome%26source%3Dchrome.ob%26ie%3DUTF-8" target="_blank" rel="noopener" class="btn btn-gold">🍝 Đặt Bàn Ngay</a>
+      <a href="https://www.google.com/maps/reserve/v/dine/c/kQvzys-iSqA?source=pa&amp;opi=89978449&amp;hl=vi-VN&amp;gei=Ax-wao_JE9Hb2roP5NOJmQg&amp;sourceurl=https://www.google.com/search?q%3Dla%2Bfiorentina%26oq%3Dla%2B%26pf%3Dop%26sourceid%3Dchrome%26source%3Dchrome.ob%26ie%3DUTF-8" target="_blank" rel="noopener" class="btn btn-gold">🍝 Đặt Bàn Ngay</a>
       </div>
     </div>
   <div class="info-grid">
