@@ -6,6 +6,30 @@ import { upload, deleteUploadedImage } from '../middleware/upload.js';
 
 const router = Router();
 
+// Thứ tự danh mục / danh mục phụ cố định. sort_order chỉ xếp món trong cùng nhóm.
+const MENU_ORDER_SQL = `
+  CASE category
+    WHEN 'Khai vị & Món nhẹ' THEN 1
+    WHEN 'Tinh Hoa Nước Ý' THEN 2
+    WHEN 'Món Chính & Đồ Nướng' THEN 3
+    WHEN 'Tráng Miệng' THEN 4
+    ELSE 99
+  END,
+  CASE subcategory
+    WHEN 'Starter' THEN 1
+    WHEN 'Soup of the day' THEN 2
+    WHEN 'Salad & Carpaccio' THEN 3
+    WHEN 'Pasta & Risotto' THEN 4
+    WHEN 'Pizza (Oven-baked)' THEN 5
+    WHEN 'Main Course & Grill' THEN 6
+    WHEN 'Side Dish' THEN 7
+    WHEN 'Dessert & Drinks' THEN 8
+    ELSE 99
+  END,
+  sort_order ASC,
+  id ASC
+`;
+
 /**
  * POST /api/menu/upload
  * Admin — upload 1 file ảnh, trả về URL công khai để dùng cho field image_url.
@@ -33,7 +57,7 @@ router.post('/upload', requireAdmin, (req, res) => {
  */
 router.get('/', (req, res) => {
   const rows = db
-    .prepare('SELECT * FROM dishes WHERE is_available = 1 ORDER BY sort_order ASC, id ASC')
+    .prepare(`SELECT * FROM dishes WHERE is_available = 1 ORDER BY ${MENU_ORDER_SQL}`)
     .all();
   res.json(rows);
 });
@@ -43,7 +67,31 @@ router.get('/', (req, res) => {
  * Admin — trả về TẤT CẢ món (kể cả đang ẩn) để quản lý. Cần header x-admin-key.
  */
 router.get('/all', requireAdmin, (req, res) => {
-  const rows = db.prepare('SELECT * FROM dishes ORDER BY sort_order ASC, id ASC').all();
+  const rows = db.prepare(`
+    SELECT * FROM dishes
+    ORDER BY
+      CASE category
+        WHEN 'Khai vị & Món nhẹ' THEN 1
+        WHEN 'Tinh Hoa Nước Ý' THEN 2
+        WHEN 'Món Chính & Đồ Nướng' THEN 3
+        WHEN 'Tráng Miệng' THEN 4
+        ELSE 99
+      END,
+      CASE subcategory
+        WHEN 'Starter' THEN 1
+        WHEN 'Soup of the day' THEN 2
+        WHEN 'Salad & Carpaccio' THEN 3
+        WHEN 'Pasta & Risotto' THEN 4
+        WHEN 'Pizza (Oven-baked)' THEN 5
+        WHEN 'Main Course & Grill' THEN 6
+        WHEN 'Side Dish' THEN 7
+        WHEN 'Dessert & Drinks' THEN 8
+        ELSE 99
+      END,
+      CASE WHEN is_available = 1 THEN 0 ELSE 1 END,
+      sort_order ASC,
+      id ASC
+  `).all();
   res.json(rows);
 });
 
@@ -61,13 +109,13 @@ router.post('/', requireAdmin, (req, res) => {
     });
   }
 
-  const { category, subcategory, name, description, description_en, price, image_url, sort_order, is_available } = parsed.data;
+  const { category, category_en, subcategory, name, description, description_en, price, image_url, sort_order, is_available } = parsed.data;
 
   const stmt = db.prepare(`
-    INSERT INTO dishes (category, subcategory, name, description, description_en, price, image_url, sort_order, is_available, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+    INSERT INTO dishes (category, category_en, subcategory, name, description, description_en, price, image_url, sort_order, is_available, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
   `);
-  const info = stmt.run(category, subcategory, name, description || null, description_en || null, price, image_url || null, sort_order, is_available ? 1 : 0);
+  const info = stmt.run(category, category_en || null, subcategory, name, description || null, description_en || null, price, image_url || null, sort_order, is_available ? 1 : 0);
 
   const dish = db.prepare('SELECT * FROM dishes WHERE id = ?').get(info.lastInsertRowid);
   res.status(201).json({ message: 'Đã thêm món mới', dish });
@@ -94,6 +142,7 @@ router.put('/:id', requireAdmin, (req, res) => {
   // Merge dữ liệu mới lên dữ liệu cũ — field nào không gửi thì giữ nguyên
   const merged = {
     category: parsed.data.category ?? existing.category,
+    category_en: parsed.data.category_en ?? existing.category_en,
     subcategory: parsed.data.subcategory ?? existing.subcategory,
     name: parsed.data.name ?? existing.name,
     description: parsed.data.description ?? existing.description,
@@ -111,9 +160,9 @@ router.put('/:id', requireAdmin, (req, res) => {
 
   db.prepare(`
     UPDATE dishes
-    SET category = ?, subcategory = ?, name = ?, description = ?, description_en = ?, price = ?, image_url = ?, sort_order = ?, is_available = ?, updated_at = datetime('now')
+    SET category = ?, category_en = ?, subcategory = ?, name = ?, description = ?, description_en = ?, price = ?, image_url = ?, sort_order = ?, is_available = ?, updated_at = datetime('now')
     WHERE id = ?
-  `).run(merged.category, merged.subcategory, merged.name, merged.description || null, merged.description_en || null, merged.price, merged.image_url, merged.sort_order, merged.is_available, req.params.id);
+  `).run(merged.category, merged.category_en || null, merged.subcategory, merged.name, merged.description || null, merged.description_en || null, merged.price, merged.image_url, merged.sort_order, merged.is_available, req.params.id);
 
   const dish = db.prepare('SELECT * FROM dishes WHERE id = ?').get(req.params.id);
   res.json({ message: 'Đã cập nhật món ăn', dish });
