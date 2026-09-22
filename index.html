@@ -110,39 +110,39 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
    ========================================================= */
 .site-header{
   position:fixed; top:0; left:0; right:0; z-index:100;
-  padding: 14px 0;
+  padding: 26px 0;
   background: rgba(43,33,28,.96);
   backdrop-filter: blur(8px);
   box-shadow:0 6px 24px rgba(0,0,0,.25);
   transition: padding var(--transition), box-shadow var(--transition);
 }
 .site-header.scrolled{
-  padding: 10px 0;
+  padding: 14px 0;
 }
-.site-header .container{ display:flex; align-items:center; justify-content:space-between; max-width: 100% !important; padding: 0 60px !important; gap: 24px; }
+.site-header .container{ display:flex; align-items:center; justify-content:space-between; max-width: 100% !important; padding: 0 60px !important; gap: 28px; }
 .logo{ font-family:var(--font-display); font-size:1.5rem; color:var(--cream); letter-spacing:.02em; display:flex; align-items:center; flex-shrink:0; }
 
 .logo img{ 
-  height: 65px; 
+  height: 85px; 
   width: auto; 
   display: block; 
   transition: all var(--transition); 
   background-color: #ffffff;
-  padding: 6px 20px;
+  padding: 10px 28px;
   border-radius: 50px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   filter: none;
 }
 .site-header.scrolled .logo img{ 
-  height: 56px; 
-  padding: 5px 16px; 
+  height: 65px; 
+  padding: 6px 20px; 
 }
 .logo span{ color:var(--gold); }
 .logo small{ display:block; font-family:var(--font-body); font-size:.6rem; letter-spacing:.32em; color:var(--gold); text-transform:uppercase; margin-top:2px;}
  
-.nav-links{ display:flex; align-items:center; gap: clamp(18px, 2.8vw, 42px); flex: 1; justify-content: center; }
+.nav-links{ display:flex; align-items:center; gap: clamp(22px, 3.2vw, 65px); flex: 1; justify-content: center; }
 .nav-links a{
-  color:var(--cream); font-size:0.92rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase;
+  color:var(--cream); font-size:1.25rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
   position:relative; padding-bottom:4px;
   white-space: nowrap; 
 }
@@ -152,10 +152,9 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 }
 .nav-links a:hover::after, .nav-links a.active::after{ width:100%; }
  
-.header-actions{ display:flex; align-items:center; gap:22px; flex-shrink:0; }
+.header-actions{ display:flex; align-items:center; gap:40px; flex-shrink:0; }
 .header-phone svg{ width:16px; height:16px; color:var(--gold); }
-.header-phone{ color:var(--cream); font-size:1.05rem; font-weight:600; display:flex; align-items:center; gap:8px; white-space: nowrap; }
-.header-actions .btn{ padding: 12px 22px; font-size: 0.82rem; letter-spacing: .1em; }
+.header-phone{ color:var(--cream); font-size:1.25rem; font-weight:600; display:flex; align-items:center; gap:8px; white-space: nowrap; }
 .hamburger{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; z-index:200; }
 .hamburger span{ width:26px; height:2px; background:var(--cream); transition:var(--transition); }
  
@@ -474,13 +473,13 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 /* ===== TỐI ƯU HÓA ĐA MÀN HÌNH (LAPTOP, IPAD, ĐIỆN THOẠI) ===== */
 @media (max-width: 1440px) {
   .site-header .container { padding: 0 30px !important; }
-  .nav-links { gap: 18px; }
-  .nav-links a { font-size: 0.9rem; letter-spacing: .04em; }
+  .nav-links { gap: 22px; }
+  .nav-links a { font-size: 1.05rem; letter-spacing: .08em; }
   .header-actions { gap: 16px; }
   .header-phone { font-size: 0.95rem; }
   .btn { padding: 12px 22px; font-size: 0.85rem; letter-spacing: .1em; }
-  .logo img { height: 56px; padding: 5px 16px; background-color: #ffffff; }
-  .site-header.scrolled .logo img { height: 50px; padding: 5px 14px; }
+  .logo img { height: 70px; padding: 8px 22px; background-color: #ffffff; }
+  .site-header.scrolled .logo img { height: 58px; padding: 6px 18px; }
   .hero-grid { padding-top: 100px; gap: 30px; }
   .hero-art { height: 500px; }
   .art-img-2 { height: 320px; bottom: 20px; border-width: 6px; }
@@ -640,7 +639,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 002.25-2.25v-1.5a1.5 1.5 0 00-1.05-1.43l-3.5-1.05a1.5 1.5 0 00-1.6.4l-.8.8a11.25 11.25 0 01-6.02-6.02l.8-.8a1.5 1.5 0 00.4-1.6l-1.05-3.5A1.5 1.5 0 006.75 2.25h-1.5A2.25 2.25 0 003 4.5v1.5z"/></svg>
         +84 936 302 868
       </a>
-      <a href="index.html#contact" class="btn btn-gold">Đặt Bàn</a>
+      <a href="index.html#contact" class="btn btn-gold">Đặt Bàn Ngay</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="Mở menu">
         <span></span><span></span><span></span>
       </button>
@@ -912,7 +911,6 @@ function setLocale(locale) {
   sessionStorage.setItem('locale', locale);
   sessionStorage.setItem('langChosen', 'true');
 }
-setLocale('vi');
 
 const langOverlay = document.getElementById('langOverlay');
 const btnVi = document.getElementById('btnVi');
@@ -920,6 +918,7 @@ const btnEn = document.getElementById('btnEn');
 
 if (sessionStorage.getItem('langChosen')) {
   langOverlay.style.display = 'none';
+  sessionStorage.setItem('locale', 'vi');
 }
 
 btnVi.addEventListener('click', () => {
