@@ -111,28 +111,27 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .site-header{
   position:fixed; top:0; left:0; right:0; z-index:100;
   padding: 26px 0;
-  transition: background var(--transition), padding var(--transition), box-shadow var(--transition);
+  background: rgba(43,33,28,.96);
+  backdrop-filter: blur(8px);
+  box-shadow:0 6px 24px rgba(0,0,0,.25);
+  transition: padding var(--transition), box-shadow var(--transition);
 }
 .site-header.scrolled{
-  background: rgba(43,33,28,.94);
-  backdrop-filter: blur(6px);
   padding: 14px 0;
-  box-shadow:0 6px 24px rgba(0,0,0,.25);
 }
-.site-header .container{ display:flex; align-items:center; justify-content:space-between; max-width: 100% !important; padding: 0 60px !important; }
-.logo{ font-family:var(--font-display); font-size:1.5rem; color:var(--cream); letter-spacing:.02em; display:flex; align-items:center; }
+.site-header .container{ display:flex; align-items:center; justify-content:space-between; max-width: 100% !important; padding: 0 60px !important; gap: 28px; }
+.logo{ font-family:var(--font-display); font-size:1.5rem; color:var(--cream); letter-spacing:.02em; display:flex; align-items:center; flex-shrink:0; }
 
-/* CẬP NHẬT LOGO: Nền trắng bo tròn (Pill-shape) */
 .logo img{ 
   height: 85px; 
   width: auto; 
   display: block; 
   transition: all var(--transition); 
-  background-color: #ffffff; /* Đổ nền trắng tinh */
-  padding: 10px 28px; /* Tạo khoảng trống từ chữ ra mép viền */
-  border-radius: 50px; /* Bo cong hoàn toàn 2 đầu */
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* Đổ bóng nhẹ làm nổi khối */
-  filter: none; /* Tắt hiệu ứng phát sáng cũ */
+  background-color: #ffffff;
+  padding: 10px 28px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  filter: none;
 }
 .site-header.scrolled .logo img{ 
   height: 65px; 
@@ -141,7 +140,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .logo span{ color:var(--gold); }
 .logo small{ display:block; font-family:var(--font-body); font-size:.6rem; letter-spacing:.32em; color:var(--gold); text-transform:uppercase; margin-top:2px;}
  
-.nav-links{ display:flex; gap:65px; }
+.nav-links{ display:flex; align-items:center; gap: clamp(22px, 3.2vw, 65px); flex: 1; justify-content: center; }
 .nav-links a{
   color:var(--cream); font-size:1.25rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
   position:relative; padding-bottom:4px;
@@ -153,7 +152,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 }
 .nav-links a:hover::after, .nav-links a.active::after{ width:100%; }
  
-.header-actions{ display:flex; align-items:center; gap:40px; }
+.header-actions{ display:flex; align-items:center; gap:40px; flex-shrink:0; }
 .header-phone svg{ width:16px; height:16px; color:var(--gold); }
 .header-phone{ color:var(--cream); font-size:1.25rem; font-weight:600; display:flex; align-items:center; gap:8px; white-space: nowrap; }
 .hamburger{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; z-index:200; }
@@ -185,7 +184,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
     linear-gradient(180deg, rgba(20,7,10,.25) 0%, rgba(20,7,10,.15) 40%, rgba(20,7,10,.88) 100%),
     url('image_1.png') center 30%/cover no-repeat;
 }
-.hero-content{ max-width:720px; padding-top:80px; }
+.hero-content{ max-width:720px; padding-top:80px; position:relative; z-index:2; }
 .hero-content .eyebrow{ color:var(--gold-bright); font-size:1.5rem; }
 .hero-content h1{
   color:var(--cream); font-size:clamp(2.6rem, 5.6vw, 4.6rem); line-height:1.08; margin-bottom:22px;
@@ -193,6 +192,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .hero-content h1 em{ color:var(--gold-bright); font-style:italic; }
 .hero-content p{ color:rgba(246,239,226,.88); font-size:1.08rem; max-width:520px; margin-bottom:38px; }
 .hero-cta{ display:flex; gap:18px; flex-wrap:wrap; }
+.hero-cta .btn{ justify-content:center; }
 .hero-meta{
   margin-top:56px; display:flex; gap:38px; flex-wrap:wrap; color:var(--cream);
 }
@@ -472,26 +472,14 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 }
 /* ===== TỐI ƯU HÓA ĐA MÀN HÌNH (LAPTOP, IPAD, ĐIỆN THOẠI) ===== */
 @media (max-width: 1440px) {
-  /* 1. Thu nhỏ phông chữ và khoảng cách để không bị tràn mép nút bấm */
   .site-header .container { padding: 0 30px !important; }
-  .nav-links { gap: 20px; }
-  .nav-links a { font-size: 0.95rem; }
-  .header-actions { gap: 20px; }
-  .header-phone { font-size: 1rem; }
-  .btn { padding: 12px 24px; font-size: 0.9rem; }
-
-  /* 2. Đóng khung nền trắng mờ bo tròn cho Logo để luôn nổi bật, không bị chìm nền */
-  .logo img {
-    height: 65px;
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 8px 20px;
-    border-radius: 40px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    filter: none;
-  }
-  .site-header.scrolled .logo img { height: 50px; padding: 6px 16px; }
-
-  /* 3. Thu nhỏ ảnh nghệ thuật Bếp trưởng */
+  .nav-links { gap: 22px; }
+  .nav-links a { font-size: 1.05rem; letter-spacing: .08em; }
+  .header-actions { gap: 16px; }
+  .header-phone { font-size: 0.95rem; }
+  .btn { padding: 12px 22px; font-size: 0.85rem; letter-spacing: .1em; }
+  .logo img { height: 70px; padding: 8px 22px; background-color: #ffffff; }
+  .site-header.scrolled .logo img { height: 58px; padding: 6px 18px; }
   .hero-grid { padding-top: 100px; gap: 30px; }
   .hero-art { height: 500px; }
   .art-img-2 { height: 320px; bottom: 20px; border-width: 6px; }
@@ -518,11 +506,15 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
   .review-grid { grid-template-columns: 1fr; }
   .info-grid { grid-template-columns: repeat(2,1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .hero-grid { grid-template-columns: 1fr; padding-top: 100px; }
-  .hero-art { height: 600px; margin-top: 40px; justify-content: center; }
-  .art-backdrop { right: 15%; }
+  .hero { align-items: flex-start; min-height: auto; padding-bottom: 48px; }
+  .hero-grid { grid-template-columns: 1fr; padding-top: 110px; gap: 12px; }
+  .hero-content { padding-top: 8px; max-width: 100%; }
+  .hero-cta { gap: 12px; }
+  .hero-meta { margin-top: 28px; gap: 18px 24px; }
+  .hero-art { height: 520px; margin-top: 28px; justify-content: flex-end; }
+  .art-backdrop { right: 8%; }
   .art-img-1 { right: 0; width: 75%; }
-  .art-img-2 { width: 65%; height: 360px; left: 5%; bottom: -20px; border-width: 6px; }
+  .art-img-2 { width: 58%; height: 280px; left: 4%; bottom: 24px; border-width: 6px; }
 }
 
 @media (max-width: 600px) {
@@ -530,29 +522,37 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
   .dish-grid { grid-template-columns: 1fr; }
   .info-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
-  .hero-meta { gap: 22px; }
   .intro-img-accent { width: 60%; }
 
-  /* TỐI ƯU LẠI HERO ART CHO ĐIỆN THOẠI */
-  .hero-art { 
-    height: 380px; /* Hạ thấp chiều cao container để ảnh không bị dài thườn thượt */
-    margin-top: 10px; 
+  .hero-content .eyebrow { font-size: 1.05rem; }
+  .hero-content h1 { font-size: 2.15rem; }
+  .hero-content p { font-size: 0.96rem; margin-bottom: 22px; }
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .hero-cta .btn { width: 100%; max-width: 320px; padding: 13px 18px; font-size: 0.78rem; letter-spacing: .1em; }
+  .hero-meta { gap: 16px 20px; margin-top: 24px; }
+  .hero-meta .item { font-size: 0.72rem; }
+  .hero-meta .item strong { font-size: 1.15rem; }
+
+  .hero-art {
+    height: 380px;
+    margin-top: 16px;
+    justify-content: flex-end;
   }
-  .art-backdrop { 
-    right: 5%; 
-    border-radius: 200px 200px 0 0; /* Bo góc nhỏ hơn cho khung vàng */
+  .art-backdrop {
+    right: -5%;
+    border-radius: 200px 200px 0 0;
   }
-  .art-img-1 { 
-    right: 0; 
-    width: 80%; /* Mở rộng ảnh 1 để cân đối với khung */
-    border-radius: 200px 200px 12px 12px; /* Chỉnh lại vòm cắt để không bị móp */
+  .art-img-1 {
+    right: -5%;
+    width: 80%;
+    border-radius: 200px 200px 12px 12px;
   }
-  .art-img-2 { 
-    width: 55%; 
-    height: 200px; /* Giảm chiều cao ảnh 2 cho tương xứng */
-    left: 0; 
-    bottom: 20px; /* Đẩy ảnh 2 lên trên, tránh đâm vào phần cuộn trang bên dưới */
-    border-width: 4px; /* Thu nhỏ độ dày khung tranh */
+  .art-img-2 {
+    width: 55%;
+    height: 200px;
+    left: 0;
+    bottom: 20px;
+    border-width: 4px;
   }
 }
 /* ===== MÀN HÌNH CHỌN NGÔN NGỮ ===== */
@@ -628,8 +628,8 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
       <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina">
     </a>
     <nav class="nav-links">
-      <a href="index.html#home">Trang Chủ</a>
-      <a href="menu.html" class="active">Thực Đơn</a>
+      <a href="index.html#home" class="active">Trang Chủ</a>
+      <a href="menu.html?lang=vi">Thực Đơn</a>
       <a href="index.html#about">Giới Thiệu</a>
       <a href="index.html#reviews">Đánh Giá</a>
       <a href="index.html#contact">Liên Hệ</a>
@@ -651,7 +651,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 <div class="mobile-nav" id="mobileNav">
   <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina" style="height:52px; margin-bottom:10px;">
   <a href="index.html#home">Trang Chủ</a>
-  <a href="menu.html">Thực Đơn</a>
+  <a href="menu.html?lang=vi">Thực Đơn</a>
   <a href="index.html#about">Giới Thiệu</a>
   <a href="index.html#reviews">Đánh Giá</a>
   <a href="index.html#contact">Liên Hệ</a>
@@ -763,7 +763,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
     </div>
  
     <div class="dish-cta" data-reveal>
-      <a href="menu.html" class="btn btn-outline">Xem Toàn Bộ Thực Đơn</a>
+      <a href="menu.html?lang=vi" class="btn btn-outline">Xem Toàn Bộ Thực Đơn</a>
     </div>
   </div>
 </section>
@@ -911,7 +911,6 @@ function setLocale(locale) {
   sessionStorage.setItem('locale', locale);
   sessionStorage.setItem('langChosen', 'true');
 }
-setLocale('vi');
 
 const langOverlay = document.getElementById('langOverlay');
 const btnVi = document.getElementById('btnVi');
@@ -919,6 +918,7 @@ const btnEn = document.getElementById('btnEn');
 
 if (sessionStorage.getItem('langChosen')) {
   langOverlay.style.display = 'none';
+  sessionStorage.setItem('locale', 'vi');
 }
 
 btnVi.addEventListener('click', () => {
