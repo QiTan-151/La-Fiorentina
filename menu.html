@@ -370,7 +370,7 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
     </a>
     <nav class="nav-links">
       <a href="index.html#home">Trang Chủ</a>
-      <a href="menu.html" class="active">Thực Đơn</a>
+      <a href="menu.html?lang=vi" class="active">Thực Đơn</a>
       <a href="index.html#about">Giới Thiệu</a>
       <a href="index.html#reviews">Đánh Giá</a>
       <a href="index.html#contact">Liên Hệ</a>
@@ -392,7 +392,7 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
 <div class="mobile-nav" id="mobileNav">
   <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina" style="height:52px; margin-bottom:10px;">
   <a href="index.html#home">Trang Chủ</a>
-  <a href="menu.html">Thực Đơn</a>
+  <a href="menu.html?lang=vi">Thực Đơn</a>
   <a href="index.html#about">Giới Thiệu</a>
   <a href="index.html#reviews">Đánh Giá</a>
   <a href="index.html#contact">Liên Hệ</a>
@@ -441,7 +441,7 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
       <div class="footer-col">
         <h5>Điều Hướng</h5>
         <a href="index.html#home">Trang Chủ</a>
-        <a href="menu.html">Thực Đơn</a>
+        <a href="menu.html?lang=vi">Thực Đơn</a>
         <a href="index.html#about">Giới Thiệu</a>
         <a href="index.html#reviews">Đánh Giá</a>
       </div>
@@ -475,8 +475,11 @@ const MENU_API_URL = 'https://la-fiorentina.onrender.com/api/menu';
 
 // ============ Ngôn ngữ (vi / en) ============
 function getLocale() {
-  if (!sessionStorage.getItem('locale') && sessionStorage.getItem('langChosen')) {
-    sessionStorage.setItem('locale', 'vi');
+  const fromUrl = new URLSearchParams(window.location.search).get('lang');
+  if (fromUrl === 'en' || fromUrl === 'vi') {
+    sessionStorage.setItem('locale', fromUrl);
+    sessionStorage.setItem('langChosen', 'true');
+    return fromUrl;
   }
   return sessionStorage.getItem('locale') || 'vi';
 }
@@ -501,7 +504,7 @@ document.querySelectorAll('.lang-switch-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const next = IS_EN ? 'vi' : 'en';
     setLocale(next);
-    window.location.reload();
+    window.location.href = 'menu.html?lang=' + next;
   });
 });
 
@@ -512,7 +515,7 @@ document.querySelectorAll('.nav-links a, .mobile-nav a, .footer-col a').forEach(
   const href = a.getAttribute('href');
   if (!href) return;
   if (href.startsWith('index.html')) a.href = href.replace('index.html', home);
-  else if (href === 'menu.html') { /* giữ nguyên */ }
+  if (href.startsWith('menu.html')) a.href = 'menu.html?lang=' + LOCALE;
 });
 if (IS_EN) {
   const navLabels = ['Home', 'Menu', 'About Us', 'Reviews', 'Contact'];
