@@ -292,7 +292,6 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
 .dish-info { flex: 1; }
 .dish-info h4 { font-family: var(--font-display); font-size: 1.2rem; color: var(--ink); margin-bottom: 6px; }
 .dish-info p { font-size: 0.92rem; color: var(--ink-soft); font-style: italic; line-height:1.5; }
-.dish-info p.desc-en { font-size: 0.84rem; opacity: 0.8; margin-top: 3px; }
 .dish-price {
   font-family: var(--font-body);
   font-weight: 700;
@@ -630,13 +629,13 @@ function renderMenu(dishes) {
         const thumb = dish.image_url
           ? `<div class="dish-thumb-wrap"><img class="dish-thumb" src="${escapeHtml(dish.image_url)}" alt="${escapeHtml(dish.name)}" loading="lazy"></div>`
           : `<div class="dish-thumb-wrap placeholder">🍽️</div>`;
+        const desc = IS_EN ? (dish.description_en || '') : (dish.description || '');
         html += `
           <div class="dish-item">
             ${thumb}
             <div class="dish-info">
               <h4>${escapeHtml(dish.name)}</h4>
-              ${dish.description ? `<p>${escapeHtml(dish.description)}</p>` : ''}
-              ${dish.description_en ? `<p class="desc-en">${escapeHtml(dish.description_en)}</p>` : ''}
+              ${desc ? `<p>${escapeHtml(desc)}</p>` : ''}
               <span class="dish-price">${formatPrice(dish.price)}</span>
             </div>
           </div>`;
