@@ -144,7 +144,7 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:600; color:var(--wine-dee
 }
 .dish-thumb.placeholder{ display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:rgba(43,33,28,.25); }
 .dish-name{ font-family:var(--font-display); font-size:1.05rem; color:var(--wine-deep); }
-.dish-desc{ font-size:.85rem; color:var(--ink-soft); margin-top:3px; }
+.dish-desc{ font-family: var(--font-body); font-size: 0.92rem; font-style: italic; font-weight: 400; color: var(--ink-soft); margin-top: 3px; }
 .dish-price{ font-weight:700; color:var(--wine); font-size:1rem; }
 .dish-status{ font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; font-weight:700; }
 .dish-status.available{ color:var(--olive); }
@@ -212,9 +212,15 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:600; color:var(--wine-dee
           </div>
 
           <div class="field">
-            <label for="fCategory">Danh mục *</label>
+            <label for="fCategory">Danh mục (Tiếng Việt) *</label>
             <input type="text" id="fCategory" list="categoryList" required maxlength="100" placeholder="vd: Khai vị & Món nhẹ">
             <datalist id="categoryList"></datalist>
+          </div>
+
+          <div class="field">
+            <label for="fCategoryEn">Danh mục (English)</label>
+            <input type="text" id="fCategoryEn" list="categoryEnList" maxlength="100" placeholder="e.g. Appetizers & Light Bites">
+            <datalist id="categoryEnList"></datalist>
           </div>
 
           <div class="field">
@@ -229,8 +235,9 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:600; color:var(--wine-dee
           </div>
 
           <div class="field">
-            <label for="fSortOrder">Thứ tự hiển thị</label>
-            <input type="number" id="fSortOrder" value="0" step="1">
+            <label for="fSortOrder">Thứ tự món trong nhóm</label>
+            <input type="number" id="fSortOrder" value="1" step="1" min="1">
+            <div class="image-upload-hint">Chỉ xếp món trong cùng danh mục phụ (vd. Starter). 1 = hiện trước. Không làm đổi thứ tự Khai vị → Tinh hoa → Nướng → Tráng miệng, cũng không đổi thứ tự danh mục phụ.</div>
           </div>
 
           <div class="field full">
@@ -258,7 +265,7 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:600; color:var(--wine-dee
 
           <div class="field full checkbox-field">
             <input type="checkbox" id="fAvailable" checked>
-            <label for="fAvailable" style="margin:0;">Đang bán (hiển thị trên menu công khai)</label>
+            <label for="fAvailable" style="margin:0;">Đang bán — bỏ chọn = Sold (ẩn khỏi menu khách, xuống cuối nhóm trong admin)</label>
           </div>
 
           <div class="form-actions">
@@ -301,6 +308,7 @@ const dishForm    = document.getElementById('dishForm');
 const dishIdInput = document.getElementById('dishId');
 const fName = document.getElementById('fName');
 const fCategory = document.getElementById('fCategory');
+const fCategoryEn = document.getElementById('fCategoryEn');
 const fSubcategory = document.getElementById('fSubcategory');
 const fPrice = document.getElementById('fPrice');
 const fSortOrder = document.getElementById('fSortOrder');
@@ -315,6 +323,7 @@ const saveBtn   = document.getElementById('saveBtn');
 const cancelBtn = document.getElementById('cancelBtn');
 const formError = document.getElementById('formError');
 const categoryList    = document.getElementById('categoryList');
+const categoryEnList  = document.getElementById('categoryEnList');
 const subcategoryList = document.getElementById('subcategoryList');
 
 const loadingState = document.getElementById('loadingState');
@@ -331,6 +340,44 @@ function escapeHtml(str){
   const div = document.createElement('div');
   div.textContent = str ?? '';
   return div.innerHTML;
+}
+
+const CATEGORY_ORDER = ['Khai vị & Món nhẹ', 'Tinh Hoa Nước Ý', 'Món Chính & Đồ Nướng', 'Tráng Miệng'];
+const SUBCATEGORY_ORDER = {
+  'Khai vị & Món nhẹ': ['Starter', 'Soup of the day', 'Salad & Carpaccio'],
+  'Tinh Hoa Nước Ý': ['Pasta & Risotto', 'Pizza (Oven-baked)'],
+  'Món Chính & Đồ Nướng': ['Main Course & Grill', 'Side Dish'],
+  'Tráng Miệng': ['Dessert & Drinks']
+};
+const CATEGORY_EN = {
+  'Khai vị & Món nhẹ': 'Appetizers & Light Bites',
+  'Tinh Hoa Nước Ý': 'Italian Signatures',
+  'Món Chính & Đồ Nướng': 'Mains & Grill',
+  'Tráng Miệng': 'Desserts'
+};
+
+function categoryRank(name) {
+  const i = CATEGORY_ORDER.indexOf(name);
+  return i === -1 ? CATEGORY_ORDER.length : i;
+}
+function subcategoryRank(category, name) {
+  const list = SUBCATEGORY_ORDER[category] || [];
+  const i = list.indexOf(name);
+  return i === -1 ? list.length : i;
+}
+function sortMenuDishes(dishes) {
+  return [...dishes].sort((a, b) => {
+    const cat = categoryRank(a.category) - categoryRank(b.category);
+    if (cat) return cat;
+    if (a.category !== b.category) return String(a.category).localeCompare(String(b.category));
+    const sub = subcategoryRank(a.category, a.subcategory) - subcategoryRank(b.category, b.subcategory);
+    if (sub) return sub;
+    if (a.subcategory !== b.subcategory) return String(a.subcategory).localeCompare(String(b.subcategory));
+    const sold = (a.is_available ? 0 : 1) - (b.is_available ? 0 : 1);
+    if (sold) return sold;
+    if ((a.sort_order || 0) !== (b.sort_order || 0)) return (a.sort_order || 0) - (b.sort_order || 0);
+    return (a.id || 0) - (b.id || 0);
+  });
 }
 
 async function apiFetch(path, options = {}) {
@@ -361,14 +408,17 @@ function showDashboard() {
 
 function populateDatalists(dishes) {
   const categories = [...new Set(dishes.map(d => d.category))];
+  const categoriesEn = [...new Set(dishes.map(d => d.category_en).filter(Boolean))];
   const subcategories = [...new Set(dishes.map(d => d.subcategory))];
 
   categoryList.innerHTML = categories.map(c => `<option value="${escapeHtml(c)}">`).join('');
+  categoryEnList.innerHTML = [...new Set([...Object.values(CATEGORY_EN), ...categoriesEn])].map(c => `<option value="${escapeHtml(c)}">`).join('');
   subcategoryList.innerHTML = subcategories.map(s => `<option value="${escapeHtml(s)}">`).join('');
 
   const currentFilter = categoryFilter.value;
+  const catsForFilter = CATEGORY_ORDER.filter(c => categories.includes(c)).concat(categories.filter(c => !CATEGORY_ORDER.includes(c)));
   categoryFilter.innerHTML = '<option value="">Tất cả danh mục</option>' +
-    categories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+    catsForFilter.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
   categoryFilter.value = currentFilter;
 }
 
@@ -387,9 +437,9 @@ function renderList() {
     return;
   }
 
-  // Nhóm theo category -> subcategory, giữ đúng thứ tự xuất hiện (đã ORDER BY sort_order từ backend)
+  const ordered = sortMenuDishes(filtered);
   const grouped = new Map();
-  for (const dish of filtered) {
+  for (const dish of ordered) {
     if (!grouped.has(dish.category)) grouped.set(dish.category, new Map());
     const subMap = grouped.get(dish.category);
     if (!subMap.has(dish.subcategory)) subMap.set(dish.subcategory, []);
@@ -410,15 +460,15 @@ function renderList() {
           <div class="dish-row ${available ? '' : 'unavailable'}">
             ${thumb}
             <div>
-              <div class="dish-status ${available ? 'available' : 'hidden'}">${available ? 'Đang bán' : 'Đã ẩn'}</div>
+              <div class="dish-status ${available ? 'available' : 'hidden'}">${available ? 'Đang bán' : 'Sold'}</div>
               <div class="dish-name">${escapeHtml(dish.name)}</div>
               ${dish.description ? `<div class="dish-desc">${escapeHtml(dish.description)}</div>` : ''}
-              ${dish.description_en ? `<div class="dish-desc" style="font-style:italic;opacity:.75;">${escapeHtml(dish.description_en)}</div>` : ''}
+              ${dish.description_en ? `<div class="dish-desc">${escapeHtml(dish.description_en)}</div>` : ''}
             </div>
             <div class="dish-price">${formatPrice(dish.price)}</div>
             <div class="dish-actions">
               <button class="btn btn-outline btn-sm" data-action="edit" data-id="${dish.id}">Sửa</button>
-              <button class="btn btn-outline btn-sm" data-action="toggle" data-id="${dish.id}">${available ? 'Ẩn' : 'Hiện'}</button>
+              <button class="btn btn-outline btn-sm" data-action="toggle" data-id="${dish.id}">${available ? 'Sold' : 'Còn bán'}</button>
               <button class="btn btn-outline btn-sm" data-action="delete" data-id="${dish.id}">Xóa</button>
             </div>
           </div>`;
@@ -468,6 +518,7 @@ function openForm(dish) {
     dishIdInput.value = dish.id;
     fName.value = dish.name;
     fCategory.value = dish.category;
+    fCategoryEn.value = dish.category_en || CATEGORY_EN[dish.category] || '';
     fSubcategory.value = dish.subcategory;
     fPrice.value = dish.price;
     fSortOrder.value = dish.sort_order;
@@ -583,6 +634,7 @@ dishForm.addEventListener('submit', async (e) => {
     const payload = {
       name: fName.value.trim(),
       category: fCategory.value.trim(),
+      category_en: fCategoryEn.value.trim() || CATEGORY_EN[fCategory.value.trim()] || '',
       subcategory: fSubcategory.value.trim(),
       price: Number(fPrice.value),
       image_url: fImageUrl.value || '',
