@@ -9,7 +9,7 @@
 <!-- FONTS ĐỒNG BỘ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Cormorant+Garamond:ital@1&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Cormorant+Garamond:ital@1&family=Lato:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
 /* =========================================================
@@ -291,7 +291,16 @@ details[open] summary svg { transform: rotate(180deg); color: var(--wine); }
 .dish-item:hover .dish-thumb{ transform: scale(1.07); }
 .dish-info { flex: 1; }
 .dish-info h4 { font-family: var(--font-display); font-size: 1.2rem; color: var(--ink); margin-bottom: 6px; }
-.dish-info p { font-size: 0.92rem; color: var(--ink-soft); font-style: italic; line-height:1.5; }
+.dish-info p {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 400;
+  font-style: italic;
+  font-synthesis: none;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  letter-spacing: 0;
+}
 .dish-price {
   font-family: var(--font-body);
   font-weight: 700;
@@ -531,6 +540,21 @@ if (IS_EN) {
   document.querySelector('.filter-toggle-btn span').textContent = 'Quick Jump to Dishes';
   document.querySelector('.filter-popup-title').textContent = 'Choose a section to view';
   document.querySelector('#menuState p').textContent = 'Loading menu...';
+  const footerIntro = document.querySelector('.footer-grid > div > p');
+  if (footerIntro) footerIntro.textContent = 'Authentic Italian restaurant by West Lake — where every meal is a journey back to Italy.';
+  const footerHeads = document.querySelectorAll('.footer-col h5');
+  const footerHeadLabels = ['Navigation', 'Contact Us', 'Opening Hours'];
+  footerHeads.forEach((el, i) => { if (footerHeadLabels[i]) el.textContent = footerHeadLabels[i]; });
+  const footerNav = document.querySelectorAll('.footer-col:nth-child(2) a');
+  ['Home', 'Menu', 'About Us', 'Reviews'].forEach((label, i) => { if (footerNav[i]) footerNav[i].textContent = label; });
+  const hours = document.querySelectorAll('.footer-col:nth-child(4) p');
+  if (hours[0]) hours[0].textContent = 'Monday – Sunday';
+  if (hours[1]) hours[1].textContent = 'Lunch: 11:00 – 14:00';
+  if (hours[2]) hours[2].textContent = 'Dinner: 17:30 – 22:00';
+  const footerAddr = document.querySelector('.footer-col:nth-child(3) p');
+  if (footerAddr) footerAddr.textContent = '54 Quang An St, Tay Ho, Hanoi';
+  const footerNote = document.querySelector('.footer-bottom p span');
+  if (footerNote) footerNote.textContent = '— Thank you and Bon Appétit!';
 }
 
 const menuLayout = document.getElementById('menuLayout');
@@ -591,6 +615,52 @@ function slugify(str) {
     .replace(/(^-|-$)/g, '');
 }
 
+const CATEGORY_ORDER = ['Khai vị & Món nhẹ', 'Tinh Hoa Nước Ý', 'Món Chính & Đồ Nướng', 'Tráng Miệng'];
+const SUBCATEGORY_ORDER = {
+  'Khai vị & Món nhẹ': ['Starter', 'Soup of the day', 'Salad & Carpaccio'],
+  'Tinh Hoa Nước Ý': ['Pasta & Risotto', 'Pizza (Oven-baked)'],
+  'Món Chính & Đồ Nướng': ['Main Course & Grill', 'Side Dish'],
+  'Tráng Miệng': ['Dessert & Drinks']
+};
+const CATEGORY_EN = {
+  'Khai vị & Món nhẹ': 'Appetizers & Light Bites',
+  'Tinh Hoa Nước Ý': 'Italian Signatures',
+  'Món Chính & Đồ Nướng': 'Mains & Grill',
+  'Tráng Miệng': 'Desserts'
+};
+
+function categoryRank(name) {
+  const i = CATEGORY_ORDER.indexOf(name);
+  return i === -1 ? CATEGORY_ORDER.length : i;
+}
+function subcategoryRank(category, name) {
+  const list = SUBCATEGORY_ORDER[category] || [];
+  const i = list.indexOf(name);
+  return i === -1 ? list.length : i;
+}
+function sortMenuDishes(dishes) {
+  return [...dishes].sort((a, b) => {
+    const cat = categoryRank(a.category) - categoryRank(b.category);
+    if (cat) return cat;
+    if (a.category !== b.category) return String(a.category).localeCompare(String(b.category));
+    const sub = subcategoryRank(a.category, a.subcategory) - subcategoryRank(b.category, b.subcategory);
+    if (sub) return sub;
+    if (a.subcategory !== b.subcategory) return String(a.subcategory).localeCompare(String(b.subcategory));
+    const sold = (a.is_available ? 0 : 1) - (b.is_available ? 0 : 1);
+    if (sold) return sold;
+    if ((a.sort_order || 0) !== (b.sort_order || 0)) return (a.sort_order || 0) - (b.sort_order || 0);
+    return (a.id || 0) - (b.id || 0);
+  });
+}
+function categoryLabel(dish, fallback) {
+  if (!IS_EN) return fallback;
+  return dish.category_en || CATEGORY_EN[fallback] || fallback;
+}
+function descriptionForLocale(dish) {
+  if (IS_EN) return (dish.description_en || '').trim();
+  return (dish.description || '').trim();
+}
+
 function renderMenu(dishes) {
   if (!dishes || dishes.length === 0) {
     quickFilter.innerHTML = '';
@@ -603,9 +673,9 @@ function renderMenu(dishes) {
     return;
   }
 
-  // Nhóm theo category -> subcategory, giữ đúng thứ tự trả về từ API (đã sort_order)
+  const ordered = sortMenuDishes(dishes);
   const grouped = new Map();
-  for (const dish of dishes) {
+  for (const dish of ordered) {
     if (!grouped.has(dish.category)) grouped.set(dish.category, new Map());
     const subMap = grouped.get(dish.category);
     if (!subMap.has(dish.subcategory)) subMap.set(dish.subcategory, []);
@@ -616,8 +686,10 @@ function renderMenu(dishes) {
   let chipsHtml = '';
 
   for (const [category, subMap] of grouped) {
+    const firstDish = [...subMap.values()][0][0];
+    const catTitle = categoryLabel(firstDish, category);
     html += `<div class="menu-category" id="${escapeHtml(slugify(category))}">
-      <div class="category-title"><h2>${escapeHtml(category)}</h2></div>`;
+      <div class="category-title"><h2>${escapeHtml(catTitle)}</h2></div>`;
 
     for (const [subcategory, items] of subMap) {
       const subId = slugify(category + '-' + subcategory);
@@ -632,7 +704,7 @@ function renderMenu(dishes) {
         const thumb = dish.image_url
           ? `<div class="dish-thumb-wrap"><img class="dish-thumb" src="${escapeHtml(dish.image_url)}" alt="${escapeHtml(dish.name)}" loading="lazy"></div>`
           : `<div class="dish-thumb-wrap placeholder">🍽️</div>`;
-        const desc = IS_EN ? (dish.description_en || '') : (dish.description || '');
+        const desc = descriptionForLocale(dish);
         html += `
           <div class="dish-item">
             ${thumb}
