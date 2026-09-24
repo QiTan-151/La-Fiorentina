@@ -5,6 +5,7 @@ import Database from 'better-sqlite3';
 const db = new Database(process.env.DB_PATH || 'menu.db');
 
 db.pragma('journal_mode = WAL');
+db.pragma('foreign_keys = ON');
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS dishes (
@@ -33,6 +34,80 @@ if (!existingColumns.some(c => c.name === 'description_en')) {
 }
 if (!existingColumns.some(c => c.name === 'category_en')) {
   db.exec("ALTER TABLE dishes ADD COLUMN category_en TEXT");
+}
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS categories (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       TEXT NOT NULL UNIQUE,
+    name_en    TEXT,
+    sort_order INTEGER NOT NULL DEFAULT 0
+  );
+  CREATE TABLE IF NOT EXISTS subcategories (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    category_id INTEGER NOT NULL,
+    name        TEXT NOT NULL,
+    sort_order  INTEGER NOT NULL DEFAULT 0,
+    UNIQUE(category_id, name),
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+  );
+`);
+
+const CATEGORY_STRUCTURE = [
+  { name: 'Khai vị & Món nhẹ', name_en: 'Appetizers & Light Bites', sort_order: 1, subcategories: ['Starter', 'Soup of the day', 'Salad & Carpaccio'] },
+  { name: 'Tinh Hoa Nước Ý', name_en: 'Italian Signatures', sort_order: 2, subcategories: ['Pasta & Risotto', 'Pizza (Oven-baked)'] },
+  { name: 'Món Chính & Đồ Nướng', name_en: 'Mains & Grill', sort_order: 3, subcategories: ['Main Course & Grill', 'Side Dish'] },
+  { name: 'Tráng Miệng', name_en: 'Desserts', sort_order: 4, subcategories: ['Dessert & Drinks'] }
+];
+
+function ensureMenuStructure() {
+  const insertCategory = db.prepare(`
+    INSERT INTO categories (name, name_en, sort_order)
+    VALUES (?, ?, ?)
+    ON CONFLICT(name) DO UPDATE SET
+      name_en = CASE
+        WHEN categories.name_en IS NULL OR categories.name_en = '' THEN excluded.name_en
+        ELSE categories.name_en
+      END
+  `);
+  const findCategory = db.prepare('SELECT id FROM categories WHERE name = ?');
+  const insertSub = db.prepare(`
+    INSERT INTO subcategories (category_id, name, sort_order)
+    VALUES (?, ?, ?)
+    ON CONFLICT(category_id, name) DO NOTHING
+  `);
+  const maxCatOrder = () => db.prepare('SELECT COALESCE(MAX(sort_order), 0) AS n FROM categories').get().n;
+  const maxSubOrder = (categoryId) => db.prepare('SELECT COALESCE(MAX(sort_order), 0) AS n FROM subcategories WHERE category_id = ?').get(categoryId).n;
+
+  const seed = db.transaction(() => {
+    for (const cat of CATEGORY_STRUCTURE) {
+      insertCategory.run(cat.name, cat.name_en, cat.sort_order);
+      const { id } = findCategory.get(cat.name);
+      cat.subcategories.forEach((subName, i) => insertSub.run(id, subName, i + 1));
+    }
+
+    const dishGroups = db.prepare(`
+      SELECT DISTINCT category, category_en, subcategory FROM dishes
+    `).all();
+
+    for (const row of dishGroups) {
+      if (!row.category) continue;
+      let cat = findCategory.get(row.category);
+      if (!cat) {
+        insertCategory.run(row.category, row.category_en || null, maxCatOrder() + 1);
+        cat = findCategory.get(row.category);
+      } else if (row.category_en) {
+        db.prepare(`
+          UPDATE categories SET name_en = ?
+          WHERE id = ? AND (name_en IS NULL OR name_en = '')
+        `).run(row.category_en, cat.id);
+      }
+      if (row.subcategory) {
+        insertSub.run(cat.id, row.subcategory, maxSubOrder(cat.id) + 1);
+      }
+    }
+  });
+  seed();
 }
 
 // Seed dữ liệu lần đầu — lấy đúng 12 món đang có sẵn trong menu.html tĩnh,
@@ -118,6 +193,40 @@ for (const dish of dishesNeedingEn) {
   if (en && looksVietnamese(dish.description_en)) {
     forceEn.run(en, dish.id);
   }
+}
+
+ensureMenuStructure();
+
+export function ensureCategoryAndSub(categoryName, categoryEn, subcategoryName) {
+  if (!categoryName) return;
+  let cat = db.prepare('SELECT * FROM categories WHERE name = ?').get(categoryName);
+  if (!cat) {
+    const sort = db.prepare('SELECT COALESCE(MAX(sort_order), 0) + 1 AS n FROM categories').get().n;
+    const info = db.prepare('INSERT INTO categories (name, name_en, sort_order) VALUES (?, ?, ?)')
+      .run(categoryName, categoryEn || null, sort);
+    cat = db.prepare('SELECT * FROM categories WHERE id = ?').get(info.lastInsertRowid);
+  } else if (categoryEn && (!cat.name_en || cat.name_en === '')) {
+    db.prepare('UPDATE categories SET name_en = ? WHERE id = ?').run(categoryEn, cat.id);
+  }
+  if (!subcategoryName) return;
+  const sub = db.prepare('SELECT id FROM subcategories WHERE category_id = ? AND name = ?').get(cat.id, subcategoryName);
+  if (!sub) {
+    const sort = db.prepare('SELECT COALESCE(MAX(sort_order), 0) + 1 AS n FROM subcategories WHERE category_id = ?').get(cat.id).n;
+    db.prepare('INSERT INTO subcategories (category_id, name, sort_order) VALUES (?, ?, ?)').run(cat.id, subcategoryName, sort);
+  }
+}
+
+export function listMenuStructure() {
+  const categories = db.prepare(`
+    SELECT id, name, name_en, sort_order FROM categories ORDER BY sort_order ASC, id ASC
+  `).all();
+  const subs = db.prepare(`
+    SELECT id, category_id, name, sort_order FROM subcategories ORDER BY sort_order ASC, id ASC
+  `).all();
+  return categories.map((cat) => ({
+    ...cat,
+    subcategories: subs.filter((s) => s.category_id === cat.id)
+  }));
 }
 
 export default db;
