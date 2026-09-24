@@ -532,7 +532,7 @@ document.querySelectorAll('.nav-links a, .mobile-nav a, .footer-col a').forEach(
   if (href.startsWith('menu.html')) a.href = 'menu.html?lang=' + LOCALE;
 });
 if (IS_EN) {
-  const navLabels = ['Home', 'Menu', 'About Us', 'Reviews', 'Contact'];
+  const navLabels = ['Home', 'About Us', 'Menu', 'Reviews', 'Contact'];
   document.querySelectorAll('.nav-links a').forEach((a, i) => { if (navLabels[i]) a.textContent = navLabels[i]; });
   document.querySelectorAll('.mobile-nav a:not(.btn)').forEach((a, i) => { if (navLabels[i]) a.textContent = navLabels[i]; });
   document.querySelector('.header-actions .btn-gold').textContent = 'Book Now';
