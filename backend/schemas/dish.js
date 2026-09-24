@@ -3,6 +3,8 @@ import { z } from 'zod';
 export const dishSchema = z.object({
   category: z.string().trim().min(1, 'Danh mục không được để trống').max(100, 'Tên danh mục quá dài'),
 
+  category_en: z.string().trim().max(100, 'Tên danh mục tiếng Anh quá dài').optional().or(z.literal('')),
+
   subcategory: z.string().trim().min(1, 'Danh mục phụ không được để trống').max(100, 'Tên danh mục phụ quá dài'),
 
   name: z.string().trim().min(2, 'Tên món quá ngắn').max(150, 'Tên món quá dài'),
