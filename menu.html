@@ -624,26 +624,34 @@ function slugify(str) {
     .replace(/(^-|-$)/g, '');
 }
 
-const CATEGORY_ORDER = ['Khai vị & Món nhẹ', 'Tinh Hoa Nước Ý', 'Món Chính & Đồ Nướng', 'Tráng Miệng'];
-const SUBCATEGORY_ORDER = {
+const FALLBACK_CATEGORY_ORDER = ['Khai vị & Món nhẹ', 'Tinh Hoa Nước Ý', 'Món Chính & Đồ Nướng', 'Tráng Miệng'];
+const FALLBACK_SUBCATEGORY_ORDER = {
   'Khai vị & Món nhẹ': ['Starter', 'Soup of the day', 'Salad & Carpaccio'],
   'Tinh Hoa Nước Ý': ['Pasta & Risotto', 'Pizza (Oven-baked)'],
   'Món Chính & Đồ Nướng': ['Main Course & Grill', 'Side Dish'],
   'Tráng Miệng': ['Dessert & Drinks']
 };
-const CATEGORY_EN = {
+const FALLBACK_CATEGORY_EN = {
   'Khai vị & Món nhẹ': 'Appetizers & Light Bites',
   'Tinh Hoa Nước Ý': 'Italian Signatures',
   'Món Chính & Đồ Nướng': 'Mains & Grill',
   'Tráng Miệng': 'Desserts'
 };
+let menuCategories = [];
 
 function categoryRank(name) {
-  const i = CATEGORY_ORDER.indexOf(name);
-  return i === -1 ? CATEGORY_ORDER.length : i;
+  const fromApi = menuCategories.findIndex(c => c.name === name);
+  if (fromApi !== -1) return fromApi;
+  const i = FALLBACK_CATEGORY_ORDER.indexOf(name);
+  return menuCategories.length + (i === -1 ? FALLBACK_CATEGORY_ORDER.length : i);
 }
 function subcategoryRank(category, name) {
-  const list = SUBCATEGORY_ORDER[category] || [];
+  const cat = menuCategories.find(c => c.name === category);
+  if (cat) {
+    const i = (cat.subcategories || []).findIndex(s => s.name === name);
+    return i === -1 ? (cat.subcategories || []).length : i;
+  }
+  const list = FALLBACK_SUBCATEGORY_ORDER[category] || [];
   const i = list.indexOf(name);
   return i === -1 ? list.length : i;
 }
@@ -663,7 +671,8 @@ function sortMenuDishes(dishes) {
 }
 function categoryLabel(dish, fallback) {
   if (!IS_EN) return fallback;
-  return dish.category_en || CATEGORY_EN[fallback] || fallback;
+  const meta = menuCategories.find(c => c.name === fallback);
+  return dish.category_en || (meta && meta.name_en) || FALLBACK_CATEGORY_EN[fallback] || fallback;
 }
 function descriptionForLocale(dish) {
   if (IS_EN) return (dish.description_en || '').trim();
@@ -760,9 +769,16 @@ function setupActiveChipTracking() {
 
 async function loadMenu() {
   try {
-    const res = await fetch(MENU_API_URL);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const dishes = await res.json();
+    const [menuRes, catRes] = await Promise.all([
+      fetch(MENU_API_URL),
+      fetch(MENU_API_URL + '/categories')
+    ]);
+    if (!menuRes.ok) throw new Error('HTTP ' + menuRes.status);
+    if (catRes.ok) {
+      const cats = await catRes.json();
+      if (Array.isArray(cats)) menuCategories = cats;
+    }
+    const dishes = await menuRes.json();
     renderMenu(dishes);
   } catch (err) {
     document.querySelector('.quick-filter-wrap').style.display = 'none';
@@ -778,3 +794,4 @@ loadMenu();
 </script>
 </body>
 </html>
+
