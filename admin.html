@@ -200,6 +200,66 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:600; color:var(--wine-dee
       <button class="btn btn-outline btn-sm" id="refreshBtn">🔄 Làm mới</button>
     </div>
 
+    <!-- Form thêm / sửa mục lớn (vd. Khai vị & Món nhẹ) -->
+    <div id="categoryPanel">
+      <h3 id="categoryFormTitle">Thêm Mục Lớn</h3>
+      <p class="image-upload-hint" style="margin-top:-10px; margin-bottom:16px;">Mục lớn hiện trên menu khách như “Khai vị &amp; Món nhẹ”. Bên trong mục lớn là các danh mục phụ (vd. Starter).</p>
+      <form id="categoryForm">
+        <input type="hidden" id="categoryId" value="">
+        <div class="form-grid">
+          <div class="field">
+            <label for="cName">Tên mục lớn (Tiếng Việt) *</label>
+            <input type="text" id="cName" required maxlength="100" placeholder="vd: Khai vị & Món nhẹ">
+          </div>
+          <div class="field">
+            <label for="cNameEn">Tên mục lớn (English)</label>
+            <input type="text" id="cNameEn" maxlength="100" placeholder="e.g. Appetizers & Light Bites">
+          </div>
+          <div class="field">
+            <label for="cSortOrder">Thứ tự mục lớn</label>
+            <input type="number" id="cSortOrder" value="5" step="1" min="1">
+            <div class="image-upload-hint">Số nhỏ hiện trước. 1 = Khai vị, 2 = Tinh hoa, 3 = Nướng, 4 = Tráng miệng…</div>
+          </div>
+          <div class="field" id="firstSubField">
+            <label for="cFirstSub">Danh mục phụ đầu tiên *</label>
+            <input type="text" id="cFirstSub" maxlength="100" placeholder="vd: Starter">
+            <div class="image-upload-hint">Accordion bên trong mục lớn, giống “Starter” trong Khai vị.</div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-gold btn-sm" id="saveCategoryBtn">Lưu Mục Lớn</button>
+            <button type="button" class="btn btn-outline btn-sm" id="cancelCategoryBtn">Hủy</button>
+            <span class="form-error" id="categoryFormError"></span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="subcategoryPanel">
+      <h3 id="subcategoryFormTitle">Thêm Danh Mục Phụ</h3>
+      <p class="image-upload-hint" style="margin-top:-10px; margin-bottom:16px;">Thuộc mục lớn: <strong id="subParentName"></strong></p>
+      <form id="subcategoryForm">
+        <input type="hidden" id="subParentId" value="">
+        <input type="hidden" id="subcategoryId" value="">
+        <div class="form-grid">
+          <div class="field">
+            <label for="sName">Tên danh mục phụ *</label>
+            <input type="text" id="sName" required maxlength="100" placeholder="vd: Starter">
+          </div>
+          <div class="field">
+            <label for="sSortOrder">Thứ tự trong mục lớn</label>
+            <input type="number" id="sSortOrder" value="1" step="1" min="1">
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-gold btn-sm" id="saveSubBtn">Lưu Danh Mục Phụ</button>
+            <button type="button" class="btn btn-outline btn-sm" id="cancelSubBtn">Hủy</button>
+            <span class="form-error" id="subFormError"></span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="structureWrap" style="margin-bottom:28px;"></div>
+
     <!-- Form thêm / sửa món -->
     <div id="formPanel">
       <h3 id="formTitle">Thêm Món Mới</h3>
@@ -286,8 +346,6 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:600; color:var(--wine-dee
 
 <script>
 // ⚠️ Đổi URL này thành domain thật của backend sau khi deploy
-const API_BASE = 'https://api.lafiorentina.vn/api/menu';
-const MENU_API_URL = 'https://api.lafiorentina.vn/api/menu';
 
 const loginGate   = document.getElementById('loginGate');
 const dashboard   = document.getElementById('dashboard');
@@ -298,6 +356,7 @@ const loginBtn    = document.getElementById('loginBtn');
 const logoutBtn   = document.getElementById('logoutBtn');
 
 const addNewBtn      = document.getElementById('addNewBtn');
+const addCategoryBtn = document.getElementById('addCategoryBtn');
 const searchInput    = document.getElementById('searchInput');
 const categoryFilter = document.getElementById('categoryFilter');
 const refreshBtn     = document.getElementById('refreshBtn');
@@ -326,10 +385,37 @@ const categoryList    = document.getElementById('categoryList');
 const categoryEnList  = document.getElementById('categoryEnList');
 const subcategoryList = document.getElementById('subcategoryList');
 
+const categoryPanel = document.getElementById('categoryPanel');
+const categoryFormTitle = document.getElementById('categoryFormTitle');
+const categoryForm = document.getElementById('categoryForm');
+const categoryIdInput = document.getElementById('categoryId');
+const cName = document.getElementById('cName');
+const cNameEn = document.getElementById('cNameEn');
+const cSortOrder = document.getElementById('cSortOrder');
+const cFirstSub = document.getElementById('cFirstSub');
+const firstSubField = document.getElementById('firstSubField');
+const saveCategoryBtn = document.getElementById('saveCategoryBtn');
+const cancelCategoryBtn = document.getElementById('cancelCategoryBtn');
+const categoryFormError = document.getElementById('categoryFormError');
+
+const subcategoryPanel = document.getElementById('subcategoryPanel');
+const subcategoryFormTitle = document.getElementById('subcategoryFormTitle');
+const subcategoryForm = document.getElementById('subcategoryForm');
+const subParentId = document.getElementById('subParentId');
+const subcategoryIdInput = document.getElementById('subcategoryId');
+const subParentName = document.getElementById('subParentName');
+const sName = document.getElementById('sName');
+const sSortOrder = document.getElementById('sSortOrder');
+const saveSubBtn = document.getElementById('saveSubBtn');
+const cancelSubBtn = document.getElementById('cancelSubBtn');
+const subFormError = document.getElementById('subFormError');
+const structureWrap = document.getElementById('structureWrap');
+
 const loadingState = document.getElementById('loadingState');
 const menuList      = document.getElementById('menuList');
 
 let allDishes = [];
+let allCategories = [];
 let selectedImageFile = null;
 
 function getKey(){ return sessionStorage.getItem('admin_api_key') || ''; }
@@ -342,14 +428,14 @@ function escapeHtml(str){
   return div.innerHTML;
 }
 
-const CATEGORY_ORDER = ['Khai vị & Món nhẹ', 'Tinh Hoa Nước Ý', 'Món Chính & Đồ Nướng', 'Tráng Miệng'];
-const SUBCATEGORY_ORDER = {
+const FALLBACK_CATEGORY_ORDER = ['Khai vị & Món nhẹ', 'Tinh Hoa Nước Ý', 'Món Chính & Đồ Nướng', 'Tráng Miệng'];
+const FALLBACK_SUBCATEGORY_ORDER = {
   'Khai vị & Món nhẹ': ['Starter', 'Soup of the day', 'Salad & Carpaccio'],
   'Tinh Hoa Nước Ý': ['Pasta & Risotto', 'Pizza (Oven-baked)'],
   'Món Chính & Đồ Nướng': ['Main Course & Grill', 'Side Dish'],
   'Tráng Miệng': ['Dessert & Drinks']
 };
-const CATEGORY_EN = {
+const FALLBACK_CATEGORY_EN = {
   'Khai vị & Món nhẹ': 'Appetizers & Light Bites',
   'Tinh Hoa Nước Ý': 'Italian Signatures',
   'Món Chính & Đồ Nướng': 'Mains & Grill',
@@ -357,13 +443,25 @@ const CATEGORY_EN = {
 };
 
 function categoryRank(name) {
-  const i = CATEGORY_ORDER.indexOf(name);
-  return i === -1 ? CATEGORY_ORDER.length : i;
+  const fromApi = allCategories.findIndex(c => c.name === name);
+  if (fromApi !== -1) return fromApi;
+  const i = FALLBACK_CATEGORY_ORDER.indexOf(name);
+  return allCategories.length + (i === -1 ? FALLBACK_CATEGORY_ORDER.length : i);
 }
 function subcategoryRank(category, name) {
-  const list = SUBCATEGORY_ORDER[category] || [];
+  const cat = allCategories.find(c => c.name === category);
+  if (cat) {
+    const i = (cat.subcategories || []).findIndex(s => s.name === name);
+    return i === -1 ? (cat.subcategories || []).length : i;
+  }
+  const list = FALLBACK_SUBCATEGORY_ORDER[category] || [];
   const i = list.indexOf(name);
   return i === -1 ? list.length : i;
+}
+function englishCategoryName(vi) {
+  const cat = allCategories.find(c => c.name === vi);
+  if (cat && cat.name_en) return cat.name_en;
+  return FALLBACK_CATEGORY_EN[vi] || '';
 }
 function sortMenuDishes(dishes) {
   return [...dishes].sort((a, b) => {
@@ -407,19 +505,67 @@ function showDashboard() {
 }
 
 function populateDatalists(dishes) {
-  const categories = [...new Set(dishes.map(d => d.category))];
-  const categoriesEn = [...new Set(dishes.map(d => d.category_en).filter(Boolean))];
-  const subcategories = [...new Set(dishes.map(d => d.subcategory))];
+  const categories = allCategories.length
+    ? allCategories.map(c => c.name)
+    : [...new Set(dishes.map(d => d.category))];
+  const categoriesEn = [
+    ...allCategories.map(c => c.name_en).filter(Boolean),
+    ...dishes.map(d => d.category_en).filter(Boolean)
+  ];
+  const subcategories = allCategories.length
+    ? allCategories.flatMap(c => (c.subcategories || []).map(s => s.name))
+    : [...new Set(dishes.map(d => d.subcategory))];
 
   categoryList.innerHTML = categories.map(c => `<option value="${escapeHtml(c)}">`).join('');
-  categoryEnList.innerHTML = [...new Set([...Object.values(CATEGORY_EN), ...categoriesEn])].map(c => `<option value="${escapeHtml(c)}">`).join('');
-  subcategoryList.innerHTML = subcategories.map(s => `<option value="${escapeHtml(s)}">`).join('');
+  categoryEnList.innerHTML = [...new Set(categoriesEn)].map(c => `<option value="${escapeHtml(c)}">`).join('');
+  subcategoryList.innerHTML = [...new Set(subcategories)].map(s => `<option value="${escapeHtml(s)}">`).join('');
 
   const currentFilter = categoryFilter.value;
-  const catsForFilter = CATEGORY_ORDER.filter(c => categories.includes(c)).concat(categories.filter(c => !CATEGORY_ORDER.includes(c)));
   categoryFilter.innerHTML = '<option value="">Tất cả danh mục</option>' +
-    catsForFilter.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+    categories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
   categoryFilter.value = currentFilter;
+}
+
+function refreshSubcategoryDatalist() {
+  const cat = allCategories.find(c => c.name === fCategory.value.trim());
+  const names = cat
+    ? (cat.subcategories || []).map(s => s.name)
+    : allCategories.flatMap(c => (c.subcategories || []).map(s => s.name));
+  subcategoryList.innerHTML = [...new Set(names)].map(s => `<option value="${escapeHtml(s)}">`).join('');
+}
+
+function renderStructure() {
+  if (!allCategories.length) {
+    structureWrap.innerHTML = '';
+    return;
+  }
+  let html = `<div class="category-toolbar">
+    <p><strong>Mục lớn trên menu</strong> — thêm mục mới giống “Khai vị &amp; Món nhẹ”, rồi thêm danh mục phụ (Starter…) và món ăn.</p>
+  </div>`;
+  for (const cat of allCategories) {
+    const subs = cat.subcategories || [];
+    html += `<div class="category-card">
+      <div class="category-card-head">
+        <div>
+          <h2>${escapeHtml(cat.name)}</h2>
+          ${cat.name_en ? `<div class="category-en">${escapeHtml(cat.name_en)}</div>` : ''}
+          <div class="category-order">Thứ tự ${cat.sort_order}</div>
+        </div>
+        <div class="dish-actions">
+          <button class="btn btn-outline btn-sm" data-struct="add-sub" data-id="${cat.id}">+ Danh mục phụ</button>
+          <button class="btn btn-outline btn-sm" data-struct="edit-cat" data-id="${cat.id}">Sửa mục</button>
+          <button class="btn btn-outline btn-sm" data-struct="delete-cat" data-id="${cat.id}">Xóa mục</button>
+        </div>
+      </div>
+      ${subs.length ? `<div class="sub-tags">${subs.map(s => `
+        <span class="sub-tag">
+          ${escapeHtml(s.name)}
+          <button type="button" title="Sửa" data-struct="edit-sub" data-id="${s.id}">✎</button>
+          <button type="button" title="Xóa" data-struct="delete-sub" data-id="${s.id}">×</button>
+        </span>`).join('')}</div>` : '<div class="sub-empty">Chưa có danh mục phụ.</div>'}
+    </div>`;
+  }
+  structureWrap.innerHTML = html;
 }
 
 function renderList() {
@@ -432,11 +578,6 @@ function renderList() {
     return matchSearch && matchCat;
   });
 
-  if (filtered.length === 0) {
-    menuList.innerHTML = '<div class="empty-state">Không có món nào khớp bộ lọc hiện tại.</div>';
-    return;
-  }
-
   const ordered = sortMenuDishes(filtered);
   const grouped = new Map();
   for (const dish of ordered) {
@@ -446,11 +587,44 @@ function renderList() {
     subMap.get(dish.subcategory).push(dish);
   }
 
+  const catNames = [];
+  for (const cat of allCategories) {
+    if (catFilter && cat.name !== catFilter) continue;
+    catNames.push(cat.name);
+  }
+  for (const name of grouped.keys()) {
+    if (!catNames.includes(name) && (!catFilter || name === catFilter)) catNames.push(name);
+  }
+
+  if (!catNames.length && filtered.length === 0) {
+    menuList.innerHTML = '<div class="empty-state">Chưa có mục lớn hay món nào. Bấm “Thêm Mục Lớn” để tạo mục như Khai vị.</div>';
+    return;
+  }
+
   let html = '';
-  for (const [category, subMap] of grouped) {
-    html += `<div class="category-block"><h2>${escapeHtml(category)}</h2>`;
-    for (const [subcategory, dishes] of subMap) {
+  for (const category of catNames) {
+    const catMeta = allCategories.find(c => c.name === category);
+    const subMap = grouped.get(category) || new Map();
+    const subNames = [];
+    if (catMeta) {
+      for (const s of catMeta.subcategories || []) subNames.push(s.name);
+    }
+    for (const name of subMap.keys()) {
+      if (!subNames.includes(name)) subNames.push(name);
+    }
+
+    html += `<div class="category-block">
+      <div class="category-block-head"><h2>${escapeHtml(category)}</h2></div>`;
+    if (!subNames.length) {
+      html += `<div class="empty-state" style="padding:18px 0;">Mục này chưa có danh mục phụ hay món. Thêm danh mục phụ ở phía trên, rồi thêm món.</div>`;
+    }
+    for (const subcategory of subNames) {
+      const dishes = subMap.get(subcategory) || [];
+      if (search && dishes.length === 0) continue;
       html += `<div class="subcategory-block"><h4>${escapeHtml(subcategory)}</h4>`;
+      if (dishes.length === 0) {
+        html += `<div class="sub-empty">Chưa có món trong nhóm này.</div>`;
+      }
       for (const dish of dishes) {
         const available = !!dish.is_available;
         const thumb = dish.image_url
@@ -484,8 +658,14 @@ async function loadDishes() {
   loadingState.style.display = 'block';
   menuList.innerHTML = '';
   try {
-    allDishes = await apiFetch('/all');
+    const [dishes, categories] = await Promise.all([
+      apiFetch('/all'),
+      apiFetch('/categories')
+    ]);
+    allDishes = dishes;
+    allCategories = Array.isArray(categories) ? categories : [];
     populateDatalists(allDishes);
+    renderStructure();
     renderList();
   } catch (err) {
     if (err.message !== 'unauthorized') {
@@ -508,7 +688,76 @@ function showImagePreview(url) {
   }
 }
 
+function closeCategoryForm() {
+  categoryPanel.style.display = 'none';
+  categoryForm.reset();
+  categoryIdInput.value = '';
+  categoryFormError.textContent = '';
+  firstSubField.style.display = '';
+  cFirstSub.required = true;
+}
+
+function closeSubcategoryForm() {
+  subcategoryPanel.style.display = 'none';
+  subcategoryForm.reset();
+  subParentId.value = '';
+  subcategoryIdInput.value = '';
+  subFormError.textContent = '';
+}
+
+function openCategoryForm(cat) {
+  closeForm();
+  closeSubcategoryForm();
+  categoryFormError.textContent = '';
+  if (cat) {
+    categoryFormTitle.textContent = 'Sửa Mục Lớn';
+    categoryIdInput.value = cat.id;
+    cName.value = cat.name;
+    cNameEn.value = cat.name_en || '';
+    cSortOrder.value = cat.sort_order;
+    firstSubField.style.display = 'none';
+    cFirstSub.required = false;
+    cFirstSub.value = '';
+  } else {
+    categoryFormTitle.textContent = 'Thêm Mục Lớn';
+    categoryForm.reset();
+    categoryIdInput.value = '';
+    const maxOrder = allCategories.reduce((m, c) => Math.max(m, c.sort_order || 0), 0);
+    cSortOrder.value = maxOrder + 1;
+    firstSubField.style.display = '';
+    cFirstSub.required = true;
+  }
+  categoryPanel.style.display = 'block';
+  categoryPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function openSubcategoryForm(parentCat, sub) {
+  closeForm();
+  closeCategoryForm();
+  subFormError.textContent = '';
+  subParentId.value = parentCat.id;
+  subParentName.textContent = parentCat.name;
+  if (sub) {
+    subcategoryFormTitle.textContent = 'Sửa Danh Mục Phụ';
+    subcategoryIdInput.value = sub.id;
+    sName.value = sub.name;
+    sSortOrder.value = sub.sort_order;
+  } else {
+    subcategoryFormTitle.textContent = 'Thêm Danh Mục Phụ';
+    subcategoryForm.reset();
+    subParentId.value = parentCat.id;
+    subcategoryIdInput.value = '';
+    subParentName.textContent = parentCat.name;
+    const maxOrder = (parentCat.subcategories || []).reduce((m, s) => Math.max(m, s.sort_order || 0), 0);
+    sSortOrder.value = maxOrder + 1;
+  }
+  subcategoryPanel.style.display = 'block';
+  subcategoryPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function openForm(dish) {
+  closeCategoryForm();
+  closeSubcategoryForm();
   formError.textContent = '';
   selectedImageFile = null;
   fImage.value = '';
@@ -518,7 +767,7 @@ function openForm(dish) {
     dishIdInput.value = dish.id;
     fName.value = dish.name;
     fCategory.value = dish.category;
-    fCategoryEn.value = dish.category_en || CATEGORY_EN[dish.category] || '';
+    fCategoryEn.value = dish.category_en || englishCategoryName(dish.category);
     fSubcategory.value = dish.subcategory;
     fPrice.value = dish.price;
     fSortOrder.value = dish.sort_order;
@@ -536,6 +785,7 @@ function openForm(dish) {
     fImageUrl.value = '';
     showImagePreview(null);
   }
+  refreshSubcategoryDatalist();
   formPanel.style.display = 'block';
   formPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -587,7 +837,14 @@ searchInput.addEventListener('input', renderList);
 categoryFilter.addEventListener('change', renderList);
 
 addNewBtn.addEventListener('click', () => openForm(null));
+addCategoryBtn.addEventListener('click', () => openCategoryForm(null));
 cancelBtn.addEventListener('click', closeForm);
+cancelCategoryBtn.addEventListener('click', closeCategoryForm);
+cancelSubBtn.addEventListener('click', closeSubcategoryForm);
+fCategory.addEventListener('input', () => {
+  refreshSubcategoryDatalist();
+  if (!fCategoryEn.value.trim()) fCategoryEn.value = englishCategoryName(fCategory.value.trim());
+});
 
 fImage.addEventListener('change', () => {
   const file = fImage.files[0];
@@ -601,6 +858,120 @@ removeImageBtn.addEventListener('click', () => {
   fImage.value = '';
   fImageUrl.value = '';
   showImagePreview(null);
+});
+
+categoryForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  categoryFormError.textContent = '';
+  saveCategoryBtn.disabled = true;
+  try {
+    const id = categoryIdInput.value;
+    if (id) {
+      await apiFetch(`/categories/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          name: cName.value.trim(),
+          name_en: cNameEn.value.trim(),
+          sort_order: Number(cSortOrder.value) || 1
+        })
+      });
+    } else {
+      await apiFetch('/categories', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: cName.value.trim(),
+          name_en: cNameEn.value.trim(),
+          sort_order: Number(cSortOrder.value) || undefined,
+          first_subcategory: cFirstSub.value.trim()
+        })
+      });
+    }
+    closeCategoryForm();
+    await loadDishes();
+  } catch (err) {
+    if (err.message !== 'unauthorized') categoryFormError.textContent = err.message;
+  } finally {
+    saveCategoryBtn.disabled = false;
+  }
+});
+
+subcategoryForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  subFormError.textContent = '';
+  saveSubBtn.disabled = true;
+  try {
+    const parentId = subParentId.value;
+    const id = subcategoryIdInput.value;
+    const payload = {
+      name: sName.value.trim(),
+      sort_order: Number(sSortOrder.value) || 1
+    };
+    if (id) {
+      await apiFetch(`/subcategories/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+    } else {
+      await apiFetch(`/categories/${parentId}/subcategories`, { method: 'POST', body: JSON.stringify(payload) });
+    }
+    closeSubcategoryForm();
+    await loadDishes();
+  } catch (err) {
+    if (err.message !== 'unauthorized') subFormError.textContent = err.message;
+  } finally {
+    saveSubBtn.disabled = false;
+  }
+});
+
+structureWrap.addEventListener('click', async (e) => {
+  const btn = e.target.closest('button[data-struct]');
+  if (!btn) return;
+  const action = btn.dataset.struct;
+  const id = Number(btn.dataset.id);
+
+  if (action === 'edit-cat') {
+    const cat = allCategories.find(c => c.id === id);
+    if (cat) openCategoryForm(cat);
+    return;
+  }
+  if (action === 'add-sub') {
+    const cat = allCategories.find(c => c.id === id);
+    if (cat) openSubcategoryForm(cat, null);
+    return;
+  }
+  if (action === 'delete-cat') {
+    const cat = allCategories.find(c => c.id === id);
+    if (!cat) return;
+    if (!confirm(`Xóa mục lớn "${cat.name}"? Chỉ xóa được khi không còn món trong mục.`)) return;
+    try {
+      await apiFetch(`/categories/${id}`, { method: 'DELETE' });
+      await loadDishes();
+    } catch (err) {
+      if (err.message !== 'unauthorized') alert(err.message);
+    }
+    return;
+  }
+  if (action === 'edit-sub') {
+    for (const cat of allCategories) {
+      const sub = (cat.subcategories || []).find(s => s.id === id);
+      if (sub) {
+        openSubcategoryForm(cat, sub);
+        return;
+      }
+    }
+    return;
+  }
+  if (action === 'delete-sub') {
+    let subName = '';
+    for (const cat of allCategories) {
+      const sub = (cat.subcategories || []).find(s => s.id === id);
+      if (sub) { subName = sub.name; break; }
+    }
+    if (!confirm(`Xóa danh mục phụ "${subName}"? Chỉ xóa được khi không còn món trong nhóm.`)) return;
+    try {
+      await apiFetch(`/subcategories/${id}`, { method: 'DELETE' });
+      await loadDishes();
+    } catch (err) {
+      if (err.message !== 'unauthorized') alert(err.message);
+    }
+  }
 });
 
 dishForm.addEventListener('submit', async (e) => {
@@ -634,7 +1005,7 @@ dishForm.addEventListener('submit', async (e) => {
     const payload = {
       name: fName.value.trim(),
       category: fCategory.value.trim(),
-      category_en: fCategoryEn.value.trim() || CATEGORY_EN[fCategory.value.trim()] || '',
+      category_en: fCategoryEn.value.trim() || englishCategoryName(fCategory.value.trim()),
       subcategory: fSubcategory.value.trim(),
       price: Number(fPrice.value),
       image_url: fImageUrl.value || '',
