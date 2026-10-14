@@ -73,6 +73,18 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .btn-outline:hover{ background:rgba(246,239,226,.12); border-color:var(--gold); }
 .btn-wine{ background:var(--wine); color:var(--cream); }
 .btn-wine:hover{ background:var(--wine-deep); }
+
+/* ==== NÚT BẤM KÍNH MỜ PHỦ VÀNG (GLASSMORPHISM) ==== */
+.btn-outline-gold { 
+  background: rgba(184, 146, 79, 0.2); 
+  border: 1px solid var(--gold-bright); 
+  color: #ffffff; 
+  backdrop-filter: blur(4px); 
+}
+.btn-outline-gold:hover { 
+  background: var(--gold); 
+  color: var(--wine-deep); 
+}
  
 /* =========================================================
    2. HEADER
@@ -115,7 +127,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .hero-content h1 em{ color:var(--gold-bright); font-style:italic; }
 .hero-content p{ color:rgba(246,239,226,.88); font-size:1.08rem; max-width:520px; margin-bottom:38px; }
 
-/* Cấu trúc các nút được nhóm lại để ép luôn hiển thị 1 nút trên, 2 nút dưới */
+/* Gom nhóm giữ 1 nút ở trên, 2 nút ở dưới */
 .hero-cta{ display:flex; gap:18px; flex-direction:column; align-items:flex-start; }
 .hero-cta-row { display:flex; gap:18px; flex-wrap:wrap; width:100%; }
 .hero-cta .btn, .hero-cta-row .btn{ justify-content:center; }
@@ -248,7 +260,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .art-img-2 { position: absolute; width: 52%; height: 440px; object-fit: cover; z-index: 3; left: 0; bottom: 60px; border-radius: 8px; border: 10px solid var(--cream); box-shadow: -20px 20px 50px rgba(0,0,0,0.7); }
 
 /* =========================================================
-   10. RESPONSIVE (TỐI ƯU HÓA MOBILE CỰC ĐỈNH)
+   10. RESPONSIVE (TỐI ƯU HÓA MOBILE)
    ========================================================= */
 @media (max-width: 1440px) {
   .site-header .container { padding: 0 28px !important; } .nav-links { gap: 16px; } .nav-links a { font-size: 0.88rem; letter-spacing: .06em; }
@@ -278,28 +290,34 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 }
 
 @media (max-width: 600px) { 
-  .hero-art {
-    height: 380px;
-    margin-top: 16px;
-    justify-content: flex-end;
-  }
-  .art-backdrop {
-    right: -5%;
-    border-radius: 200px 200px 0 0;
-  }
-  .art-img-1 {
-    right: -5%;
-    width: 80%;
-    border-radius: 200px 200px 12px 12px;
-  }
-  .art-img-2 {
-    width: 55%;
-    height: 200px;
-    left: 0;
-    bottom: 20px;
-    border-width: 4px;
-  }
+  .site-header .container { padding: 0 20px !important; }
+  .logo img { height: 48px; padding: 6px 14px; }
+  .site-header.scrolled .logo img { height: 44px; padding: 4px 12px; }
+
+  .hero { padding-top: 100px; }
+  .hero-content h1 { font-size: 2.8rem; margin-bottom: 16px; }
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .hero-cta-row { flex-direction: column; align-items: stretch; gap: 14px; width: 100%; margin-top: -4px;}
+  .hero-cta .btn, .hero-cta-row .btn { width: 100%; max-width: 320px; padding: 13px 18px; font-size: 0.78rem; letter-spacing: .1em; }
+
+  .hero-meta { flex-direction: column; gap: 16px; margin-top: 40px; }
+  .hero-meta .item { border-left: none; border-bottom: 1px solid rgba(216,185,120,0.3); padding-left: 0; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+  .hero-meta .item strong { font-size: 1.15rem; }
+
+  .hero-art { height: 380px; margin-top: 16px; justify-content: flex-end; }
+  .art-backdrop { right: -5%; border-radius: 200px 200px 0 0; }
+  .art-img-1 { right: -5%; width: 80%; border-radius: 200px 200px 12px 12px; }
+  .art-img-2 { width: 55%; height: 200px; left: 0; bottom: 20px; border-width: 4px; }
+
+  .section { padding: 80px 0; } 
+  .dish-grid { grid-template-columns: 1fr; } 
+  .info-grid { grid-template-columns: 1fr; } 
+  .footer-grid { grid-template-columns: 1fr; } 
+  .intro-img-accent { width: 60%; } 
+  .reservation-wrap { padding: 34px 22px; }
+  .reservation-form { grid-template-columns: 1fr; }
 }
+
 /* ===== MÀN HÌNH CHỌN NGÔN NGỮ ===== */
 .lang-overlay {
   position: fixed;
@@ -338,10 +356,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
   visibility: hidden;
   transition: all 0.4s ease;
 }
-.hotline-modal.active {
-  opacity: 1;
-  visibility: visible;
-}
+.hotline-modal.active { opacity: 1; visibility: visible; }
 .hotline-content {
   background: var(--cream-soft);
   padding: 40px 30px;
@@ -355,40 +370,11 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
   border-top: 3px solid var(--gold);
   box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
-.hotline-modal.active .hotline-content {
-  transform: translateY(0);
-}
-.hotline-content h3 {
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  color: var(--wine-deep);
-  margin-bottom: 12px;
-}
-.hotline-content p {
-  color: var(--ink-soft);
-  margin-bottom: 26px;
-  font-size: 0.95rem;
-}
-.hotline-btn {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  margin-bottom: 14px;
-  font-size: 1.15rem;
-  padding: 14px;
-}
-.close-modal {
-  position: absolute;
-  top: 10px;
-  right: 16px;
-  background: none;
-  border: none;
-  font-size: 2.2rem;
-  color: var(--ink-soft);
-  cursor: pointer;
-  transition: color 0.3s;
-  line-height: 1;
-}
+.hotline-modal.active .hotline-content { transform: translateY(0); }
+.hotline-content h3 { font-family: var(--font-display); font-size: 1.8rem; color: var(--wine-deep); margin-bottom: 12px; }
+.hotline-content p { color: var(--ink-soft); margin-bottom: 26px; font-size: 0.95rem; }
+.hotline-btn { display: flex; width: 100%; justify-content: center; margin-bottom: 14px; font-size: 1.15rem; padding: 14px; }
+.close-modal { position: absolute; top: 10px; right: 16px; background: none; border: none; font-size: 2.2rem; color: var(--ink-soft); cursor: pointer; transition: color 0.3s; line-height: 1; }
 .close-modal:hover { color: var(--wine); }
 </style>
 </head>
@@ -409,22 +395,24 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 <!-- ======================= HEADER ======================= -->
 <header class="site-header" id="siteHeader">
   <div class="container">
-    <a href="#home" class="logo">
-      <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina">
+    <a href="index.html#home" class="logo">
+      <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina Ristorante & Caffè - Logo" loading="eager">
     </a>
+ 
     <nav class="nav-links">
-      <a href="index.html#home" class="active">Home</a>
-      <a href="index.html#about">About Us</a> 
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About Us</a> 
       <a href="menu.html?lang=en">Menu</a>
-      <a href="index.html#reviews">Reviews</a>
-      <a href="index.html#contact">Contact</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Contact</a>
     </nav>
+ 
     <div class="header-actions">
       <a class="header-phone" href="tel:+84936302868">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 002.25-2.25v-1.5a1.5 1.5 0 00-1.05-1.43l-3.5-1.05a1.5 1.5 0 00-1.6.4l-.8.8a11.25 11.25 0 01-6.02-6.02l.8-.8a1.5 1.5 0 00.4-1.6l-1.05-3.5A1.5 1.5 0 006.75 2.25h-1.5A2.25 2.25 0 003 4.5v1.5z"/></svg>
         +84 936 302 868
       </a>
-      <a href="index.html#contact" class="btn btn-gold">Book Now</a>
+      <a href="#contact" class="btn btn-gold">Book Now</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -435,12 +423,12 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 <!-- Mobile nav overlay -->
 <div class="mobile-nav" id="mobileNav">
   <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina" style="height:52px; margin-bottom:10px;">
-  <a href="index.html#home">Home</a>
-  <a href="index.html#about">About Us</a>
+  <a href="#home">Home</a>
+  <a href="#about">About Us</a>
   <a href="menu.html?lang=en">Menu</a>
-  <a href="index.html#reviews">Reviews</a>
-  <a href="index.html#contact">Contact</a>
-  <a href="index.html#contact" class="btn btn-gold">Book Now</a>
+  <a href="#reviews">Reviews</a>
+  <a href="#contact">Contact</a>
+  <a href="#contact" class="btn btn-gold">Book Now</a>
   <button type="button" class="lang-switch-btn" aria-label="Switch to Vietnamese">Tiếng Việt</button>
 </div>
  
@@ -452,12 +440,12 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
       <h1>Benvenuti a <em>La Fiorentina!</em></h1>
       <p>Where time-honored traditional recipes blend with the poetic scenery of West Lake. Experience a romantic, refined, and cozy miniature Italy right in Quang An.</p>
       
-      <!-- Cấu trúc gom nhóm giúp ép hiển thị 1 nút trên, 2 nút dưới -->
       <div class="hero-cta">
         <a href="#contact" class="btn btn-gold">🍝 Book a Table</a>
         <div class="hero-cta-row">
-          <a href="#menu" class="btn btn-outline">📜 Explore Menu</a>
-          <button type="button" class="btn btn-outline" id="heroHotlineBtn">📞 Call Hotline</button>
+          <!-- Thay đổi nút bấm sang CSS Glassmorphism (.btn-outline-gold) -->
+          <a href="menu.html?lang=en" class="btn btn-outline-gold">📜 Explore Menu</a>
+          <button type="button" class="btn btn-outline-gold" id="heroHotlineBtn">📞 Call Hotline</button>
         </div>
       </div>
 
@@ -517,6 +505,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
  
     <div class="dish-grid stagger">
       <div class="dish-card" data-reveal>
+        <!-- Thay thế link ảnh tương tự bên index.html -->
         <img src="assets/img/pizza.jpg" alt="Italian Journey Appetizer" loading="lazy">
         <div class="dish-overlay">
           <span class="tag">Antipasti</span>
@@ -613,7 +602,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
       <p>Monday – Sunday<br>Lunch: 11:00–14:00 · Dinner: 17:30–22:00</p>
     </div>
     <div class="info-item" data-reveal>
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 002.25-2.25v-1.5a1.5 1.5 0 00-1.05-1.43l-3.5-1.05a1.5 1.5 0 00-1.6.4l-.8.8a11.25 11.25 0 01-6.02-6.02l.8-.8a1.5 1.5 0 00.4-1.6l-1.05-3.5A1.5 1.5 0 006.75 2.25h-1.5A2.25 2.25 0 003 4.5v1.5z"/></svg>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 002.25-2.25v-1.5a1.5 1.5 0 00-1.05-1.43l-3.5-1.05a1.5 1.5 0 00-1.6.4l-.8.8a1.5 1.5 0 00.4-1.6l-1.05-3.5A1.5 1.5 0 006.75 2.25h-1.5A2.25 2.25 0 003 4.5v1.5z"/></svg>
       <h4>Reservation Hotline</h4>
       <p><a href="tel:+84936302868">+84 936 302 868</a></p>
       <p><a href="tel:+84902101019">+84 902 101 019</a></p>
