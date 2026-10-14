@@ -98,8 +98,16 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .btn-outline:hover{ background:rgba(246,239,226,.12); border-color:var(--gold); }
 .btn-wine{ background:var(--wine); color:var(--cream); }
 .btn-wine:hover{ background:var(--wine-deep); }
-.btn-outline-gold { background: transparent; border-color: var(--gold); color: var(--gold); }
-.btn-outline-gold:hover { background: rgba(184,146,79,.12); border-color: var(--gold-bright); color: var(--gold-bright); }
+.btn-outline-gold { 
+    background: rgba(184, 146, 79, 0.2); /* Phủ một lớp nền vàng đồng mờ 20% để tạo khối rõ ràng */
+    border: 1px solid var(--gold-bright); /* Viền dùng màu vàng sáng hơn */
+    color: #ffffff; /* Đổi chữ sang màu Trắng Tinh để nổi bần bật, cực kỳ sắc nét */
+    backdrop-filter: blur(4px); /* Hiệu ứng kính mờ sang trọng */
+}
+.btn-outline-gold:hover { 
+    background: var(--gold); 
+    color: var(--wine-deep); 
+}
  
 /* =========================================================
    2. HEADER
@@ -520,7 +528,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
         <a href="#menu" class="btn btn-outline-gold">📜 Khám Phá Thực Đơn</a>
         <button type="button" class="btn btn-outline-gold" id="heroHotlineBtn">📞 Gọi Hotline</button>
       </div>
-      
+
       <div class="hero-meta">
         <div class="item">Đánh giá Google<strong>4.6 / 5 ★</strong></div>
         <div class="item">Trưa<strong>11:00 – 14:00</strong></div>
