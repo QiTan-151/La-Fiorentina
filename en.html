@@ -114,8 +114,12 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .hero-content h1{ color:var(--cream); font-size:clamp(2.6rem, 5.6vw, 4.6rem); line-height:1.08; margin-bottom:22px; }
 .hero-content h1 em{ color:var(--gold-bright); font-style:italic; }
 .hero-content p{ color:rgba(246,239,226,.88); font-size:1.08rem; max-width:520px; margin-bottom:38px; }
-.hero-cta{ display:flex; gap:18px; flex-wrap:wrap; }
-.hero-cta .btn{ justify-content:center; }
+
+/* Cấu trúc các nút được nhóm lại để ép luôn hiển thị 1 nút trên, 2 nút dưới */
+.hero-cta{ display:flex; gap:18px; flex-direction:column; align-items:flex-start; }
+.hero-cta-row { display:flex; gap:18px; flex-wrap:wrap; width:100%; }
+.hero-cta .btn, .hero-cta-row .btn{ justify-content:center; }
+
 .hero-meta{ margin-top:56px; display:flex; gap:38px; flex-wrap:wrap; color:var(--cream); }
 .hero-meta .item{ font-size:.8rem; letter-spacing:.06em; text-transform:uppercase; opacity:.85; border-left:2px solid var(--gold); padding-left:12px; }
 .hero-meta .item strong{ display:block; font-family:var(--font-display); font-size:1.3rem; text-transform:none; letter-spacing:0; color:var(--gold-bright); }
@@ -187,79 +191,31 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .info-item a{ color:var(--gold-bright); }
 
 /* =========================================================
-   7b. RESERVATION FORM (Online booking)
+   7b. RESERVATION FORM
    ========================================================= */
 .reservation-wrap{
-  max-width: 780px;
-  margin: 0 auto 64px;
-  background: var(--cream-soft);
-  border-radius: var(--radius);
-  padding: 48px 52px;
-  box-shadow: 0 30px 60px -24px rgba(0,0,0,.4);
-  border-top: 3px solid var(--gold);
+  max-width: 780px; margin: 0 auto 64px; background: var(--cream-soft); border-radius: var(--radius); padding: 48px 52px; box-shadow: 0 30px 60px -24px rgba(0,0,0,.4); border-top: 3px solid var(--gold);
 }
 .reservation-header{ text-align:center; margin-bottom:36px; }
 .reservation-header .eyebrow{ font-size:1.3rem; }
 .reservation-header h3{ font-size:clamp(1.5rem,2.6vw,1.9rem); margin-bottom:10px; }
 .reservation-header p{ color:var(--ink-soft); font-size:.94rem; }
 .reservation-header p a{ color:var(--wine); font-weight:700; }
-
-.reservation-form{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px 24px;
-}
+.reservation-form{ display:grid; grid-template-columns: 1fr 1fr; gap: 22px 24px; }
 .reservation-form .field{ display:flex; flex-direction:column; gap:8px; }
 .reservation-form .field.full{ grid-column: 1 / -1; }
-.reservation-form label{
-  font-size:.76rem; letter-spacing:.09em; text-transform:uppercase;
-  color: var(--ink-soft); font-weight:700;
-}
+.reservation-form label{ font-size:.76rem; letter-spacing:.09em; text-transform:uppercase; color: var(--ink-soft); font-weight:700; }
 .reservation-form label .req{ color: var(--wine); margin-left:2px; }
-.reservation-form input,
-.reservation-form select,
-.reservation-form textarea{
-  font-family: var(--font-body);
-  font-size: 1rem;
-  padding: 13px 16px;
-  border: 1px solid rgba(43,33,28,.16);
-  border-radius: var(--radius);
-  background: #fff;
-  color: var(--ink);
-  transition: border-color var(--transition), box-shadow var(--transition);
-}
-.reservation-form input::placeholder,
-.reservation-form textarea::placeholder{ color: rgba(43,33,28,.4); }
-.reservation-form input:focus,
-.reservation-form select:focus,
-.reservation-form textarea:focus{
-  outline:none;
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(184,146,79,.18);
-}
+.reservation-form input, .reservation-form select, .reservation-form textarea{ font-family: var(--font-body); font-size: 1rem; padding: 13px 16px; border: 1px solid rgba(43,33,28,.16); border-radius: var(--radius); background: #fff; color: var(--ink); transition: border-color var(--transition), box-shadow var(--transition); }
+.reservation-form input::placeholder, .reservation-form textarea::placeholder{ color: rgba(43,33,28,.4); }
+.reservation-form input:focus, .reservation-form select:focus, .reservation-form textarea:focus{ outline:none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,146,79,.18); }
 .reservation-form textarea{ resize: vertical; min-height: 90px; font-family: var(--font-body); }
-
-/* Honeypot: hidden from real users but stays in the DOM for bots to fill */
-.hp-field{
-  position:absolute !important;
-  left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
-}
-
-.reservation-form .submit-row{
-  grid-column: 1 / -1;
-  display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:8px;
-}
+.hp-field{ position:absolute !important; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+.reservation-form .submit-row{ grid-column: 1 / -1; display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:8px; }
 .reservation-form .btn:disabled{ opacity:.6; cursor:not-allowed; transform:none !important; box-shadow:none !important; }
-.form-status{
-  font-size:.92rem; font-weight:700; flex:1; min-width:220px;
-}
+.form-status{ font-size:.92rem; font-weight:700; flex:1; min-width:220px; }
 .form-status.success{ color: var(--olive); }
 .form-status.error{ color: var(--wine); }
-
-@media (max-width: 680px){
-  .reservation-wrap{ padding: 34px 22px; }
-  .reservation-form{ grid-template-columns: 1fr; }
-}
 
 /* =========================================================
    8. FOOTER
@@ -273,7 +229,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .footer-bottom{ border-top:1px solid rgba(246,239,226,.15); padding-top:24px; text-align:center; font-size:.78rem; }
  
 /* =========================================================
-   9. SCROLL REVEAL & RESPONSIVE
+   9. SCROLL REVEAL & THIẾT LẬP NGHỆ THUẬT
    ========================================================= */
 [data-reveal]{ opacity:0; transform:translateY(28px); transition: opacity .8s ease, transform .8s ease; }
 [data-reveal].is-visible{ opacity:1; transform:translateY(0); }
@@ -291,6 +247,9 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .art-img-1 { width: 65%; height: 100%; object-fit: cover; position: relative; z-index: 2; border-radius: 400px 400px 12px 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.6); right: 4%; }
 .art-img-2 { position: absolute; width: 52%; height: 440px; object-fit: cover; z-index: 3; left: 0; bottom: 60px; border-radius: 8px; border: 10px solid var(--cream); box-shadow: -20px 20px 50px rgba(0,0,0,0.7); }
 
+/* =========================================================
+   10. RESPONSIVE (TỐI ƯU HÓA MOBILE CỰC ĐỈNH)
+   ========================================================= */
 @media (max-width: 1440px) {
   .site-header .container { padding: 0 28px !important; } .nav-links { gap: 16px; } .nav-links a { font-size: 0.88rem; letter-spacing: .06em; }
   .header-actions { gap: 14px; } .header-phone { font-size: 0.9rem; } .btn { padding: 12px 22px; font-size: 0.82rem; letter-spacing: .1em; }
@@ -298,52 +257,60 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
   .hero-grid { padding-top: 100px; gap: 30px; } .hero-art { height: 500px; } .art-img-2 { height: 320px; bottom: 20px; border-width: 6px; }
   .hero-content h1 { font-size: 3.2rem; }
 }
-@media (max-width: 1100px) { .site-header .container { padding: 0 15px !important; } .nav-links { gap: 15px; } .nav-links a { font-size: 0.85rem; } .hero-grid { grid-template-columns: 1fr 1fr; } .hero-art { height: 450px; } }
-@media (max-width: 980px) { .nav-links, .header-phone { display: none; } .hamburger { display: flex; } .header-actions .btn-gold { display: none; } .site-header { padding: 10px 0; } .logo img { height: 46px; padding: 4px 14px; } .intro-grid { grid-template-columns: 1fr; gap: 50px; } .intro-images { order: 2; } .dish-grid { grid-template-columns: repeat(2,1fr); } .review-grid { grid-template-columns: 1fr; } .info-grid { grid-template-columns: repeat(2,1fr); } .footer-grid { grid-template-columns: 1fr 1fr; } .hero { align-items: flex-start; min-height: auto; padding-bottom: 48px; } .hero-grid { grid-template-columns: 1fr; padding-top: 110px; gap: 12px; } .hero-content { padding-top: 8px; max-width: 100%; } .hero-cta { gap: 12px; } .hero-meta { margin-top: 28px; gap: 18px 24px; } .hero-art { height: 520px; margin-top: 28px; justify-content: flex-end; } .art-backdrop { right: 8%; } .art-img-1 { right: 0; width: 75%; } .art-img-2 { width: 58%; height: 280px; left: 4%; bottom: 24px; border-width: 6px; } }
-@media (max-width: 600px) {
-  .section { padding: 80px 0; }
-  .dish-grid { grid-template-columns: 1fr; }
-  .info-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
-  .intro-img-accent { width: 60%; }
 
-  .hero-content .eyebrow { font-size: 1.05rem; }
-  .hero-content h1 { font-size: 2.15rem; }
-  .hero-content p { font-size: 0.96rem; margin-bottom: 22px; }
+@media (max-width: 1100px) { 
+  .site-header .container { padding: 0 15px !important; } .nav-links { gap: 15px; } .nav-links a { font-size: 0.85rem; } 
+  .hero-grid { grid-template-columns: 1fr 1fr; } .hero-art { height: 450px; } 
+}
+
+@media (max-width: 980px) { 
+  .nav-links, .header-phone { display: none; } 
+  .header-actions .btn { display: none; }
+  .hamburger { display: flex; } 
+  
+  .intro-grid { grid-template-columns: 1fr; gap: 50px; } .intro-images { order: 2; } 
+  .dish-grid { grid-template-columns: repeat(2,1fr); } .review-grid { grid-template-columns: 1fr; } 
+  .info-grid { grid-template-columns: repeat(2,1fr); } .footer-grid { grid-template-columns: 1fr 1fr; } 
+  .hero-grid { grid-template-columns: 1fr; padding-top: 100px; } 
+  .hero-art { height: 600px; margin-top: 40px; justify-content: center; } 
+  .art-backdrop { right: 15%; } .art-img-1 { right: 0; width: 75%; } 
+  .art-img-2 { width: 65%; height: 360px; left: 5%; bottom: -20px; border-width: 6px; } 
+}
+
+@media (max-width: 600px) { 
+  .site-header .container { padding: 0 20px !important; }
+  .logo img { height: 48px; padding: 6px 14px; }
+  .site-header.scrolled .logo img { height: 44px; padding: 4px 12px; }
+
+  .hero { padding-top: 100px; }
+  .hero-content h1 { font-size: 2.8rem; margin-bottom: 16px; }
   .hero-cta { flex-direction: column; align-items: stretch; }
-  .hero-cta .btn { width: 100%; max-width: 320px; padding: 13px 18px; font-size: 0.78rem; letter-spacing: .1em; }
-  .hero-meta { gap: 16px 20px; margin-top: 24px; }
-  .hero-meta .item { font-size: 0.72rem; }
+  .hero-cta-row { flex-direction: column; align-items: stretch; gap: 14px; width: 100%; margin-top: -4px;}
+  .hero-cta .btn, .hero-cta-row .btn { width: 100%; max-width: 320px; padding: 13px 18px; font-size: 0.78rem; letter-spacing: .1em; }
+
+  .hero-meta { flex-direction: column; gap: 16px; margin-top: 40px; }
+  .hero-meta .item { border-left: none; border-bottom: 1px solid rgba(216,185,120,0.3); padding-left: 0; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
   .hero-meta .item strong { font-size: 1.15rem; }
 
-  .hero-art {
-    height: 380px;
-    margin-top: 16px;
-    justify-content: flex-end;
-  }
-  .art-backdrop {
-    right: -5%;
-    border-radius: 200px 200px 0 0;
-  }
-  .art-img-1 {
-    right: -5%;
-    width: 80%;
-    border-radius: 200px 200px 12px 12px;
-  }
-  .art-img-2 {
-    width: 55%;
-    height: 200px;
-    left: 0;
-    bottom: 20px;
-    border-width: 4px;
-  }
+  .hero-art { height: 460px; margin-top: 30px; }
+  .art-backdrop { width: 85%; right: 7.5%; border-radius: 300px 300px 0 0; }
+  .art-img-1 { width: 90%; right: auto; border-radius: 300px 300px 12px 12px; }
+  .art-img-2 { width: 75%; height: 260px; left: 0; bottom: -10px; border-width: 6px; }
+
+  .section { padding: 80px 0; } 
+  .dish-grid { grid-template-columns: 1fr; } 
+  .info-grid { grid-template-columns: 1fr; } 
+  .footer-grid { grid-template-columns: 1fr; } 
+  .intro-img-accent { width: 60%; } 
+  .reservation-wrap { padding: 34px 22px; }
+  .reservation-form { grid-template-columns: 1fr; }
 }
+
 /* ===== MÀN HÌNH CHỌN NGÔN NGỮ ===== */
 .lang-overlay {
   position: fixed;
   inset: 0;
-  /* Đã thay đổi 'center' thành '65% center' để dịch ảnh sang trái */
-  background: linear-gradient(rgba(62, 15, 22, 0.85), rgba(43, 33, 28, 0.9)), url('assets/img/bg-welcome.jpg') 65% center / cover no-repeat;
+  background: linear-gradient(rgba(62, 15, 22, 0.85), rgba(43, 33, 28, 0.9)), url('assets/img/bg-welcome.jpg') 75% center / cover no-repeat;
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -357,12 +324,78 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 .lang-overlay h2 { color: var(--cream); font-size: 2.2rem; margin-bottom: 5px; }
 .lang-overlay p { color: var(--gold-bright); font-family: var(--font-script); font-style: italic; font-size: 1.4rem; margin-bottom: 35px; }
 .lang-overlay .lang-buttons { display: flex; gap: 20px; justify-content: center; }
-
-.lang-overlay .lang-buttons .btn {
-  width: 180px; /* Chiều rộng cố định cho cả 2 nút */
-  justify-content: center; /* Căn giữa chữ bên trong nút */
+.lang-overlay .lang-buttons .btn { width: 180px; justify-content: center; }
+@media (max-width: 600px) {
+  .lang-overlay .lang-logo { height: 75px; } 
 }
 @keyframes fade-up { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
+
+/* ===== HOTLINE MODAL SANG TRỌNG ===== */
+.hotline-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 33, 28, 0.85);
+  backdrop-filter: blur(5px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+.hotline-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+.hotline-content {
+  background: var(--cream-soft);
+  padding: 40px 30px;
+  border-radius: 8px;
+  text-align: center;
+  width: 90%;
+  max-width: 380px;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.4s ease;
+  border-top: 3px solid var(--gold);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+.hotline-modal.active .hotline-content {
+  transform: translateY(0);
+}
+.hotline-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--wine-deep);
+  margin-bottom: 12px;
+}
+.hotline-content p {
+  color: var(--ink-soft);
+  margin-bottom: 26px;
+  font-size: 0.95rem;
+}
+.hotline-btn {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 14px;
+  font-size: 1.15rem;
+  padding: 14px;
+}
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 2.2rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: color 0.3s;
+  line-height: 1;
+}
+.close-modal:hover { color: var(--wine); }
 </style>
 </head>
 <body>
@@ -373,8 +406,8 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
     <h2>Welcome / Chào mừng</h2>
     <p>Please select your language / Vui lòng chọn ngôn ngữ</p>
     <div class="lang-buttons">
-      <button class="btn btn-gold" id="btnEn">English</button>
-      <button class="btn btn-gold" id="btnVi">Tiếng Việt</button>
+      <button class="btn btn-gold" id="btnEn">ENGLISH</button>
+      <button class="btn btn-gold" id="btnVi">TIẾNG VIỆT</button>
     </div>
   </div>
 </div>
@@ -383,23 +416,21 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 <header class="site-header" id="siteHeader">
   <div class="container">
     <a href="#home" class="logo">
-      <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina Ristorante & Caffè - Logo" loading="eager">
+      <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina">
     </a>
- 
     <nav class="nav-links">
-      <a href="#home" class="active">Home</a>
-      <a href="#about">About Us</a> 
+      <a href="index.html#home" class="active">Home</a>
+      <a href="index.html#about">About Us</a> 
       <a href="menu.html?lang=en">Menu</a>
-      <a href="#reviews">Reviews</a>
-      <a href="#contact">Contact</a>
+      <a href="index.html#reviews">Reviews</a>
+      <a href="index.html#contact">Contact</a>
     </nav>
- 
     <div class="header-actions">
       <a class="header-phone" href="tel:+84936302868">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 002.25-2.25v-1.5a1.5 1.5 0 00-1.05-1.43l-3.5-1.05a1.5 1.5 0 00-1.6.4l-.8.8a11.25 11.25 0 01-6.02-6.02l.8-.8a1.5 1.5 0 00.4-1.6l-1.05-3.5A1.5 1.5 0 006.75 2.25h-1.5A2.25 2.25 0 003 4.5v1.5z"/></svg>
         +84 936 302 868
       </a>
-      <a href="#contact" class="btn btn-gold">Book Now</a>
+      <a href="index.html#contact" class="btn btn-gold">Book Now</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -410,12 +441,12 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
 <!-- Mobile nav overlay -->
 <div class="mobile-nav" id="mobileNav">
   <img src="assets/img/logo-la-fiorentina.png" alt="La Fiorentina" style="height:52px; margin-bottom:10px;">
-  <a href="#home">Home</a>
-  <a href="#about">About Us</a>
+  <a href="index.html#home">Home</a>
+  <a href="index.html#about">About Us</a>
   <a href="menu.html?lang=en">Menu</a>
-  <a href="#reviews">Reviews</a>
-  <a href="#contact">Contact</a>
-  <a href="#contact" class="btn btn-gold">Book Now</a>
+  <a href="index.html#reviews">Reviews</a>
+  <a href="index.html#contact">Contact</a>
+  <a href="index.html#contact" class="btn btn-gold">Book Now</a>
   <button type="button" class="lang-switch-btn" aria-label="Switch to Vietnamese">Tiếng Việt</button>
 </div>
  
@@ -426,10 +457,16 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
       <span class="eyebrow">The Essence of Italian Cuisine in the Heart of Hanoi</span>
       <h1>Benvenuti a <em>La Fiorentina!</em></h1>
       <p>Where time-honored traditional recipes blend with the poetic scenery of West Lake. Experience a romantic, refined, and cozy miniature Italy right in Quang An.</p>
+      
+      <!-- Cấu trúc gom nhóm giúp ép hiển thị 1 nút trên, 2 nút dưới -->
       <div class="hero-cta">
         <a href="#contact" class="btn btn-gold">🍝 Book a Table</a>
-        <a href="#menu" class="btn btn-outline">📜 Explore Menu</a>
+        <div class="hero-cta-row">
+          <a href="#menu" class="btn btn-outline">📜 Explore Menu</a>
+          <button type="button" class="btn btn-outline" id="heroHotlineBtn">📞 Call Hotline</button>
+        </div>
       </div>
+
       <div class="hero-meta">
         <div class="item">Google Reviews<strong>4.6 / 5 ★</strong></div>
         <div class="item">Lunch<strong>11:00 – 14:00</strong></div>
@@ -634,6 +671,17 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; color:var(--wine-
     </div>
   </div>
 </footer>
+
+<!-- ======================= HOTLINE MODAL ======================= -->
+<div id="hotlineModal" class="hotline-modal">
+  <div class="hotline-content">
+    <button class="close-modal" id="closeHotlineBtn">&times;</button>
+    <h3>Contact La Fiorentina</h3>
+    <p>Please select a hotline number to call:</p>
+    <a href="tel:+84936302868" class="btn btn-gold hotline-btn">📞 +84 936 302 868</a>
+    <a href="tel:+84902101019" class="btn btn-gold hotline-btn">📞 +84 902 101 019</a>
+  </div>
+</div>
  
 <script>
 // ============ 1. Header đổi nền khi cuộn ============
@@ -696,6 +744,27 @@ document.querySelectorAll('.lang-switch-btn').forEach(btn => {
     window.location.href = 'index.html' + window.location.hash;
   });
 });
+
+// ============ 5. Hotline Modal Handling ============
+const hotlineModal = document.getElementById('hotlineModal');
+const heroHotlineBtn = document.getElementById('heroHotlineBtn');
+const closeHotlineBtn = document.getElementById('closeHotlineBtn');
+
+if(heroHotlineBtn && hotlineModal) {
+  heroHotlineBtn.addEventListener('click', () => {
+    hotlineModal.classList.add('active');
+  });
+  
+  closeHotlineBtn.addEventListener('click', () => {
+    hotlineModal.classList.remove('active');
+  });
+  
+  hotlineModal.addEventListener('click', (e) => {
+    if(e.target === hotlineModal) {
+      hotlineModal.classList.remove('active');
+    }
+  });
+}
 </script>
 </body>
 </html>
